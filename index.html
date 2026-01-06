@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Leon Joensen | Portfolio</title>
+<style>
+:root{--red:#ff2b4f;--black:#0f0f0f;--white:#fff}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{background:var(--black);color:var(--white)}
+header{height:80px;background:var(--red);display:flex;align-items:center;padding:0 60px}
+.logo{font-weight:900;font-size:22px}
+nav{margin-left:auto}
+nav a{color:white;text-decoration:none;margin-left:32px;font-weight:600}
+.hero{min-height:calc(100vh - 80px);display:flex;align-items:center;justify-content:center;position:relative}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle,#1c1c1c,#0b0b0b)}
+.hero-image{width:900px;max-width:90%;z-index:2}
+.icon-row{position:absolute;bottom:60px;display:flex;gap:18px;z-index:3}
+.icon{width:54px;height:54px;border:3px solid white;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center}
+.icon img{width:70%;height:70%;object-fit:contain}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">LEON JOENSEN</div>
+  <nav>
+    <a href="#">Home</a><a href="#">Projects</a><a href="#">About</a><a href="#">Contact</a>
+  </nav>
+</header>
+<section class="hero">
+  <img src="hero.png" class="hero-image">
+  <div class="icon-row">
+    <div class="icon"><img src="unity logo.png"></div>
+    <div class="icon"><img src="unreal.png"></div>
+    <div class="icon"><img src="blender.png"></div>
+    <div class="icon"><img src="clipstudio.png"></div>
+    <div class="icon"><img src="vegas.png"></div>
+  </div>
+</section>
+</body>
+</html>
