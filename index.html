@@ -1,41 +1,1509 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Leon Joensen | Portfolio</title>
-<style>
-:root{--red:#ff2b4f;--black:#0f0f0f;--white:#fff}
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{background:var(--black);color:var(--white)}
-header{height:80px;background:var(--red);display:flex;align-items:center;padding:0 60px}
-.logo{font-weight:900;font-size:22px}
-nav{margin-left:auto}
-nav a{color:white;text-decoration:none;margin-left:32px;font-weight:600}
-.hero{min-height:calc(100vh - 80px);display:flex;align-items:center;justify-content:center;position:relative}
-.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle,#1c1c1c,#0b0b0b)}
-.hero-image{width:900px;max-width:90%;z-index:2}
-.icon-row{position:absolute;bottom:60px;display:flex;gap:18px;z-index:3}
-.icon{width:54px;height:54px;border:3px solid white;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center}
-.icon img{width:70%;height:70%;object-fit:contain}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leon Joensen | Portfolio</title>
+
+    <style>
+        :root {
+            --red: #ff2b4f;
+            --black: #0f0f0f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: var(--black);
+            color: white;
+        }
+
+        /* HEADER */
+        header {
+            height: 80px;
+            background: var(--red);
+            display: flex;
+            align-items: center;
+            padding: 0 60px;
+            position: relative;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 22px;
+        }
+
+        nav {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+            nav a {
+                font-size: 22px;
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+        /* HAMBURGER */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+            .hamburger span {
+                width: 26px;
+                height: 3px;
+                background: white;
+                transition: transform .35s ease, opacity .25s ease;
+            }
+
+            /* ACTIVE HAMBURGER → X */
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+
+        /* HERO */
+        .hero {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hero::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle,#1c1c1c,#0b0b0b);
+            }
+
+        /* CANVAS */
+        .hero-canvas {
+            position: relative;
+            width: 1920px;
+            height: 1080px;
+            transform-origin: center;
+        }
+
+        @media (min-aspect-ratio:16/9) {
+            .hero-canvas {
+                transform: scale(calc(100vh / 1080));
+            }
+        }
+
+        @media (max-aspect-ratio:16/9) {
+            .hero-canvas {
+                transform: scale(calc(100vw / 1920));
+            }
+        }
+
+        /* HERO IMAGE */
+        .hero-image-wrapper {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image {
+            width: 980px;
+            transition: transform .35s ease;
+        }
+
+        .hero-image-wrapper:hover .hero-image {
+            transform: scale(1.035);
+        }
+
+        /* ICONS */
+        .icon-row {
+            position: absolute;
+            left: 50%;
+            top: 640px;
+            transform: translateX(-50%) translateX(60px);
+            display: flex;
+            gap: 0;
+        }
+
+            .icon-row img {
+                width: 96px;
+                height: 96px;
+                transition: transform .25s ease;
+            }
+
+                .icon-row img:hover {
+                    transform: scale(1.08);
+                }
+
+        /* MOBILE */
+        @media (max-width:768px) {
+
+            header {
+                padding: 0 24px;
+            }
+
+            nav {
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--red);
+                flex-direction: column;
+                align-items: center;
+                display: none;
+                padding: 16px 0;
+                animation: menuSlide .35s ease forwards;
+                z-index: 5;
+            }
+
+                nav.active {
+                    display: flex;
+                }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 16px 0 12px;
+            }
+
+            .hero-canvas {
+                width: 100%;
+                height: auto;
+                transform: none;
+            }
+
+            .hero-image-wrapper {
+                position: relative;
+                left: 0;
+                top: 0;
+                transform: none;
+                margin: 0 auto 8px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .hero-image {
+                width: 92%;
+                max-width: 360px;
+            }
+
+            .icon-row {
+                position: relative;
+                left: 0;
+                top: 0;
+                transform: none;
+                width: 100%;
+                justify-content: center;
+            }
+
+                .icon-row img {
+                    width: 48px;
+                    height: 48px;
+                }
+        }
+
+        /* MENU ANIMATION */
+        @keyframes menuSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav a {
+            font-size: 22px;
+            display: inline-block;
+            transition: transform .2s ease, text-shadow .2s ease;
+        }
+
+            nav a:hover {
+                transform: scale(1.06);
+                text-shadow: 0 0 6px rgba(255,255,255,.7), 0 0 14px rgba(255,43,79,.8);
+            }
+
+
+        @media (max-width:768px) {
+            .icon-row {
+                margin-top: -12px; /* move icons slightly upward */
+            }
+        }
+
+
+        /* ===== LOAD ANIMATIONS (COOL BUT CLEAN) ===== */
+        body {
+            opacity: 0;
+            animation: pageFadeIn .8s ease forwards;
+        }
+
+        .hero-image-wrapper {
+            opacity: 0;
+            will-change: opacity, transform;
+            animation: heroReveal .9s cubic-bezier(.2,.8,.2,1) .2s forwards;
+        }
+
+        .icon-row img {
+            opacity: 0;
+            animation: iconReveal .6s ease forwards;
+        }
+
+            .icon-row img:nth-child(1) {
+                animation-delay: .5s;
+            }
+
+            .icon-row img:nth-child(2) {
+                animation-delay: .6s;
+            }
+
+            .icon-row img:nth-child(3) {
+                animation-delay: .7s;
+            }
+
+            .icon-row img:nth-child(4) {
+                animation-delay: .8s;
+            }
+
+            .icon-row img:nth-child(5) {
+                animation-delay: .9s;
+            }
+
+        @keyframes pageFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes heroReveal {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes iconReveal {
+            from {
+                transform: translateY(20px) scale(.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+
+        @font-face {
+            font-family: 'FuturaCustom';
+            src: url('fonts/Futura.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'FuturaCustom', Arial, Helvetica, sans-serif;
+        }
+
+
+        @font-face {
+            font-family: 'FCMittraphap';
+            src: url('fonts/FCMittraphap.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'FCMittraphap', Arial, Helvetica, sans-serif;
+        }
+    </style>
+
+    <style>
+        .featured-project {
+            border: 2px solid var(--red);
+            padding: 40px;
+            transform: scale(1.05);
+        }
+
+        .all-featured-projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+            gap: 64px;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: var(--red);
+            color: white;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            margin-left: 10px;
+            border-radius: 4px;
+        }
+
+        .impact-stat {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 10px 0 20px;
+        }
+    </style>
+
+
+    <style>
+        /* Featured project styles */
+        .featured-project {
+            border: 2px solid var(--red);
+            padding: 40px;
+            background: transparent;
+            margin-top: 30px;
+        }
+
+        .featured-badge {
+            background: var(--red);
+            color: white;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .impact-stat {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 10px 0 20px;
+        }
+
+        /* Gallery / lightbox */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+            .gallery img {
+                width: 100%;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: transform .2s;
+            }
+
+                .gallery img:hover {
+                    transform: scale(1.03);
+                }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+            .lightbox img {
+                max-width: 90%;
+                max-height: 90%;
+            }
+
+            .lightbox.active {
+                display: flex;
+            }
+
+        /* Minor cleanup */
+        .project-card {
+            background: transparent;
+        }
+    </style>
+
+
+    <style>
+        /* Scale up Featured Work */
+        #featured-project,
+        .featured-work,
+        .featured-project {
+            transform: scale(1.08);
+            transform-origin: top center;
+        }
+
+        /* Prevent layout clipping */
+        #featured-project {
+            margin-bottom: 120px;
+        }
+    </style>
+
+
+    <style>
+        /* Make Featured Work title as big as impact stat */
+        #featured-project h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        /* Emphasize Featured badge */
+        #featured-project .featured-badge {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+        }
+    </style>
+
+
+    <style>
+        /* ===== MOBILE POLISH ===== */
+        @media (max-width: 768px) {
+
+            /* Featured Work section */
+            #featured-project {
+                transform: none;
+                padding: 16px;
+                margin: 32px auto 80px;
+            }
+
+                #featured-project h2 {
+                    font-size: 1.8rem;
+                    text-align: center;
+                }
+
+                #featured-project .featured-badge {
+                    font-size: 0.75rem;
+                }
+
+            /* Project card */
+            .featured-project {
+                padding: 20px;
+            }
+
+            /* Impact stat */
+            .impact-stat {
+                font-size: 1.9rem;
+                text-align: center;
+            }
+
+            /* Gallery */
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+                .gallery img {
+                    border-radius: 10px;
+                }
+
+            /* Video */
+            video {
+                max-width: 100%;
+                border-radius: 12px;
+            }
+
+            /* Meta text */
+            .project-meta {
+                text-align: center;
+                font-size: 0.9rem;
+            }
+
+            /* Links */
+            .project-link {
+                display: block;
+                text-align: center;
+                margin-top: 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+
+    <style>
+
+        <style >
+        /* ===== BACKGROUND CONSISTENCY (NO GRADIENT) ===== */
+        body {
+            background: var(--black);
+        }
+
+        section,
+        .project-card,
+        .featured-project {
+            background: transparent;
+        }
+
+        video,
+        img {
+            background-color: transparent;
+        }
+    </style>
+
+
+
+    <style>
+        /* ===== SPACING TIGHTENING ===== */
+
+        /* Reduce large vertical gaps */
+        section {
+            margin-top: 24px;
+            margin-bottom: 24px;
+        }
+
+        /* Featured Work spacing */
+        #featured-project {
+            margin-top: 48px;
+            margin-bottom: 72px;
+            padding: 16px;
+        }
+
+        /* Project card padding */
+        .featured-project {
+            padding: 24px;
+        }
+
+        /* Gallery spacing */
+        .gallery {
+            margin-top: 12px;
+            gap: 12px;
+        }
+
+        /* Video spacing */
+        video {
+            margin-top: 24px;
+        }
+
+        /* Paragraph rhythm */
+        #featured-project p {
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        /* Mobile tightening */
+        @media (max-width: 768px) {
+            section {
+                margin-top: 16px;
+                margin-bottom: 16px;
+            }
+
+            #featured-project {
+                margin-top: 32px;
+                margin-bottom: 48px;
+                padding: 12px;
+            }
+
+            .featured-project {
+                padding: 16px;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* ===== HERO → FEATURED GAP REDUCTION ===== */
+
+        /* Reduce bottom space of hero */
+        .hero {
+            padding-bottom: 24px;
+            min-height: auto;
+        }
+
+        /* Pull Featured Work closer to hero */
+        #featured-project {
+            margin-top: 16px !important;
+        }
+
+        /* Mobile adjustment */
+        @media (max-width: 768px) {
+            .hero {
+                padding-bottom: 12px;
+            }
+
+            #featured-project {
+                margin-top: 12px !important;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* ===== REMOVE DEAD HERO AREA ===== */
+
+        /* Shrink hero height to content */
+        .hero {
+            min-height: unset !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* Pull icon row up and remove extra space below it */
+        .icon-row {
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* Remove any extra spacer divs below hero */
+        .hero + div,
+        .hero + section {
+            margin-top: 0 !important;
+        }
+
+        /* Tighten Featured Work placement */
+        #featured-project {
+            margin-top: 0 !important;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero {
+                padding-bottom: 0 !important;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* ===== DESKTOP HERO → FEATURED GAP CUT ===== */
+
+        /* Desktop only */
+        @media (min-width: 1024px) {
+
+            /* Reduce hero bottom spacing */
+            .hero {
+                padding-bottom: 8px !important;
+                margin-bottom: 0 !important;
+                min-height: auto !important;
+            }
+
+            /* Pull Featured Work closer */
+            #featured-project {
+                margin-top: 8px !important;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* ===== FEATURED WORK CARD STYLE ===== */
+
+        #featured-project {
+            max-width: 1400px;
+            margin: 0 auto 256px;
+        }
+
+            #featured-project h2 {
+                margin-bottom: 24px;
+            }
+
+        .featured-project {
+            background: #2b2b2b;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+            /* Image gallery like cards */
+            .featured-project .gallery {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+                margin-bottom: 24px;
+            }
+
+                .featured-project .gallery img {
+                    border-radius: 12px;
+                    object-fit: cover;
+                }
+
+            /* Video block */
+            .featured-project video {
+                display: block;
+                margin: 24px auto 0;
+                border-radius: 14px;
+                max-width: 900px;
+            }
+
+            /* Text hierarchy */
+            .featured-project h3 {
+                font-size: 2rem;
+                margin-bottom: 8px;
+            }
+
+            .featured-project p {
+                font-size: 1rem;
+                color: #ddd;
+            }
+
+            /* Tags */
+            .featured-project .tag {
+                background: #3a3a3a;
+                border-radius: 999px;
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+
+        /* CTA */
+        .project-link {
+            margin-top: 24px;
+            display: inline-block;
+            font-weight: 700;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .featured-project {
+                padding: 20px;
+            }
+
+                .featured-project .gallery {
+                    grid-template-columns: 1fr;
+                }
+        }
+    </style>
+
+
+    <style>
+        /* ===== REMOVE HERO GRADIENTS COMPLETELY ===== */
+
+        /* Kill all gradient backgrounds */
+        .hero,
+        .hero::before,
+        .hero::after {
+            background: var(--black) !important;
+            background-image: none !important;
+        }
+
+        /* Remove any overlay layers */
+        .hero-overlay,
+        .hero-gradient {
+            display: none !important;
+        }
+
+        /* Ensure clean transition */
+        .hero {
+            box-shadow: none !important;
+        }
+    </style>
+
+
+    <style>
+        /* ===== MOBILE FINAL POLISH ===== */
+        @media (max-width: 768px) {
+
+            body {
+                overflow-x: hidden;
+            }
+
+            /* Hero */
+            .hero {
+                padding: 24px 16px 8px;
+            }
+
+            /* Featured Work title */
+            #featured-project h2 {
+                text-align: center;
+                font-size: 1.6rem;
+                margin-bottom: 16px;
+            }
+
+            .featured-badge {
+                margin-left: 8px;
+            }
+
+            /* Featured card */
+            .featured-project {
+                padding: 16px;
+                border-radius: 14px;
+            }
+
+                .featured-project h3 {
+                    font-size: 1.4rem;
+                    text-align: center;
+                }
+
+                /* Tags */
+                .featured-project .tag {
+                    margin-top: 6px;
+                }
+
+                /* Gallery */
+                .featured-project .gallery {
+                    grid-template-columns: 1fr;
+                    gap: 12px;
+                    margin-bottom: 16px;
+                }
+
+                /* Video */
+                .featured-project video {
+                    margin-top: 16px;
+                    border-radius: 12px;
+                }
+
+                /* Text */
+                .featured-project p {
+                    font-size: 0.95rem;
+                    line-height: 1.55;
+                    text-align: center;
+                }
+
+            /* Meta */
+            .project-meta {
+                text-align: center;
+                font-size: 0.85rem;
+            }
+
+            /* CTA */
+            .project-link {
+                display: block;
+                text-align: center;
+                margin-top: 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+
+    <style>
+
+
+
+        <style >
+        /* ===== TIGHTEN SCREENSHOTS → VIDEO GAP ===== */
+        /* Reduce gap under gallery */
+        .featured-project .gallery {
+            margin-bottom: 8px;
+        }
+
+        /* Reduce top margin on video */
+        .featured-project video {
+            margin-top: 8px;
+        }
+
+        /* Mobile tweak */
+        @media (max-width: 768px) {
+            .featured-project .gallery {
+                margin-bottom: 6px;
+            }
+
+            .featured-project video {
+                margin-top: 6px;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* ===== CLEAN HOVER (NO CARD MOVEMENT) ===== */
+
+        /* Keep image feedback */
+        .gallery img {
+            transition: opacity .15s ease;
+        }
+
+        @media (hover: hover) {
+            .gallery img:hover {
+                opacity: 0.95;
+            }
+
+            .project-link:hover {
+                opacity: 0.8;
+            }
+        }
+
+        /* Mobile tap */
+        @media (hover: none) {
+            .project-link:active {
+                opacity: 0.7;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* ===== SMOOTH MEDIA HOVER ===== */
+
+        .gallery img,
+        .featured-project video {
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        @media (hover: hover) {
+            .gallery img:hover,
+            .featured-project video:hover {
+                transform: scale(1.015);
+                box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+            }
+        }
+
+        /* Mobile tap feedback */
+        @media (hover: none) {
+            .gallery img:active,
+            .featured-project video:active {
+                transform: scale(0.99);
+            }
+        }
+    </style>
+
+
+    <style>
+        /* ===== CONSISTENT MEDIA SPACING ===== */
+
+        /* Unified spacing for screenshots + video */
+        .featured-project .gallery {
+            margin-bottom: 12px;
+        }
+
+            .featured-project .gallery img {
+                margin-bottom: 0;
+            }
+
+        /* Video spacing aligned to gallery rhythm */
+        .featured-project video {
+            margin-top: 12px;
+        }
+
+        /* Mobile consistency */
+        @media (max-width: 768px) {
+            .featured-project .gallery {
+                margin-bottom: 10px;
+            }
+
+            .featured-project video {
+                margin-top: 10px;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* ===== SLIGHTLY LARGER VIDEO ===== */
+
+        .featured-project video {
+            max-width: 920px;
+        }
+
+        /* Mobile: keep it full-width, just a touch taller feeling */
+        @media (max-width: 768px) {
+            .featured-project video {
+                max-width: 100%;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* ===== ALMOST FULL-WIDTH VIDEO (DESKTOP) ===== */
+
+        @media (min-width: 1024px) {
+            .featured-project video {
+                max-width: 1100px;
+                width: 100%;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* ===== THUNDERSTORE CTA STYLE ===== */
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: #ff2d55;
+            color: #fff !important;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+        }
+
+        @media (hover: hover) {
+            .project-link:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 18px rgba(255,45,85,0.4);
+                opacity: 0.95;
+            }
+        }
+
+        @media (hover: none) {
+            .project-link:active {
+                transform: scale(0.97);
+                opacity: 0.85;
+            }
+        }
+    
+/* ADDITIONAL MOBILE SPACING IMPROVEMENTS */
+@media (max-width: 768px) {
+    :root { --page-padding: 18px; }
+
+    /* Global adjustments */
+    body { font-size: 16px; line-height: 1.45; -webkit-font-smoothing:antialiased; }
+    header { padding: 12px var(--page-padding); }
+    .container { padding-left: var(--page-padding); padding-right: var(--page-padding); box-sizing: border-box; }
+
+    /* Navigation / hamburger */
+    nav { padding: 10px 0; gap: 12px; align-items: center; }
+    nav a { padding: 12px 10px; font-size: 1rem; }
+    .hamburger { top: 16px; right: var(--page-padding); }
+
+    /* Hero */
+    .hero { padding: 18px 0 12px; min-height: auto; }
+    .hero .hero-content { padding: 12px 0; text-align: center; max-width: 680px; margin: 0 auto; }
+    .hero h1 { font-size: 1.6rem; line-height: 1.12; margin-bottom: 8px; }
+    .hero p { font-size: 1rem; margin-bottom: 12px; }
+
+    .hero-image-wrapper { margin: 0 auto 12px; max-width: 420px; }
+    .hero-image-wrapper img, .hero-image { width: 100%; height: auto; display:block; }
+
+    /* Featured project / projects grid */
+    #featured-project { padding: 12px; margin: 20px auto 40px; }
+    #featured-project h2 { font-size: 1.4rem; }
+    .projects-grid { grid-template-columns: 1fr; gap: 14px; padding: 0; }
+    .project-card, .card { padding: 12px; border-radius: 10px; }
+
+    /* CTA / buttons */
+    .cta, .btn, .primary-btn { width: 100%; display: inline-block; padding: 12px 14px; font-size: 1rem; box-sizing: border-box; margin: 8px 0; }
+
+    /* Icons row */
+    .icon-row { gap: 12px; margin-top: 8px; justify-content: center; }
+
+    /* Sections & footer */
+    section { padding: 16px var(--page-padding); }
+    footer { padding: 16px var(--page-padding); text-align: center; }
+
+    /* Small touch-target improvements */
+    a, button { -webkit-tap-highlight-color: rgba(0,0,0,0.06); }
+}
+
+/* Minor additional rule to ensure content doesn't hug the edges */
+@media (max-width: 480px) {
+    :root { --page-padding: 14px; }
+    .hero h1 { font-size: 1.4rem; }
+    .hero p { font-size: 0.96rem; }
+}
+
+
+/* FIX FEATURED PROJECT MOBILE SPACING */
+@media (max-width: 768px) {
+
+    /* Card container spacing */
+    #featured-project,
+    .featured-project,
+    .project-card {
+        margin-top: 32px !important;
+        padding-top: 20px !important;
+    }
+
+    /* Separate CTA button from card */
+    #featured-project .cta,
+    #featured-project a.button,
+    .featured-project .cta {
+        margin-bottom: 24px !important;
+        display: block;
+    }
+
+    /* Headings spacing */
+    #featured-project h1,
+    #featured-project h2 {
+        margin-top: 12px;
+        margin-bottom: 12px;
+        line-height: 1.2;
+    }
+
+    /* Downloads text spacing */
+    #featured-project .downloads,
+    #featured-project .stats,
+    #featured-project p {
+        margin-top: 12px;
+    }
+}
+
+
+/* ===== VERTICAL RHYTHM SYSTEM ===== */
+:root {
+    --space-1: 8px;
+    --space-2: 16px;
+    --space-3: 24px;
+    --space-4: 32px;
+}
+
+/* Normalize card spacing */
+.project-card,
+.featured-project,
+#featured-project,
+.card {
+    margin-bottom: var(--space-4);
+    padding: var(--space-3);
+    border-radius: 14px;
+}
+
+/* Card internals */
+.project-card h1,
+.project-card h2,
+.project-card h3,
+.featured-project h1,
+.featured-project h2,
+#featured-project h1,
+#featured-project h2 {
+    margin-bottom: var(--space-2);
+    line-height: 1.2;
+}
+
+.project-card p,
+.featured-project p,
+#featured-project p {
+    margin-bottom: var(--space-2);
+    line-height: 1.5;
+}
+
+/* Buttons inside cards */
+.project-card a,
+.featured-project a,
+#featured-project a {
+    margin-top: var(--space-2);
+    display: inline-block;
+}
+
+/* ===== MOBILE RHYTHM ===== */
+@media (max-width: 768px) {
+    section {
+        padding: var(--space-3) var(--space-2);
+    }
+
+    .project-card,
+    .featured-project,
+    #featured-project {
+        padding: var(--space-3);
+        margin-bottom: var(--space-3);
+    }
+}
+
+/* ===== SMALL PHONE EDGE CASES (360px / iPhone SE) ===== */
+@media (max-width: 380px) {
+    :root {
+        --space-2: 14px;
+        --space-3: 20px;
+    }
+
+    h1 { font-size: 1.35rem; }
+    h2 { font-size: 1.15rem; }
+
+    .project-card,
+    .featured-project,
+    #featured-project {
+        padding: var(--space-2);
+    }
+
+    .cta,
+    button,
+    .btn {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
 </style>
+
 </head>
+
 <body>
-<header>
-  <div class="logo">LEON JOENSEN</div>
-  <nav>
-    <a href="#">Home</a><a href="#">Projects</a><a href="#">About</a><a href="#">Contact</a>
-  </nav>
-</header>
-<section class="hero">
-  <img src="hero.png" class="hero-image">
-  <div class="icon-row">
-    <div class="icon"><img src="unity logo.png"></div>
-    <div class="icon"><img src="unreal.png"></div>
-    <div class="icon"><img src="blender.png"></div>
-    <div class="icon"><img src="clipstudio.png"></div>
-    <div class="icon"><img src="vegas.png"></div>
-  </div>
-</section>
+
+    <header>
+        <div class="logo">LEON JOENSEN</div>
+
+
+        <nav id="nav">
+            <a href="index.html" class="active">Home</a>
+            <a href="projects.html">Projects</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+
+
+
+
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('nav').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
+        }
+    </script>
+
+
+    <script>
+        const currentPage = window.location.pathname.split("/").pop() || "index.html";
+        document.querySelectorAll("#nav a").forEach(link => {
+            if (link.getAttribute("href") === currentPage) {
+                link.classList.add("active");
+            }
+        });
+    </script>
+
+
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add("page-loaded");
+        });
+
+        document.addEventListener("click", e => {
+            const link = e.target.closest("a");
+            if (
+                !link ||
+                link.target === "_blank" ||
+                link.hasAttribute("download") ||
+                link.href.startsWith("mailto:") ||
+                link.href.startsWith("tel:") ||
+                link.href.includes("#")
+            ) {
+                return;
+            }
+
+            e.preventDefault();
+            document.body.classList.remove("page-loaded");
+            setTimeout(() => {
+                window.location.href = link.href;
+            }, 300);
+        });
+    </script>
+
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const counters = document.querySelectorAll(".stat-counter");
+            const animateCounter = (counter) => {
+                const target = +counter.dataset.target;
+                let count = 0;
+                const step = Math.max(1, Math.floor(target / 120));
+                const update = () => {
+                    count += step;
+                    if (count < target) {
+                        counter.textContent = Math.floor(count).toLocaleString();
+                        requestAnimationFrame(update);
+                    } else {
+                        counter.textContent = target.toLocaleString();
+                    }
+                };
+                update();
+            };
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains("done")) {
+                        entry.target.classList.add("done");
+                        animateCounter(entry.target);
+                    }
+                });
+            }, { threshold: 0.6 });
+
+            counters.forEach(counter => observer.observe(counter));
+        });
+    </script>
+
+
+    <script>
+        // Counter animation on scroll & lightbox
+        document.addEventListener("DOMContentLoaded", () => {
+            const counters = document.querySelectorAll(".stat-counter");
+            if (counters.length) {
+                const animateCounter = (counter) => {
+                    const target = +counter.dataset.target;
+                    let count = 0;
+                    const step = Math.max(1, Math.floor(target / 120));
+                    const update = () => {
+                        count += step;
+                        if (count < target) {
+                            counter.textContent = Math.floor(count).toLocaleString();
+                            requestAnimationFrame(update);
+                        } else {
+                            counter.textContent = target.toLocaleString();
+                        }
+                    };
+                    update();
+                };
+
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !entry.target.classList.contains("done")) {
+                            entry.target.classList.add("done");
+                            animateCounter(entry.target);
+                        }
+                    });
+                }, { threshold: 0.6 });
+
+                counters.forEach(counter => observer.observe(counter));
+            }
+
+            // Lightbox behavior
+            const lightbox = document.createElement('div');
+            lightbox.className = 'lightbox';
+            lightbox.id = 'lightbox';
+            lightbox.innerHTML = '<img id="lightbox-img" alt="preview">';
+            document.body.appendChild(lightbox);
+
+            lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') lightbox.classList.remove('active');
+            });
+
+            document.querySelectorAll('.gallery img').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    document.getElementById('lightbox-img').src = img.src;
+                    lightbox.classList.add('active');
+                });
+            });
+        });
+    </script>
+
+    <section class="hero">
+        <div class="hero-canvas">
+            <div class="hero-image-wrapper">
+                <img src="hero.png" class="hero-image" alt="Leon Joensen">
+            </div>
+
+            <div class="icon-row">
+                <img src="unity logo.png">
+                <img src="unreal.png">
+                <img src="blender.png">
+                <img src="clipstudio.png">
+                <img src="vegas.png">
+            </div>
+        </div>
+        <!-- Commented out for now
+
+    </section>
+
+
+        <h2 style="margin-bottom: 12px; display: flex; justify-content: center; align-items: center; gap: 12px; font-size:42px">
+            Featured Work <span class="featured-badge">FEATURED</span>
+        </h2>
+        <section class="all-featured-projects" id="featured-project" style="position:relative; z-index:1;">
+
+
+
+            <div class="project-card featured-project">
+                <h3 style="margin-top:0; margin-bottom:6px;">ChillaxSCRAPS <span class="tag tag-modding" style="background:#4a90e2;color:#fff;padding:2px 6px;border-radius:4px;font-size:.8rem;margin-left:8px;">Modding</span></h3>
+                <div class="impact-stat">700k+ Downloads</div>
+
+                <p>
+                    is a high-impact mod for <strong>Lethal Company</strong> that adds
+                    new scrap items to expand variety, pacing, and replayability.
+                </p>
+
+                <p>
+                    The mod has been downloaded hundreds of thousands of times and is designed
+                    to feel fully native to the base game.
+                </p>
+
+                <div class="project-meta" style="margin-top:12px; margin-bottom:18px;">
+                    <strong>Rating:</strong> <span class="stat-counter" data-target="36">0</span>
+                    &nbsp;•&nbsp;
+                    <strong>Downloads:</strong> <span class="stat-counter" data-target="704527">0</span>
+                </div>
+
+                <div class="gallery" id="featured-gallery">
+                    <img loading="lazy" src="assets/chillax1.png" alt="Chillax screenshot 1">
+                    <img loading="lazy" src="assets/chillax2.png" alt="Chillax screenshot 2">
+                </div>
+
+                <div style="margin:40px auto; display:flex; justify-content:center;">
+                    <video controls playsinline preload="metadata"
+                           style="max-width:800px; width:100%; border-radius:10px; background:black;">
+                        <source src="assets/chillax_video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <p style="margin-top:16px;">
+                    <a class="project-link" target="_blank" href="https://thunderstore.io/c/lethal-company/p/CHILLAX//" style="color:var(--red); text-decoration:none; font-weight:600;">View on Thunderstore →</a>
+                </p>
+            </div>
+
+
+
+            <div class="project-card featured-project">
+                <h3 style="margin-top:0; margin-bottom:6px;">ChillaxSCRAPS <span class="tag tag-modding" style="background:#4a90e2;color:#fff;padding:2px 6px;border-radius:4px;font-size:.8rem;margin-left:8px;">Modding</span></h3>
+                <div class="impact-stat">700k+ Downloads</div>
+
+                <p>
+                    is a high-impact mod for <strong>Lethal Company</strong> that adds
+                    new scrap items to expand variety, pacing, and replayability.
+                </p>
+
+                <p>
+                    The mod has been downloaded hundreds of thousands of times and is designed
+                    to feel fully native to the base game.
+                </p>
+
+                <div class="project-meta" style="margin-top:12px; margin-bottom:18px;">
+                    <strong>Rating:</strong> <span class="stat-counter" data-target="36">0</span>
+                    &nbsp;•&nbsp;
+                    <strong>Downloads:</strong> <span class="stat-counter" data-target="704527">0</span>
+                </div>
+
+                <div class="gallery" id="featured-gallery">
+                    <img loading="lazy" src="assets/chillax1.png" alt="Chillax screenshot 1">
+                    <img loading="lazy" src="assets/chillax2.png" alt="Chillax screenshot 2">
+                </div>
+
+                <div style="margin:40px auto; display:flex; justify-content:center;">
+                    <video controls playsinline preload="metadata"
+                           style="max-width:800px; width:100%; border-radius:10px; background:black;">
+                        <source src="assets/chillax_video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <p style="margin-top:16px;">
+                    <a class="project-link" target="_blank" href="https://thunderstore.io/c/lethal-company/p/CHILLAX//" style="color:var(--red); text-decoration:none; font-weight:600;">View on Thunderstore →</a>
+                </p>
+            </div>
+
+
+
+        </section>
+
+
+        -->
 </body>
-</html>
+
+    </html>

@@ -1,0 +1,28 @@
+
+
+/* page transition */
+body {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+body.page-loaded {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
+}
+
+
+/* SIMPLE, GUARANTEED ACTIVE UNDERLINE */
+#nav a {
+  text-decoration: none;
+  padding-bottom: 6px;
+}
+
+#nav a.active {
+  border-bottom: 2px solid #ffffff;
+}

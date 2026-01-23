@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leon Joensen | Contact</title>
+
+    <style>
+        :root {
+            --red: #ff2b4f;
+            --black: #0f0f0f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: var(--black);
+            color: white;
+        }
+
+        /* HEADER */
+        header {
+            height: 80px;
+            background: var(--red);
+            display: flex;
+            align-items: center;
+            padding: 0 60px;
+            position: relative;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 22px;
+        }
+
+        nav {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+            nav a {
+                font-size: 22px;
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+        /* HAMBURGER */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+            .hamburger span {
+                width: 26px;
+                height: 3px;
+                background: white;
+                transition: transform .35s ease, opacity .25s ease;
+            }
+
+            /* ACTIVE HAMBURGER → X */
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+
+        /* HERO */
+        .hero {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hero::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle,#1c1c1c,#0b0b0b);
+            }
+
+        /* CANVAS */
+        .hero-canvas {
+            position: relative;
+            width: 1920px;
+            height: 1080px;
+            transform-origin: center;
+        }
+
+        @media (min-aspect-ratio:16/9) {
+            .hero-canvas {
+                transform: scale(calc(100vh / 1080));
+            }
+        }
+
+        @media (max-aspect-ratio:16/9) {
+            .hero-canvas {
+                transform: scale(calc(100vw / 1920));
+            }
+        }
+
+        /* HERO IMAGE */
+        .hero-image-wrapper {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image {
+            width: 980px;
+            transition: transform .35s ease;
+        }
+
+        .hero-image-wrapper:hover .hero-image {
+            transform: scale(1.035);
+        }
+
+        /* ICONS */
+        .icon-row {
+            position: absolute;
+            left: 50%;
+            top: 640px;
+            transform: translateX(-50%) translateX(60px);
+            display: flex;
+            gap: 0;
+        }
+
+            .icon-row img {
+                width: 96px;
+                height: 96px;
+                transition: transform .25s ease;
+            }
+
+                .icon-row img:hover {
+                    transform: scale(1.08);
+                }
+
+        /* MOBILE */
+        @media (max-width:768px) {
+
+            header {
+                padding: 0 24px;
+            }
+
+            nav {
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--red);
+                flex-direction: column;
+                align-items: center;
+                display: none;
+                padding: 16px 0;
+                animation: menuSlide .35s ease forwards;
+                z-index: 5;
+            }
+
+                nav.active {
+                    display: flex;
+                }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 16px 0 12px;
+            }
+
+            .hero-canvas {
+                width: 100%;
+                height: auto;
+                transform: none;
+            }
+
+            .hero-image-wrapper {
+                position: relative;
+                left: 0;
+                top: 0;
+                transform: none;
+                margin: 0 auto 8px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .hero-image {
+                width: 92%;
+                max-width: 360px;
+            }
+
+            .icon-row {
+                position: relative;
+                left: 0;
+                top: 0;
+                transform: none;
+                width: 100%;
+                justify-content: center;
+            }
+
+                .icon-row img {
+                    width: 48px;
+                    height: 48px;
+                }
+        }
+
+        /* MENU ANIMATION */
+        @keyframes menuSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav a {
+            font-size: 22px;
+            display: inline-block;
+            transition: transform .2s ease, text-shadow .2s ease;
+        }
+
+            nav a:hover {
+                transform: scale(1.06);
+                text-shadow: 0 0 6px rgba(255,255,255,.7), 0 0 14px rgba(255,43,79,.8);
+            }
+
+
+        @media (max-width:768px) {
+            .icon-row {
+                margin-top: -12px; /* move icons slightly upward */
+            }
+        }
+
+
+        /* ===== LOAD ANIMATIONS (COOL BUT CLEAN) ===== */
+        body {
+            opacity: 0;
+            animation: pageFadeIn .8s ease forwards;
+        }
+
+        .hero-image-wrapper {
+            opacity: 0;
+            will-change: opacity, transform;
+            animation: heroReveal .9s cubic-bezier(.2,.8,.2,1) .2s forwards;
+        }
+
+        .icon-row img {
+            opacity: 0;
+            animation: iconReveal .6s ease forwards;
+        }
+
+            .icon-row img:nth-child(1) {
+                animation-delay: .5s;
+            }
+
+            .icon-row img:nth-child(2) {
+                animation-delay: .6s;
+            }
+
+            .icon-row img:nth-child(3) {
+                animation-delay: .7s;
+            }
+
+            .icon-row img:nth-child(4) {
+                animation-delay: .8s;
+            }
+
+            .icon-row img:nth-child(5) {
+                animation-delay: .9s;
+            }
+
+        @keyframes pageFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes heroReveal {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes iconReveal {
+            from {
+                transform: translateY(20px) scale(.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+
+        @font-face {
+            font-family: 'FuturaCustom';
+            src: url('fonts/Futura.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'FuturaCustom', Arial, Helvetica, sans-serif;
+        }
+
+
+        @font-face {
+            font-family: 'FCMittraphap';
+            src: url('fonts/FCMittraphap.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'FCMittraphap', Arial, Helvetica, sans-serif;
+        }
+
+
+        /* ===== VERTICAL RHYTHM SYSTEM ===== */
+        :root {
+            --space-1: 8px;
+            --space-2: 16px;
+            --space-3: 24px;
+            --space-4: 32px;
+        }
+
+        /* Normalize card spacing */
+        .project-card,
+        .featured-project,
+        #featured-project,
+        .card {
+            margin-bottom: var(--space-4);
+            padding: var(--space-3);
+            border-radius: 14px;
+        }
+
+            /* Card internals */
+            .project-card h1,
+            .project-card h2,
+            .project-card h3,
+            .featured-project h1,
+            .featured-project h2,
+            #featured-project h1,
+            #featured-project h2 {
+                margin-bottom: var(--space-2);
+                line-height: 1.2;
+            }
+
+            .project-card p,
+            .featured-project p,
+            #featured-project p {
+                margin-bottom: var(--space-2);
+                line-height: 1.5;
+            }
+
+            /* Buttons inside cards */
+            .project-card a,
+            .featured-project a,
+            #featured-project a {
+                margin-top: var(--space-2);
+                display: inline-block;
+            }
+
+        /* ===== MOBILE RHYTHM ===== */
+        @media (max-width: 768px) {
+            section {
+                padding: var(--space-3) var(--space-2);
+            }
+
+            .project-card,
+            .featured-project,
+            #featured-project {
+                padding: var(--space-3);
+                margin-bottom: var(--space-3);
+            }
+        }
+
+        /* ===== SMALL PHONE EDGE CASES (360px / iPhone SE) ===== */
+        @media (max-width: 380px) {
+            :root {
+                --space-2: 14px;
+                --space-3: 20px;
+            }
+
+            h1 {
+                font-size: 1.35rem;
+            }
+
+            h2 {
+                font-size: 1.15rem;
+            }
+
+            .project-card,
+            .featured-project,
+            #featured-project {
+                padding: var(--space-2);
+            }
+
+            .cta,
+            button,
+            .btn {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">LEON JOENSEN</div>
+
+
+        <nav id="nav">
+            <a href="index.html">Home</a>
+            <a href="projects.html">Projects</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <section class="hero" style="display:none">
+        <h1>Contact</h1><p style="margin-top:20px">Content coming soon.</p>
+        <div class="hero-canvas">
+            <div class="hero-image-wrapper">
+                <img src="hero.png" class="hero-image" alt="Leon Joensen">
+            </div>
+
+            <div class="icon-row">
+                <img src="unity logo.png">
+                <img src="unreal.png">
+                <img src="blender.png">
+                <img src="clipstudio.png">
+                <img src="vegas.png">
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('nav').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
+        }
+    </script>
+
+
+    <script>
+        const currentPage = window.location.pathname.split("/").pop() || "index.html";
+        document.querySelectorAll("#nav a").forEach(link => {
+            if (link.getAttribute("href") === currentPage) {
+                link.classList.add("active");
+            }
+        });
+    </script>
+
+
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add("page-loaded");
+        });
+
+        document.addEventListener("click", e => {
+            const link = e.target.closest("a");
+            if (
+                !link ||
+                link.target === "_blank" ||
+                link.hasAttribute("download") ||
+                link.href.startsWith("mailto:") ||
+                link.href.startsWith("tel:") ||
+                link.href.includes("#")
+            ) {
+                return;
+            }
+
+            e.preventDefault();
+            document.body.classList.remove("page-loaded");
+            setTimeout(() => {
+                window.location.href = link.href;
+            }, 300);
+        });
+    </script>
+
+    <h1 style="margin:64px auto; display:flex; justify-content:center;">Work in progress 💯💯</h1>
+
+<!--
+    <section style="max-width:900px;margin:220px auto 0 auto;line-height:1.6;">
+        <h1>Contact</h1>
+        <p>
+            Interested in working together, collaborating, or just saying hello?
+        </p>
+        <p>
+            This page will soon include a contact form and social links.
+            For now, you can imagine:
+        </p>
+        <ul style="margin-top:20px;">
+            <li>Email: yourname@email.com</li>
+            <li>GitHub: github.com/yourname</li>
+            <li>LinkedIn: linkedin.com/in/yourname</li>
+        </ul>
+    </section>
+-->
+
+</body>
+</html>
