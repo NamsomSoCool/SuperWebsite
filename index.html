@@ -1050,7 +1050,7 @@
                             animateCounter(entry.target);
                         }
                     });
-                }, { threshold: 0.6 });
+                }, { threshold: 0.2, rootMargin: "0px 0px 20% 0px" });
 
                 counters.forEach(counter => observer.observe(counter));
             }
@@ -1092,7 +1092,7 @@
                             tagObserver.unobserve(tag);
                         }
                     });
-                }, { threshold: 0.6 });
+                }, { threshold: 0.2, rootMargin: "0px 0px 20% 0px" });
 
                 titles.forEach(title => {
                     const firstTag = title.querySelector('.tag, .tag-modding, .tag-featured, .tag-side');
@@ -1117,7 +1117,7 @@
                             metaObserver.unobserve(badge);
                         }
                     });
-                }, { threshold: 0.6 });
+                }, { threshold: 0.2, rootMargin: "0px 0px 20% 0px" });
 
                 metaRows.forEach(row => {
                     const firstBadge = row.querySelector('.rating-badge, .downloads-badge, .placeholder-badge, .placeholder-badge-green');
@@ -1141,7 +1141,7 @@
                             contentObserver.unobserve(card);
                         }
                     });
-                }, { threshold: 0.25 });
+                }, { threshold: 0.15, rootMargin: "0px 0px 20% 0px" });
 
                 featuredCards.forEach(card => contentObserver.observe(card));
             }
@@ -1221,7 +1221,7 @@
                     entry.target.classList.add("is-visible");
                     observer.unobserve(entry.target);
                 });
-            }, { threshold: 0.4 });
+            }, { threshold: 0.2, rootMargin: "0px 0px 20% 0px" });
 
             observer.observe(featuredTitle);
         });
@@ -1278,7 +1278,7 @@
 
                     <div class="video-wrap">
                         <video class="featured-video" controls playsinline preload="metadata" poster="assets/chillaxposter.png">
-                            <source src="assets/chillax_video.mp4" type="video/mp4">
+                            <source src="assets/Chillax_Video.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -1316,7 +1316,7 @@
 
                     <div class="video-wrap">
                         <video class="featured-video" id="project-liminal-video" controls playsinline preload="metadata" poster="assets/project linamalposter.png">
-                            <source src="assets/Trailer1.mp4" type="video/mp4">
+                            <source src="assets/Trailer1.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -1349,7 +1349,7 @@
 
                     <div class="video-wrap">
                         <video class="featured-video" controls playsinline preload="metadata">
-                            <source src="assets/Trickshot1.mp4" type="video/mp4">
+                            <source src="assets/Trickshot1.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -1381,7 +1381,7 @@
 
                     <div class="video-wrap">
                         <video class="featured-video video-16x9" controls playsinline preload="metadata" poster="assets/Ttitle_Screen_concept.png">
-                            <source src="assets/EZ.mp4" type="video/mp4">
+                            <source src="assets/Ez.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
