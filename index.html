@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leon Joensen | Portfolio</title>
+    <link rel="icon" href="assets/chillaxbear.jpg" type="image/jpeg">
 
     <style>
         :root {
@@ -25,15 +26,16 @@
             background: var(--black);
             color: white;
             font-family: 'FuturaCustom', 'FCMittraphap', Arial, Helvetica, sans-serif;
-            opacity: 0;
-            animation: pageFadeIn .8s ease forwards;
+            opacity: 1;
+            animation: none;
         }
 
         /* HEADER */
         header {
             height: 80px;
             background: var(--red);
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
             padding: 0 60px;
             position: relative;
@@ -42,15 +44,18 @@
         .logo {
             font-weight: 900;
             font-size: 22px;
+            justify-self: start;
         }
 
         nav {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            position: static;
+            transform: none;
             display: flex;
             gap: 32px;
             align-items: center;
+            justify-self: center;
+            justify-content: center;
+            width: max-content;
         }
 
             nav a {
@@ -67,13 +72,22 @@
                 text-shadow: 0 0 6px rgba(255,255,255,.7), 0 0 14px rgba(255,43,79,.8);
             }
 
+            nav a.active,
+            nav a.active:hover {
+                color: #0F0F0F !important;
+                text-shadow: none;
+                border-bottom: 3px solid #0F0F0F;
+                padding-bottom: 4px;
+            }
+
         /* HAMBURGER */
         .hamburger {
             display: none;
             flex-direction: column;
             gap: 6px;
             cursor: pointer;
-            margin-left: auto;
+            margin-left: 0;
+            justify-self: end;
         }
 
             .hamburger span {
@@ -450,6 +464,7 @@
                 padding: 16px 0;
                 animation: menuSlide .35s ease forwards;
                 z-index: 5;
+                transform: none;
             }
 
                 nav.active {
@@ -458,6 +473,8 @@
 
             .hamburger {
                 display: flex;
+                position: absolute;
+                right: 24px;
             }
 
             .hero {
@@ -613,10 +630,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes pageFadeIn {
-            to { opacity: 1; }
-        }
-
         @keyframes heroReveal {
             from { opacity: 0; transform: translateY(24px); }
             to { opacity: 1; transform: translateY(0); }
@@ -678,10 +691,23 @@
 
 
     <script>
-        const currentPage = window.location.pathname.split("/").pop() || "index.html";
+        const path = window.location.pathname;
+        const normalized = path.endsWith("/") ? path.slice(0, -1) : path;
+        const lastSegment = normalized.split("/").pop();
+        const currentPage = lastSegment && lastSegment.includes(".") ? lastSegment : "index.html";
         document.querySelectorAll("#nav a").forEach(link => {
-            if (link.getAttribute("href") === currentPage) {
-                link.classList.add("active");
+            const isActive = link.getAttribute("href") === currentPage;
+            link.classList.toggle("active", isActive);
+            if (isActive) {
+                link.style.setProperty("color", "#0F0F0F", "important");
+                link.style.setProperty("border-bottom", "3px solid #0F0F0F", "important");
+                link.style.setProperty("padding-bottom", "4px", "important");
+                link.style.setProperty("text-shadow", "none", "important");
+            } else {
+                link.style.removeProperty("color");
+                link.style.removeProperty("border-bottom");
+                link.style.removeProperty("padding-bottom");
+                link.style.removeProperty("text-shadow");
             }
         });
     </script>

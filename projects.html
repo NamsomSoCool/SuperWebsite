@@ -32,32 +32,36 @@
       background: var(--black);
       color: var(--text);
       font-family: 'FuturaCustom', 'FCMittraphap', Arial, Helvetica, sans-serif;
-      opacity: 0;
-      animation: pageFadeIn .8s ease forwards;
+      opacity: 1;
+      animation: none;
     }
 
-    header {
-      height: 80px;
-      background: var(--red);
-      display: flex;
-      align-items: center;
-      padding: 0 60px;
-      position: relative;
-    }
+  header {
+    height: 80px;
+    background: var(--red);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 60px;
+    position: relative;
+  }
 
-    .logo {
-      font-weight: 900;
-      font-size: 22px;
-    }
+  .logo {
+    font-weight: 900;
+    font-size: 22px;
+    justify-self: start;
+  }
 
-    nav {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 32px;
-      align-items: center;
-    }
+  nav {
+    position: static;
+    transform: none;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    justify-self: center;
+    justify-content: center;
+    width: max-content;
+  }
 
     nav a {
       font-size: 22px;
@@ -73,13 +77,22 @@
       text-shadow: 0 0 6px rgba(255,255,255,.7), 0 0 14px rgba(255,43,79,.8);
     }
 
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-      margin-left: auto;
+    nav a.active,
+    nav a.active:hover {
+      color: #0F0F0F !important;
+      text-shadow: none;
+      border-bottom: 3px solid #0F0F0F;
+      padding-bottom: 4px;
     }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    margin-left: 0;
+    justify-self: end;
+  }
 
     .hamburger span {
       width: 26px;
@@ -109,8 +122,8 @@
 
     .page-title {
       text-align: center;
-      font-size: 64px;
-      margin-bottom: 40px;
+      font-size: 96px;
+      margin-bottom: 64px;
     }
 
     .projects-grid {
@@ -210,30 +223,36 @@
     @media (max-width: 768px) {
       header { padding: 0 24px; }
 
-      nav {
-        position: absolute;
-        top: 80px;
-        left: 0;
-        width: 100%;
-        background: var(--red);
-        flex-direction: column;
-        align-items: center;
-        display: none;
-        padding: 16px 0;
-        animation: menuSlide .35s ease forwards;
-        z-index: 5;
-      }
+    nav {
+      position: absolute;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      background: var(--red);
+      flex-direction: column;
+      align-items: center;
+      display: none;
+      padding: 16px 0;
+      animation: menuSlide .35s ease forwards;
+      z-index: 5;
+      transform: none;
+    }
 
       nav.active { display: flex; }
-      .hamburger { display: flex; }
+      .hamburger {
+        display: flex;
+        position: absolute;
+        right: 24px;
+      }
 
       main { padding: 40px 18px 80px; }
-      .page-title { font-size: 1.6rem; }
-      .projects-grid { grid-template-columns: 1fr; }
+      .page-title { font-size: 3rem; }
+      .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 480px) {
-      .page-title { font-size: 1.4rem; }
+      .page-title { font-size: 2.4rem; }
+      .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @keyframes menuSlide {
@@ -377,10 +396,23 @@
   </script>
 
   <script>
-    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+    const path = window.location.pathname;
+    const normalized = path.endsWith("/") ? path.slice(0, -1) : path;
+    const lastSegment = normalized.split("/").pop();
+    const currentPage = lastSegment && lastSegment.includes(".") ? lastSegment : "index.html";
     document.querySelectorAll("#nav a").forEach(link => {
-      if (link.getAttribute("href") === currentPage) {
-        link.classList.add("active");
+      const isActive = link.getAttribute("href") === currentPage;
+      link.classList.toggle("active", isActive);
+      if (isActive) {
+        link.style.setProperty("color", "#0F0F0F", "important");
+        link.style.setProperty("border-bottom", "3px solid #0F0F0F", "important");
+        link.style.setProperty("padding-bottom", "4px", "important");
+        link.style.setProperty("text-shadow", "none", "important");
+      } else {
+        link.style.removeProperty("color");
+        link.style.removeProperty("border-bottom");
+        link.style.removeProperty("padding-bottom");
+        link.style.removeProperty("text-shadow");
       }
     });
   </script>
