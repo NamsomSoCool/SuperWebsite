@@ -34,6 +34,7 @@
       font-family: 'FuturaCustom', 'FCMittraphap', Arial, Helvetica, sans-serif;
       opacity: 1;
       animation: none;
+      padding-top: 80px;
     }
 
   header {
@@ -43,7 +44,16 @@
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     padding: 0 60px;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: transform .3s ease;
+  }
+
+  header.nav-hide {
+    transform: translateY(-100%);
   }
 
   .logo {
@@ -142,11 +152,16 @@
       display: flex;
       flex-direction: column;
       min-height: 360px;
-      animation: cardRise .7s ease forwards;
       opacity: 0;
       transition: transform .2s ease, box-shadow .2s ease;
       position: relative;
+      transform: translateY(8px) scale(0.98);
       --delay: 0.1s;
+    }
+
+    .project-card-link {
+      text-decoration: none;
+      color: inherit;
     }
 
     .project-card:nth-child(1) { --delay: .1s; animation-delay: var(--delay); }
@@ -167,8 +182,7 @@
       display: block;
       transition: transform .35s ease;
       opacity: 0;
-      animation: mediaReveal .7s ease forwards;
-      animation-delay: var(--delay);
+      transform: translateY(8px) scale(0.98);
     }
 
     .project-title {
@@ -178,13 +192,16 @@
     }
 
     .project-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+      transform: translateY(-4px) scale(1.015);
+      box-shadow:
+        0 24px 60px rgba(0,0,0,0.55),
+        0 0 30px rgba(255, 43, 79, 0.28);
     }
 
     .project-card:hover .project-media img {
       transform: scale(1.02);
     }
+
 
     .media-placeholder {
       display: grid;
@@ -204,8 +221,7 @@
       flex-direction: column;
       gap: 12px;
       opacity: 0;
-      animation: bodyFade .6s ease forwards;
-      animation-delay: calc(var(--delay) + 0.15s);
+      transform: translateY(8px) scale(0.98);
     }
 
     .project-title {
@@ -247,12 +263,12 @@
 
       main { padding: 40px 18px 80px; }
       .page-title { font-size: 3rem; }
-      .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .projects-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 480px) {
       .page-title { font-size: 2.4rem; }
-      .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .projects-grid { grid-template-columns: 1fr; }
     }
 
     @keyframes menuSlide {
@@ -279,14 +295,59 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes tagPop {
+      0% { opacity: 0; transform: translateY(8px) scale(0.9); }
+      60% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .project-card.card-animate {
+      animation: tagPop 0.7s cubic-bezier(.2,.8,.2,1) both;
+      animation-delay: var(--card-delay, 0s);
+    }
+
+    .project-card.card-animate .project-media img {
+      animation: tagPop 0.7s cubic-bezier(.2,.8,.2,1) both;
+      animation-delay: var(--media-delay, 0.08s);
+    }
+
+    .project-card.card-animate .card-body {
+      animation: tagPop 0.7s cubic-bezier(.2,.8,.2,1) both;
+      animation-delay: var(--body-delay, 0.16s);
+    }
+
+    .project-card.card-done {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .project-card.card-done .project-media img,
+    .project-card.card-done .card-body {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .project-card.card-done:hover {
+      transform: translateY(-4px) scale(1.015);
+      box-shadow:
+        0 24px 60px rgba(0,0,0,0.55),
+        0 0 30px rgba(255, 43, 79, 0.28);
+    }
+
+    .project-card.card-done:hover .project-media img {
+      transform: scale(1.02);
+    }
+
     @media (hover: none) {
-      .project-card:hover {
-        transform: none;
-        box-shadow: var(--shadow);
+      .project-card:active {
+        transform: translateY(-4px) scale(1.015);
+        box-shadow:
+          0 24px 60px rgba(0,0,0,0.55),
+          0 0 30px rgba(255, 43, 79, 0.28);
       }
 
-      .project-card:hover .project-media img {
-        transform: none;
+      .project-card:active .project-media img {
+        transform: scale(1.02);
       }
     }
 
@@ -328,64 +389,64 @@
     <h1 class="page-title">My Projects</h1>
 
     <section class="projects-grid">
-      <article class="project-card">
+      <a class="project-card project-card-link" href="ChillaxScraps.html" aria-label="Open ChillaxSCRAPS project page">
         <div class="project-media">
           <img src="assets/chillax1.png" alt="ChillaxSCRAPS">
         </div>
         <div class="card-body">
           <h2 class="project-title">ChillaxSCRAPS</h2>
         </div>
-      </article>
+      </a>
 
-      <article class="project-card">
+      <a class="project-card project-card-link" href="projectliminal.html" aria-label="Open Project Liminal page">
         <div class="project-media">
           <img src="assets/project linamal.png" alt="Project Liminal">
         </div>
         <div class="card-body">
           <h2 class="project-title">Project Liminal</h2>
         </div>
-      </article>
+      </a>
 
-      <article class="project-card">
+      <a class="project-card project-card-link" href="ChillaxYumYum.html" aria-label="Open Chillax Yum-Yum page">
         <div class="project-media">
           <img src="assets/chillaxyumyum.jpg" alt="Chillax Yum-Yum">
         </div>
         <div class="card-body">
           <h2 class="project-title">Chillax Yum-Yum</h2>
         </div>
-      </article>
+      </a>
 
-      <article class="project-card">
+      <a class="project-card project-card-link" href="CosmicYenJai.html" aria-label="Open Cosmic YenJai page">
         <div class="project-media">
           <img src="assets/yenjai.jpg" alt="Cosmic YenJai">
         </div>
         <div class="card-body">
           <h2 class="project-title">Cosmic YenJai</h2>
         </div>
-      </article>
+      </a>
 
-      <article class="project-card">
+      <a class="project-card project-card-link" href="GnomeSplash.html" aria-label="Open Gnome Splash page">
         <div class="project-media">
           <img src="assets/gnomesplash.png" alt="Placeholder 5">
         </div>
         <div class="card-body">
           <h2 class="project-title">Gnome Splash</h2>
         </div>
-      </article>
+      </a>
 
-      <article class="project-card" data-project="real-fps">
+      <a class="project-card project-card-link" href="RealFPS.html" data-project="real-fps" aria-label="Open Real FPS page">
         <div class="project-media">
           <img src="assets/realfps.png" alt="Real FPS">
         </div>
         <div class="card-body">
           <h2 class="project-title">Real FPS</h2>
         </div>
-      </article>
+      </a>
     </section>
   </main>
 
   <audio id="real-fps-audio" preload="auto">
-    <source src="assets/Trash Beat Trade Marked LMAO.wav" type="audio/wav">
+    <source src="assets/Trash Beat Trade Marked LMAO.ogg" type="audio/ogg">
   </audio>
 
   <script>
@@ -418,6 +479,35 @@
   </script>
 
   <script>
+    (() => {
+      const header = document.querySelector("header");
+      const nav = document.getElementById("nav");
+      if (!header) return;
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener("scroll", () => {
+        const currentY = window.scrollY;
+        if (nav && nav.classList.contains("active")) {
+          header.classList.remove("nav-hide");
+          lastScrollY = currentY;
+          return;
+        }
+        if (currentY <= 0) {
+          header.classList.remove("nav-hide");
+          lastScrollY = currentY;
+          return;
+        }
+        if (currentY > lastScrollY && currentY > 120) {
+          header.classList.add("nav-hide");
+        } else {
+          header.classList.remove("nav-hide");
+        }
+        lastScrollY = currentY;
+      }, { passive: true });
+    })();
+  </script>
+
+  <script>
     const realFpsCard = document.querySelector('[data-project="real-fps"]');
     const realFpsAudio = document.getElementById('real-fps-audio');
 
@@ -434,6 +524,34 @@
         realFpsAudio.currentTime = 0;
       });
     }
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const cards = document.querySelectorAll(".project-card");
+      if (!cards.length) return;
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const card = entry.target;
+          const index = Array.from(cards).indexOf(card);
+          const baseDelay = Math.max(0, index) * 0.08;
+          card.style.setProperty("--card-delay", `${baseDelay}s`);
+          card.style.setProperty("--media-delay", `${baseDelay + 0.08}s`);
+          card.style.setProperty("--body-delay", `${baseDelay + 0.16}s`);
+          card.classList.add("card-animate");
+          const finishDelay = baseDelay + 0.16 + 0.7 + 0.05;
+          window.setTimeout(() => {
+            card.classList.remove("card-animate");
+            card.classList.add("card-done");
+          }, finishDelay * 1000);
+          observer.unobserve(card);
+        });
+      }, { threshold: 0.35 });
+
+      cards.forEach(card => observer.observe(card));
+    });
   </script>
 </body>
 </html>

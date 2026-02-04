@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chillax Yum-Yum | Leon Joensen</title>
+  <link rel="icon" href="assets/chillaxbear.jpg" type="image/jpeg">
+
+  <style>
+    :root {
+      --red: #ff2b4f;
+      --black: #0f0f0f;
+      --panel: #2a2a2a;
+      --panel-soft: #333333;
+      --text: #f5f5f5;
+      --muted: #b7b7b7;
+      --shadow: 0 20px 60px rgba(0,0,0,0.5);
+      --radius: 16px;
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 32px;
+      --space-5: 48px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'FuturaCustom', 'FCMittraphap', Arial, Helvetica, sans-serif;
+      opacity: 1;
+      animation: none;
+      padding-top: 80px;
+    }
+
+    header {
+      height: 80px;
+      background: var(--red);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 60px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: transform .3s ease;
+    }
+
+    header.nav-hide {
+      transform: translateY(-100%);
+    }
+
+    .logo {
+      font-weight: 900;
+      font-size: 22px;
+      justify-self: start;
+    }
+
+    nav {
+      position: static;
+      transform: none;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      justify-self: center;
+      justify-content: center;
+      width: max-content;
+    }
+
+    nav a {
+      font-size: 22px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      transition: transform .2s ease, text-shadow .2s ease;
+    }
+
+    nav a:hover {
+      transform: scale(1.06);
+      text-shadow: 0 0 6px rgba(255,255,255,.7), 0 0 14px rgba(255,43,79,.8);
+    }
+
+    nav a.active,
+    nav a.active:hover {
+      color: #0F0F0F !important;
+      text-shadow: none;
+      border-bottom: 3px solid #0F0F0F;
+      padding-bottom: 4px;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      margin-left: 0;
+      justify-self: end;
+    }
+
+    .hamburger span {
+      width: 26px;
+      height: 3px;
+      background: white;
+      transition: transform .35s ease, opacity .25s ease;
+    }
+
+    .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px 120px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 36px;
+      align-items: center;
+      margin-bottom: 56px;
+    }
+
+    .back-link,
+    .footer-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 0;
+      background: none;
+      border: none;
+      transition: transform .2s ease, opacity .2s ease, text-shadow .2s ease;
+    }
+
+    .back-link {
+      margin-bottom: 18px;
+    }
+
+    .back-link:hover,
+    .footer-back:hover {
+      transform: translateX(-3px);
+      text-shadow: 0 0 10px rgba(255,255,255,0.4);
+      opacity: 0.95;
+    }
+
+    .back-link .label,
+    .footer-back .label {
+      box-shadow: inset 0 -2px 0 var(--red);
+      padding-bottom: 2px;
+    }
+
+    .kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: 72px;
+      line-height: 1.02;
+      margin-bottom: 16px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #e7e7e7;
+      margin-bottom: 20px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--panel-soft);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+
+    .cta.discord {
+      background: #5865f2;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(255,43,79,0.35);
+    }
+
+    .cta.discord:hover {
+      box-shadow: 0 10px 24px rgba(88,101,242,0.35);
+    }
+
+    .hero-media {
+      position: relative;
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-media img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+      transform: scale(1);
+      transition: transform .35s ease;
+    }
+
+    .hero-media:hover img {
+      transform: scale(1.02);
+    }
+
+    .section {
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel p {
+      line-height: 1.7;
+      color: #e8e8e8;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .stat {
+      background: var(--panel-soft);
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .list-item {
+      background: var(--panel-soft);
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      background: var(--panel);
+      border-radius: var(--radius);
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-back-row {
+      margin-top: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 0 24px; }
+
+      nav {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: var(--red);
+        flex-direction: column;
+        align-items: center;
+        display: none;
+        padding: 16px 0;
+        animation: menuSlide .35s ease forwards;
+        z-index: 5;
+        transform: none;
+      }
+
+      nav.active { display: flex; }
+      .hamburger {
+        display: flex;
+        position: absolute;
+        right: 24px;
+      }
+
+      .hero-title { font-size: 3rem; }
+      .gallery { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: 1fr; }
+      main { padding: 40px 18px 90px; }
+    }
+
+    @keyframes menuSlide {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @font-face {
+      font-family: 'FuturaCustom';
+      src: url('fonts/Futura.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'FCMittraphap';
+      src: url('fonts/FCMittraphap.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">LEON JOENSEN</div>
+
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <a class="back-link" href="projects.html"><span aria-hidden="true">&larr;</span><span class="label">Back to Projects</span></a>
+        <div class="kicker">Side Project</div>
+        <h1 class="hero-title">Chillax Yum-Yum</h1>
+        <p class="hero-subtitle">
+          A cozy cooking game prototype that feels like hanging with friends in the kitchen — a little chaotic,
+          a lot of laughs, and surprisingly tasty when it all comes together.
+        </p>
+
+        <div class="badge-row">
+          <span class="badge"><strong>Side</strong> project</span>
+          <span class="badge"><strong>In progress</strong></span>
+          <span class="badge"><strong>Unity</strong> prototype</span>
+        </div>
+
+        <div class="cta-row">
+          <a class="cta discord" href="https://discord.gg/pK4nZ29yQ5" target="_blank">Join the Discord</a>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <img src="assets/chillaxyumyum.jpg" alt="Chillax Yum-Yum key art">
+      </div>
+    </section>
+
+    <section class="section split">
+      <div class="panel">
+        <h2 class="section-title">Overview</h2>
+        <p>
+          Chillax Yum-Yum is a playful food game prototype built around timing, layering, and satisfying
+          feedback. It aims for that "friend kitchen" vibe — a little mess, shared reactions, and
+          big, goofy wins when the dish actually lands.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h2 class="section-title">Core Loop</h2>
+        <div class="list">
+          <div class="list-item">Prep ingredients by chopping, flipping, and seasoning.</div>
+          <div class="list-item">Assemble orders under time pressure with clean visual cues.</div>
+          <div class="list-item">Serve combos quickly to keep the kitchen streak alive.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">By the Numbers</h2>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="stat-label">Status</div>
+          <div class="stat-value">In Progress</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Focus</div>
+          <div class="stat-value">Timing</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Role</div>
+          <div class="stat-value">Designer</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Gallery</h2>
+      <div class="gallery">
+        <img src="assets/chillaxyumyum.jpg" alt="Chillax Yum-Yum screenshot 1">
+        <img src="assets/chillaxyumyum2.png" alt="Chillax Yum-Yum screenshot 2">
+      </div>
+    </section>
+
+    <section class="project-footer">
+      <div class="footer-note">Want updates, a playtest, or a taste-test build?</div>
+      <a class="cta" href="contact.html">Contact Me</a>
+    </section>
+    <div class="footer-back-row">
+      <a class="footer-back" href="projects.html"><span aria-hidden="true">&larr;</span><span class="label">Back to Projects</span></a>
+    </div>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('nav').classList.toggle('active');
+      document.getElementById('hamburger').classList.toggle('active');
+    }
+  </script>
+
+  <script>
+    const path = window.location.pathname;
+    const normalized = path.endsWith("/") ? path.slice(0, -1) : path;
+    const lastSegment = normalized.split("/").pop();
+    const currentPage = lastSegment && lastSegment.includes(".") ? lastSegment : "index.html";
+    document.querySelectorAll("#nav a").forEach(link => {
+      const isActive = link.getAttribute("href") === currentPage;
+      link.classList.toggle("active", isActive);
+      if (isActive) {
+        link.style.setProperty("color", "#0F0F0F", "important");
+        link.style.setProperty("border-bottom", "3px solid #0F0F0F", "important");
+        link.style.setProperty("padding-bottom", "4px", "important");
+        link.style.setProperty("text-shadow", "none", "important");
+      } else {
+        link.style.removeProperty("color");
+        link.style.removeProperty("border-bottom");
+        link.style.removeProperty("padding-bottom");
+        link.style.removeProperty("text-shadow");
+      }
+    });
+  </script>
+
+  <script>
+    (() => {
+      const header = document.querySelector("header");
+      const nav = document.getElementById("nav");
+      if (!header) return;
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener("scroll", () => {
+        const currentY = window.scrollY;
+        if (nav && nav.classList.contains("active")) {
+          header.classList.remove("nav-hide");
+          lastScrollY = currentY;
+          return;
+        }
+        if (currentY <= 0) {
+          header.classList.remove("nav-hide");
+          lastScrollY = currentY;
+          return;
+        }
+        if (currentY > lastScrollY && currentY > 120) {
+          header.classList.add("nav-hide");
+        } else {
+          header.classList.remove("nav-hide");
+        }
+        lastScrollY = currentY;
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>

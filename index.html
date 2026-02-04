@@ -28,6 +28,7 @@
             font-family: 'FuturaCustom', 'FCMittraphap', Arial, Helvetica, sans-serif;
             opacity: 1;
             animation: none;
+            padding-top: 80px;
         }
 
         /* HEADER */
@@ -38,7 +39,16 @@
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
             padding: 0 60px;
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: transform .3s ease;
+        }
+
+        header.nav-hide {
+            transform: translateY(-100%);
         }
 
         .logo {
@@ -235,12 +245,33 @@
             display: flex;
             flex-direction: column;
             position: relative;
+            opacity: 0;
+            transform: translateY(14px) scale(0.98);
         }
 
         .project-title {
             margin: 0 0 8px;
             font-size: 2rem;
             padding-right: 100px;
+        }
+
+        .project-title a {
+            color: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: transform .2s ease, text-shadow .2s ease;
+            transform-origin: left center;
+        }
+
+        .project-title a:hover,
+        .project-title a:focus-visible {
+            transform: scale(1.03);
+        }
+
+        .project-title a:hover .title-text,
+        .project-title a:focus-visible .title-text {
+            text-shadow: 0 0 8px rgba(255,255,255,0.35);
         }
 
         .highlight-lethal {
@@ -329,6 +360,11 @@
             font-weight: 700;
         }
 
+        .downloads-badge .stat-counter::after {
+            content: "+";
+            margin-left: 2px;
+        }
+
         .tag {
             background: #3a3a3a;
             border-radius: 999px;
@@ -365,6 +401,41 @@
             font-size: .8rem;
             margin-left: 8px;
             white-space: nowrap;
+        }
+
+        /* Tag animation */
+        .project-title .tag,
+        .project-title .tag-modding,
+        .project-title .tag-featured,
+        .project-title .tag-side {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transform-origin: left center;
+            box-shadow: 0 0 0 rgba(255,255,255,0);
+        }
+
+        .project-title .tag.tag-animate,
+        .project-title .tag-modding.tag-animate,
+        .project-title .tag-featured.tag-animate,
+        .project-title .tag-side.tag-animate {
+            animation: tagPop 0.7s cubic-bezier(.2,.8,.2,1) both;
+            animation-delay: var(--tag-delay, 0s);
+        }
+
+        .project-title .tag:hover,
+        .project-title .tag-modding:hover,
+        .project-title .tag-featured:hover,
+        .project-title .tag-side:hover {
+            animation: tagPulse 1.2s ease-in-out infinite;
+        }
+
+        .project-meta .rating-badge.meta-animate,
+        .project-meta .downloads-badge.meta-animate,
+        .project-meta .placeholder-badge.meta-animate,
+        .project-meta .placeholder-badge-green.meta-animate {
+            animation: tagPop 0.7s cubic-bezier(.2,.8,.2,1) both;
+            animation-delay: var(--meta-delay, 0.2s);
         }
 
         /* Gallery / lightbox */
@@ -428,6 +499,35 @@
             background: #5865f2;
             --glow-rgb: 88, 101, 242;
         }
+
+        /* Featured content reveal */
+        .featured-project .project-title,
+        .featured-project .impact-stat,
+        .featured-project p,
+        .featured-project .project-meta,
+        .featured-project .gallery,
+        .featured-project .video-wrap,
+        .featured-project .project-link,
+        .featured-project .project-icon {
+            opacity: 0;
+            transform: translateY(8px) scale(0.98);
+        }
+
+        .featured-project.content-animate .project-title,
+        .featured-project.content-animate .impact-stat,
+        .featured-project.content-animate p,
+        .featured-project.content-animate .project-meta,
+        .featured-project.content-animate .gallery,
+        .featured-project.content-animate .video-wrap,
+        .featured-project.content-animate .project-link,
+        .featured-project.content-animate .project-icon {
+            animation: tagPop 0.7s cubic-bezier(.2,.8,.2,1) both;
+            animation-delay: var(--content-delay, 0s);
+        }
+
+        .featured-project.content-animate {
+            animation: tagPop 0.7s cubic-bezier(.2,.8,.2,1) both;
+        }
         .lightbox {
             position: fixed;
             inset: 0;
@@ -478,8 +578,8 @@
             }
 
             .hero {
-                min-height: auto;
-                padding: 16px 0 12px;
+                min-height: 80vh;
+                padding: 24px 0 20px;
             }
 
             .hero-canvas {
@@ -499,8 +599,8 @@
             }
 
             .hero-image {
-                width: 92%;
-                max-width: 360px;
+                width: 100%;
+                max-width: none;
             }
 
             .icon-row {
@@ -514,8 +614,8 @@
             }
 
                 .icon-row img {
-                    width: 48px;
-                    height: 48px;
+                    width: 96px;
+                    height: 96px;
                 }
 
             .featured-title {
@@ -640,6 +740,18 @@
             to { transform: translateY(0) scale(1); opacity: 1; }
         }
 
+        @keyframes tagPop {
+            0% { opacity: 0; transform: translateY(8px) scale(0.9); }
+            60% { opacity: 1; transform: translateY(-2px) scale(1.06); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes tagPulse {
+            0% { box-shadow: 0 0 0 rgba(255,255,255,0); transform: translateY(0) scale(1); }
+            50% { box-shadow: 0 0 14px rgba(255,255,255,0.25); transform: translateY(-1px) scale(1.03); }
+            100% { box-shadow: 0 0 0 rgba(255,255,255,0); transform: translateY(0) scale(1); }
+        }
+
         @font-face {
             font-family: 'FuturaCustom';
             src: url('fonts/Futura.ttf') format('truetype');
@@ -710,6 +822,35 @@
                 link.style.removeProperty("text-shadow");
             }
         });
+    </script>
+
+    <script>
+        (() => {
+            const header = document.querySelector("header");
+            const nav = document.getElementById("nav");
+            if (!header) return;
+            let lastScrollY = window.scrollY;
+
+            window.addEventListener("scroll", () => {
+                const currentY = window.scrollY;
+                if (nav && nav.classList.contains("active")) {
+                    header.classList.remove("nav-hide");
+                    lastScrollY = currentY;
+                    return;
+                }
+                if (currentY <= 0) {
+                    header.classList.remove("nav-hide");
+                    lastScrollY = currentY;
+                    return;
+                }
+                if (currentY > lastScrollY && currentY > 120) {
+                    header.classList.add("nav-hide");
+                } else {
+                    header.classList.remove("nav-hide");
+                }
+                lastScrollY = currentY;
+            }, { passive: true });
+        })();
     </script>
 
 
@@ -794,6 +935,78 @@
                 });
             });
 
+            // Tag animation on first view
+            const titles = document.querySelectorAll('.project-title');
+            if (titles.length) {
+                const tagObserver = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const tag = entry.target;
+                            const title = tag.closest('.project-title');
+                            const tagsInTitle = title
+                                ? title.querySelectorAll('.tag, .tag-modding, .tag-featured, .tag-side')
+                                : [];
+                            tagsInTitle.forEach((t, i) => {
+                                t.style.setProperty('--tag-delay', `${i * 0.12}s`);
+                                t.classList.add('tag-animate');
+                            });
+                            tagObserver.unobserve(tag);
+                        }
+                    });
+                }, { threshold: 0.6 });
+
+                titles.forEach(title => {
+                    const firstTag = title.querySelector('.tag, .tag-modding, .tag-featured, .tag-side');
+                    if (firstTag) tagObserver.observe(firstTag);
+                });
+            }
+
+            const metaRows = document.querySelectorAll('.project-meta');
+            if (metaRows.length) {
+                const metaObserver = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const badge = entry.target;
+                            const row = badge.closest('.project-meta');
+                            const badges = row
+                                ? row.querySelectorAll('.rating-badge, .downloads-badge, .placeholder-badge, .placeholder-badge-green')
+                                : [];
+                            badges.forEach((b, i) => {
+                                b.style.setProperty('--meta-delay', `${0.2 + i * 0.12}s`);
+                                b.classList.add('meta-animate');
+                            });
+                            metaObserver.unobserve(badge);
+                        }
+                    });
+                }, { threshold: 0.6 });
+
+                metaRows.forEach(row => {
+                    const firstBadge = row.querySelector('.rating-badge, .downloads-badge, .placeholder-badge, .placeholder-badge-green');
+                    if (firstBadge) metaObserver.observe(firstBadge);
+                });
+            }
+
+            const featuredCards = document.querySelectorAll('.featured-project');
+            if (featuredCards.length) {
+                const contentObserver = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const card = entry.target;
+                            const items = card.querySelectorAll(
+                                '.project-icon, .project-title, .impact-stat, p, .project-meta, .gallery, .video-wrap, .project-link'
+                            );
+                            items.forEach((item, i) => {
+                                item.style.setProperty('--content-delay', `${i * 0.08}s`);
+                            });
+                            card.classList.add('content-animate');
+                            contentObserver.unobserve(card);
+                        }
+                    });
+                }, { threshold: 0.25 });
+
+                featuredCards.forEach(card => contentObserver.observe(card));
+            }
+
             // Hover-play removed: videos now play only via user controls.
         });
       </script>
@@ -866,8 +1079,8 @@
         <section class="all-featured-projects" id="featured-project">
 
             <div class="project-card featured-project">
-                <h3 class="project-title"><span class="title-text">ChillaxSCRAPS</span> <span class="tag tag-modding">Modding</span></h3>
-                <div class="impact-stat">700k+ Downloads</div>
+                <h3 class="project-title"><a href="ChillaxScraps.html"><span class="title-text">ChillaxSCRAPS</span></a> <span class="tag tag-modding">Modding</span></h3>
+                <div class="impact-stat">1 Million+ Downloads</div>
 
                 <p>
                     Chillax Scraps is a content-rich mod for <strong class="highlight-lethal">Lethal Company</strong> that adds
@@ -881,7 +1094,7 @@
                 <div class="project-meta">
                     <span class="rating-badge"><strong>Rating:</strong> <span class="stat-counter" data-target="36">0</span></span>
                     &nbsp;|&nbsp;
-                    <span class="downloads-badge"><strong>Downloads:</strong> <span class="stat-counter" data-target="704527">0</span></span>
+                    <span class="downloads-badge"><strong>Downloads:</strong> <span class="stat-counter" data-target="1134808">0</span></span>
                 </div>
 
                 <div class="project-footer">
@@ -904,7 +1117,7 @@
 
             <div class="project-card featured-project">
                 <img class="project-icon" src="unreal.png" alt="Unreal Engine">
-                <h3 class="project-title"><span class="title-text">Project Liminal</span> <span class="tag tag-featured">Game Project</span></h3>
+                <h3 class="project-title"><a href="projectliminal.html"><span class="title-text">Project Liminal</span></a> <span class="tag tag-featured">Game Project</span></h3>
                 <div class="impact-stat">FutureGames Project</div>
                 <p>
                     Project Liminal is a 2-player co-op puzzle game set in a liminal art gallery with horror elements and a surreal atmosphere.
@@ -942,7 +1155,7 @@
 
             <div class="project-card featured-project">
                 <img class="project-icon" src="unity logo.png" alt="Unity">
-                <h3 class="project-title"><span class="title-text">Chillax Yum-Yum</span> <span class="tag tag-side">Side Project</span></h3>
+                <h3 class="project-title"><a href="ChillaxYumYum.html"><span class="title-text">Chillax Yum-Yum</span></a> <span class="tag tag-side">Side Project</span></h3>
                 <div class="impact-stat">Upcomming Game</div>
 
                 <p>
@@ -974,7 +1187,7 @@
             </div>
 
             <div class="project-card featured-project">
-                <h3 class="project-title"><span class="title-text">Project Four</span> <span class="tag">Place Holder</span></h3>
+                <h3 class="project-title"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"><span class="title-text">Project Four</span></a> <span class="tag">Place Holder</span></h3>
                 <div class="impact-stat">Place Holder</div>
 
                 <p>
