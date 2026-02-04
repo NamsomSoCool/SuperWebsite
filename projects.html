@@ -681,26 +681,18 @@
       const cards = document.querySelectorAll(".project-card");
       if (!cards.length) return;
 
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          const card = entry.target;
-          const index = Array.from(cards).indexOf(card);
-          const baseDelay = Math.max(0, index) * 0.08;
-          card.style.setProperty("--card-delay", `${baseDelay}s`);
-          card.style.setProperty("--media-delay", `${baseDelay + 0.08}s`);
-          card.style.setProperty("--body-delay", `${baseDelay + 0.16}s`);
-          card.classList.add("card-animate");
-          const finishDelay = baseDelay + 0.16 + 0.7 + 0.05;
-          window.setTimeout(() => {
-            card.classList.remove("card-animate");
-            card.classList.add("card-done");
-          }, finishDelay * 1000);
-          observer.unobserve(card);
-        });
-      }, { threshold: 0.15, rootMargin: "0px 0px 15% 0px" });
-
-      cards.forEach(card => observer.observe(card));
+      cards.forEach((card, index) => {
+        const baseDelay = Math.max(0, index) * 0.08;
+        card.style.setProperty("--card-delay", `${baseDelay}s`);
+        card.style.setProperty("--media-delay", `${baseDelay + 0.08}s`);
+        card.style.setProperty("--body-delay", `${baseDelay + 0.16}s`);
+        card.classList.add("card-animate");
+        const finishDelay = baseDelay + 0.16 + 0.7 + 0.05;
+        window.setTimeout(() => {
+          card.classList.remove("card-animate");
+          card.classList.add("card-done");
+        }, finishDelay * 1000);
+      });
     });
   </script>
 </body>
