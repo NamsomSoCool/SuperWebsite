@@ -226,6 +226,7 @@
         .project-title {
             margin: 0 0 8px;
             font-size: 2rem;
+            padding-right: 100px;
         }
 
         .highlight-lethal {
@@ -234,6 +235,7 @@
             padding: 2px 6px;
             border-radius: 4px;
             font-size: 0.9em;
+            white-space: nowrap;
         }
 
         .featured-project .project-title .title-text {
@@ -318,6 +320,7 @@
             border-radius: 999px;
             padding: 6px 12px;
             font-size: 0.75rem;
+            white-space: nowrap;
         }
 
         .tag-modding {
@@ -327,6 +330,7 @@
             border-radius: 4px;
             font-size: .8rem;
             margin-left: 8px;
+            white-space: nowrap;
         }
 
         .tag-featured {
@@ -336,6 +340,7 @@
             border-radius: 4px;
             font-size: .8rem;
             margin-left: 8px;
+            white-space: nowrap;
         }
 
         .tag-side {
@@ -345,6 +350,7 @@
             border-radius: 4px;
             font-size: .8rem;
             margin-left: 8px;
+            white-space: nowrap;
         }
 
         /* Gallery / lightbox */
@@ -506,20 +512,48 @@
                 border-radius: 14px;
             }
 
+            .project-title {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+                padding-right: 0;
+            }
+
+            .project-title .tag,
+            .project-title .tag-modding,
+            .project-title .tag-featured,
+            .project-title .tag-side {
+                margin-left: 0;
+            }
+
+            .project-icon {
+                position: static;
+                width: 64px;
+                height: 64px;
+                margin: 0 auto 8px;
+                display: block;
+            }
+
             .impact-stat {
                 font-size: 1.9rem;
                 text-align: center;
             }
 
             .gallery {
-                grid-template-columns: 1fr;
-                gap: 12px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+                margin-bottom: 0;
             }
 
             .featured-video {
                 max-width: 100%;
-                margin-top: 16px;
+                margin-top: 4px;
                 border-radius: 12px;
+            }
+
+            .project-footer {
+                gap: 2px;
             }
 
             .project-meta,
@@ -950,6 +984,3 @@
 </body>
 
 </html>
-
-
-
