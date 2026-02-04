@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects | Leon Joensen</title>
+    <link rel="icon" href="assets/chillaxbear.jpg" type="image/jpeg">
 
   <style>
     :root {
@@ -133,6 +134,26 @@
     .page-title {
       text-align: center;
       font-size: 96px;
+      line-height: 1.1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 36px 40px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.55);
+      box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      transform: scale(0.92);
+      animation:
+        titlePop 0.7s cubic-bezier(.2,.8,.2,1) .1s forwards,
+        titleFloat 6s ease-in-out .9s infinite,
+        titleGlow 2.6s ease-in-out .9s infinite;
+    }
+
+    .page-title-wrap {
+      text-align: center;
       margin-bottom: 64px;
     }
 
@@ -157,6 +178,20 @@
       position: relative;
       transform: translateY(8px) scale(0.98);
       --delay: 0.1s;
+    }
+
+    .project-card::after {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      box-shadow:
+        0 0 20px rgba(255, 43, 79, 0.85),
+        0 0 60px rgba(255, 43, 79, 0.55),
+        0 0 120px rgba(255, 43, 79, 0.35);
     }
 
     .project-card-link {
@@ -198,6 +233,10 @@
         0 0 30px rgba(255, 43, 79, 0.28);
     }
 
+    .project-card:hover::after {
+      opacity: 1;
+    }
+
     .project-card:hover .project-media img {
       transform: scale(1.02);
     }
@@ -216,7 +255,8 @@
     }
 
     .card-body {
-      padding: 18px 18px 22px;
+      position: relative;
+      padding: 18px 96px 22px 18px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -224,10 +264,72 @@
       transform: translateY(8px) scale(0.98);
     }
 
+    .project-badge {
+      position: absolute;
+      right: 18px;
+      bottom: 6px;
+      width: 84px;
+      height: 84px;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      object-fit: contain;
+      display: block;
+    }
+
     .project-title {
       font-size: 1.2rem;
       line-height: 1.25;
       margin-top: 4px;
+    }
+
+    .tag {
+      background: #3a3a3a;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+    }
+
+    .tag-modding {
+      background: #4a90e2;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: .8rem;
+      white-space: nowrap;
+    }
+
+    .tag-featured {
+      background: var(--red);
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: .8rem;
+      white-space: nowrap;
+    }
+
+    .tag-side {
+      background: #8757C6;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: .8rem;
+      white-space: nowrap;
+    }
+
+    .tag-jam {
+      background: #FF28B5;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: .8rem;
+      white-space: nowrap;
     }
 
     @media (max-width: 1024px) {
@@ -262,12 +364,20 @@
       }
 
       main { padding: 40px 18px 80px; }
-      .page-title { font-size: 3rem; }
+      .page-title {
+        font-size: 3rem;
+        line-height: 1.1;
+        padding: 10px 24px;
+      }
       .projects-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 480px) {
-      .page-title { font-size: 2.4rem; }
+      .page-title {
+        font-size: 2.4rem;
+        line-height: 1.1;
+        padding: 8px 20px;
+      }
       .projects-grid { grid-template-columns: 1fr; }
     }
 
@@ -293,6 +403,32 @@
     @keyframes bodyFade {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes titleGlow {
+      0%, 100% {
+        box-shadow:
+          0 0 0 rgba(255, 255, 255, 0),
+          0 0 0 rgba(255, 255, 255, 0),
+          0 14px 32px rgba(0, 0, 0, 0.45);
+      }
+      50% {
+        box-shadow:
+          0 0 14px rgba(255, 255, 255, 0.42),
+          0 0 32px rgba(255, 255, 255, 0.34),
+          0 18px 44px rgba(0, 0, 0, 0.55);
+      }
+    }
+
+    @keyframes titleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    @keyframes titlePop {
+      0% { opacity: 0; transform: scale(0.92); }
+      70% { opacity: 1; transform: scale(1.02); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
     @keyframes tagPop {
@@ -386,7 +522,9 @@
   </header>
 
   <main>
-    <h1 class="page-title">My Projects</h1>
+    <div class="page-title-wrap">
+      <h1 class="page-title">My Projects</h1>
+    </div>
 
     <section class="projects-grid">
       <a class="project-card project-card-link" href="ChillaxScraps.html" aria-label="Open ChillaxSCRAPS project page">
@@ -395,6 +533,8 @@
         </div>
         <div class="card-body">
           <h2 class="project-title">ChillaxSCRAPS</h2>
+          <span class="tag tag-modding">Modding</span>
+          <img class="project-badge" src="unity logo.png" alt="Unity">
         </div>
       </a>
 
@@ -404,6 +544,8 @@
         </div>
         <div class="card-body">
           <h2 class="project-title">Project Liminal</h2>
+          <span class="tag tag-featured">Game Project</span>
+          <img class="project-badge" src="unreal.png" alt="Unreal Engine">
         </div>
       </a>
 
@@ -413,6 +555,8 @@
         </div>
         <div class="card-body">
           <h2 class="project-title">Chillax Yum-Yum</h2>
+          <span class="tag tag-side">Side Project</span>
+          <img class="project-badge" src="unity logo.png" alt="Unity">
         </div>
       </a>
 
@@ -422,6 +566,8 @@
         </div>
         <div class="card-body">
           <h2 class="project-title">Cosmic YenJai</h2>
+          <span class="tag tag-side">Side Project</span>
+          <img class="project-badge" src="unity logo.png" alt="Unity">
         </div>
       </a>
 
@@ -431,6 +577,8 @@
         </div>
         <div class="card-body">
           <h2 class="project-title">Gnome Splash</h2>
+          <span class="tag tag-featured">Game Project</span>
+          <img class="project-badge" src="unreal.png" alt="Unreal Engine">
         </div>
       </a>
 
@@ -440,6 +588,8 @@
         </div>
         <div class="card-body">
           <h2 class="project-title">Real FPS</h2>
+          <span class="tag tag-jam">Game Jam</span>
+          <img class="project-badge" src="unreal.png" alt="Unreal Engine">
         </div>
       </a>
     </section>

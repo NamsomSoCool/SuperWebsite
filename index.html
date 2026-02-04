@@ -203,12 +203,36 @@
 
         /* FEATURED */
         .featured-title {
-            margin-bottom: 32px;
-            display: flex;
+            margin: 0 auto 32px;
+            display: inline-flex;
             justify-content: center;
             align-items: center;
+            flex-wrap: wrap;
             gap: 12px;
             font-size: 64px;
+            line-height: 1.1;
+            padding: 10px 28px 18px;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.55);
+            box-shadow: 0 14px 32px rgba(0,0,0,0.45);
+            max-width: 100%;
+            opacity: 0;
+            transform: scale(0.92);
+        }
+
+        .featured-title.is-visible {
+            animation:
+                titlePop 0.7s cubic-bezier(.2,.8,.2,1) .1s forwards,
+                titleFloat 6s ease-in-out .9s infinite,
+                titleGlow 2.6s ease-in-out .9s infinite;
+        }
+
+        .featured-title-wrap {
+            text-align: center;
+            margin: 0 auto 32px;
+            max-width: 1400px;
+            padding: 0 24px;
         }
 
         .featured-badge {
@@ -358,11 +382,64 @@
             padding: 2px 8px;
             border-radius: 4px;
             font-weight: 700;
+            position: relative;
+            overflow: visible;
         }
 
         .downloads-badge .stat-counter::after {
             content: "+";
             margin-left: 2px;
+        }
+
+        .downloads-badge .stat-counter {
+            font-size: 1.15em;
+            letter-spacing: 0.02em;
+        }
+
+        .count-burst {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+
+        .downloads-badge.shake {
+            animation: tagShake 0.35s cubic-bezier(.2,.8,.2,1);
+            will-change: transform;
+        }
+
+        .project-meta .downloads-badge.meta-animate.shake {
+            animation: tagShake 0.35s cubic-bezier(.2,.8,.2,1);
+        }
+
+        .count-burst span {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fff;
+            opacity: 0;
+            box-shadow: 0 0 10px rgba(255,255,255,0.75), 0 0 20px rgba(255, 43, 79, 0.4);
+            animation: burst 1.4s cubic-bezier(.2,.8,.2,1) forwards;
+        }
+
+        @keyframes burst {
+            0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        }
+
+        @keyframes tagShake {
+            0% { transform: translateX(0) rotate(0deg); }
+            15% { transform: translateX(-6px) rotate(-2deg) scale(1.02); }
+            30% { transform: translateX(6px) rotate(2deg) scale(1.02); }
+            45% { transform: translateX(-5px) rotate(-2deg) scale(1.01); }
+            60% { transform: translateX(5px) rotate(2deg) scale(1.01); }
+            75% { transform: translateX(-3px) rotate(-1deg) scale(1.01); }
+            90% { transform: translateX(3px) rotate(1deg) scale(1.01); }
+            100% { transform: translateX(0) rotate(0deg) scale(1); }
         }
 
         .tag {
@@ -457,6 +534,10 @@
         .video-wrap {
             display: flex;
             justify-content: center;
+        }
+
+        .cosmic-gallery .square-thumb {
+            aspect-ratio: 1 / 1;
         }
 
         .featured-video {
@@ -619,9 +700,11 @@
                 }
 
             .featured-title {
-                font-size: 1.6rem;
+                font-size: 2.6rem;
                 text-align: center;
                 margin-top: 64px;
+                padding: 12px 24px 18px;
+                border-radius: 12px;
             }
 
             .featured-project {
@@ -720,7 +803,9 @@
 
         @media (max-width: 480px) {
             .featured-title {
-                font-size: 1.4rem;
+                font-size: 2.2rem;
+                padding: 10px 20px 16px;
+                border-radius: 10px;
             }
         }
 
@@ -733,6 +818,32 @@
         @keyframes heroReveal {
             from { opacity: 0; transform: translateY(24px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                box-shadow:
+                    0 0 0 rgba(255, 255, 255, 0),
+                    0 0 0 rgba(255, 255, 255, 0),
+                    0 14px 32px rgba(0,0,0,0.45);
+            }
+            50% {
+                box-shadow:
+                    0 0 14px rgba(255, 255, 255, 0.42),
+                    0 0 32px rgba(255, 255, 255, 0.34),
+                    0 18px 44px rgba(0,0,0,0.55);
+            }
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        @keyframes titlePop {
+            0% { opacity: 0; transform: scale(0.92); }
+            70% { opacity: 1; transform: scale(1.02); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         @keyframes iconReveal {
@@ -890,18 +1001,46 @@
             if (counters.length) {
                 const animateCounter = (counter) => {
                     const target = +counter.dataset.target;
-                    let count = 0;
-                    const step = Math.max(1, Math.floor(target / 120));
-                    const update = () => {
-                        count += step;
-                        if (count < target) {
-                            counter.textContent = Math.floor(count).toLocaleString();
+                    const duration = counter.classList.contains("download-counter") ? 3200 : 1200;
+                    const start = performance.now();
+                    const update = (now) => {
+                        const elapsed = now - start;
+                        const progress = Math.min(1, elapsed / duration);
+                        const value = Math.floor(target * progress);
+                        counter.textContent = value.toLocaleString();
+                        if (progress < 1) {
                             requestAnimationFrame(update);
                         } else {
                             counter.textContent = target.toLocaleString();
+                            if (counter.classList.contains("download-counter")) {
+                                const badge = counter.closest(".downloads-badge");
+                                if (badge && !badge.classList.contains("burst-done")) {
+                                    badge.classList.add("burst-done");
+                                    badge.classList.remove("meta-animate");
+                                    badge.classList.remove("shake");
+                                    void badge.offsetWidth;
+                                    badge.classList.add("shake");
+                                    const burst = document.createElement("div");
+                                    burst.className = "count-burst";
+                                    for (let i = 0; i < 24; i += 1) {
+                                        const dot = document.createElement("span");
+                                        const angle = (Math.PI * 2 * i) / 24;
+                                        const radius = 40 + (i % 4) * 16;
+                                        dot.style.setProperty("--x", `${Math.cos(angle) * radius}px`);
+                                        dot.style.setProperty("--y", `${Math.sin(angle) * radius}px`);
+                                        dot.style.background = i % 3 === 0 ? "#fff" : (i % 3 === 1 ? "#ffd6e8" : "#ff8fb3");
+                                        burst.appendChild(dot);
+                                    }
+                                    badge.appendChild(burst);
+                                    setTimeout(() => {
+                                        burst.remove();
+                                        badge.classList.remove("shake");
+                                    }, 1000);
+                                }
+                            }
                         }
                     };
-                    update();
+                    requestAnimationFrame(update);
                 };
 
                 const observer = new IntersectionObserver(entries => {
@@ -1034,26 +1173,57 @@
             const liminalVideo = document.getElementById("project-liminal-video");
             if (!liminalVideo) return;
 
+            liminalVideo.muted = false;
+            liminalVideo.volume = 1;
+
             let audioContext = null;
             let sourceNode = null;
             let gainNode = null;
 
             const setupGain = () => {
                 if (audioContext) return;
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                sourceNode = audioContext.createMediaElementSource(liminalVideo);
-                gainNode = audioContext.createGain();
-                gainNode.gain.value = 2;
-                sourceNode.connect(gainNode);
-                gainNode.connect(audioContext.destination);
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                try {
+                    audioContext = new AudioCtx();
+                    sourceNode = audioContext.createMediaElementSource(liminalVideo);
+                    gainNode = audioContext.createGain();
+                    gainNode.gain.value = 2;
+                    sourceNode.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                } catch (error) {
+                    audioContext = null;
+                }
             };
 
-            liminalVideo.addEventListener("play", () => {
+            const ensureAudio = () => {
                 setupGain();
                 if (audioContext && audioContext.state === "suspended") {
                     audioContext.resume().catch(() => {});
                 }
-            });
+            };
+
+            liminalVideo.addEventListener("play", ensureAudio);
+            liminalVideo.addEventListener("click", ensureAudio);
+            liminalVideo.addEventListener("pointerdown", ensureAudio);
+            liminalVideo.addEventListener("touchstart", ensureAudio, { passive: true });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const featuredTitle = document.querySelector(".featured-title");
+            if (!featuredTitle) return;
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                });
+            }, { threshold: 0.4 });
+
+            observer.observe(featuredTitle);
         });
     </script>
 
@@ -1073,12 +1243,15 @@
         </div>
     </section>
 
-        <h2 class="featured-title">
-            Featured Work <span class="featured-badge">FEATURED</span>
-        </h2>
+        <div class="featured-title-wrap">
+            <h2 class="featured-title">
+                Featured Work <span class="featured-badge">FEATURED</span>
+            </h2>
+        </div>
         <section class="all-featured-projects" id="featured-project">
 
             <div class="project-card featured-project">
+                <img class="project-icon" src="unity logo.png" alt="Unity">
                 <h3 class="project-title"><a href="ChillaxScraps.html"><span class="title-text">ChillaxSCRAPS</span></a> <span class="tag tag-modding">Modding</span></h3>
                 <div class="impact-stat">1 Million+ Downloads</div>
 
@@ -1094,7 +1267,7 @@
                 <div class="project-meta">
                     <span class="rating-badge"><strong>Rating:</strong> <span class="stat-counter" data-target="36">0</span></span>
                     &nbsp;|&nbsp;
-                    <span class="downloads-badge"><strong>Downloads:</strong> <span class="stat-counter" data-target="1134808">0</span></span>
+                    <span class="downloads-badge"><strong>Downloads:</strong> <span class="stat-counter download-counter" data-target="1134808">0</span></span>
                 </div>
 
                 <div class="project-footer">
@@ -1104,7 +1277,7 @@
                     </div>
 
                     <div class="video-wrap">
-                        <video class="featured-video" controls playsinline preload="metadata">
+                        <video class="featured-video" controls playsinline preload="metadata" poster="assets/chillaxposter.png">
                             <source src="assets/chillax_video.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
@@ -1142,7 +1315,7 @@
                     </div>
 
                     <div class="video-wrap">
-                        <video class="featured-video" id="project-liminal-video" controls playsinline preload="metadata">
+                        <video class="featured-video" id="project-liminal-video" controls playsinline preload="metadata" poster="assets/project linamalposter.png">
                             <source src="assets/Trailer1.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
@@ -1156,7 +1329,7 @@
             <div class="project-card featured-project">
                 <img class="project-icon" src="unity logo.png" alt="Unity">
                 <h3 class="project-title"><a href="ChillaxYumYum.html"><span class="title-text">Chillax Yum-Yum</span></a> <span class="tag tag-side">Side Project</span></h3>
-                <div class="impact-stat">Upcomming Game</div>
+                <div class="impact-stat">Upcoming Game</div>
 
                 <p>
                     ตีหนึ่งที่ชิวแลค คิดถึงปุ๊กอีกแล้ว<br>
@@ -1187,34 +1360,34 @@
             </div>
 
             <div class="project-card featured-project">
-                <h3 class="project-title"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank"><span class="title-text">Project Four</span></a> <span class="tag">Place Holder</span></h3>
-                <div class="impact-stat">Place Holder</div>
+                <img class="project-icon" src="unity logo.png" alt="Unity">
+                <h3 class="project-title"><a href="CosmicYenJai.html"><span class="title-text">Cosmic YenJai</span></a> <span class="tag tag-side">Side Project</span></h3>
+                <div class="impact-stat">Expanded Ideas</div>
 
                 <p>
-                    Shimmy shimmy yay, shimmy yay, shimmy ya (Drank)<br>
-                    Swalla-la-la (Drank)<br>
-                    Swalla-la-la (Swalla-la-la)<br>
-                    Swalla-la-la
+                    Cosmic YenJai is a fast-paced bullet-hell set in deep space where you play as the Cosmic Clown.
+                    Dodge chaotic patterns, blast through swarms, and survive the cosmic madness.
                 </p>
 
                 <div class="project-meta">
-                    <span class="rating-badge placeholder-badge">Place Holder</span>
+                    <span class="rating-badge">Role: Game Designer/Artist</span>
                 </div>
 
                 <div class="project-footer">
-                    <div class="gallery">
-                        <img loading="lazy" src="assets/chillaxbear.jpg" alt="Project Four screenshot 1">
-                        <img loading="lazy" src="assets/lock in.png" alt="Project Four screenshot 2">
+                    <div class="gallery cosmic-gallery">
+                        <img loading="lazy" src="assets/yenjai.jpg" alt="Cosmic YenJai artwork 1">
+                        <img class="square-thumb" loading="lazy" src="assets/image.png" alt="Cosmic YenJai artwork 2">
                     </div>
 
                     <div class="video-wrap">
-                        <video class="featured-video video-16x9" controls playsinline preload="metadata">
-                            <source src="assets/4video.mp4" type="video/mp4">
+                        <video class="featured-video video-16x9" controls playsinline preload="metadata" poster="assets/Ttitle_Screen_concept.png">
+                            <source src="assets/EZ.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
+
                     <p>
-                        <a class="project-link thunderstore-link" target="_blank" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Place Holder -></a>
+                        <a class="project-link" href="CosmicYenJai.html">View Project -></a>
                     </p>
                 </div>
             </div>
@@ -1223,3 +1396,4 @@
 </body>
 
 </html>
+
