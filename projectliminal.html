@@ -606,6 +606,31 @@
 
   <script>
     (() => {
+      const backLinks = document.querySelectorAll(".back-link, .footer-back");
+      if (!backLinks.length) return;
+
+      const referrer = document.referrer;
+      let target = "projects.html";
+
+      if (referrer) {
+        try {
+          const refUrl = new URL(referrer, window.location.href);
+          const sameOrigin = refUrl.origin === window.location.origin;
+          const samePage = refUrl.href === window.location.href;
+          if (sameOrigin && !samePage) {
+            target = refUrl.href;
+          }
+        } catch (error) {
+          // Keep fallback.
+        }
+      }
+
+      backLinks.forEach(link => link.setAttribute("href", target));
+    })();
+  </script>
+
+  <script>
+    (() => {
       const header = document.querySelector("header");
       const nav = document.getElementById("nav");
       if (!header) return;
