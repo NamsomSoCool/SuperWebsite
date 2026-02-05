@@ -1262,7 +1262,7 @@
                 Featured Work <span class="featured-badge">FEATURED</span>
             </h2>
         </div>
-        <section class="all-featured-projects" id="featured-project">
+    <section class="all-featured-projects" id="featured-project">
 
             <div class="project-card featured-project">
                 <img class="project-icon" src="unity logo.png" alt="Unity">
@@ -1407,6 +1407,26 @@
             </div>
 
         </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const featuredSection = document.getElementById("featured-project");
+            if (!featuredSection) return;
+            const projectLinks = featuredSection.querySelectorAll('a[href$=".html"]');
+            if (!projectLinks.length) return;
+
+            projectLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                    try {
+                        sessionStorage.setItem("portfolioBackTarget", "index.html#featured-project");
+                        sessionStorage.setItem("portfolioBackLabel", "Back to Featured Work");
+                    } catch (error) {
+                        // Ignore storage failures.
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -20,6 +20,12 @@
       if (sameOriginReferrer && !samePage) {
         target = refUrl.href;
         useFallback = false;
+        const refPath = refUrl.pathname;
+        if (refPath.endsWith("projects.html")) {
+          label = "Back to Projects";
+        } else if (refPath.endsWith("index.html") || refPath.endsWith("/")) {
+          label = "Back to Featured Work";
+        }
       }
     } catch (error) {
       // Keep fallback.
