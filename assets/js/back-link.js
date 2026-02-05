@@ -9,21 +9,38 @@
   const referrer = document.referrer;
   let refUrl = null;
   let useHistoryBack = false;
+  const isFileProtocol = window.location.protocol === "file:";
+  let sameOriginReferrer = false;
 
   if (referrer) {
     try {
       refUrl = new URL(referrer, window.location.href);
-      const sameOrigin = refUrl.origin === window.location.origin;
+      sameOriginReferrer = refUrl.origin === window.location.origin;
       const samePage = refUrl.href === window.location.href;
-      if (sameOrigin && !samePage) {
+      if (sameOriginReferrer && !samePage) {
         target = refUrl.href;
         useFallback = false;
-        useHistoryBack = window.history.length > 1;
       }
     } catch (error) {
       // Keep fallback.
     }
   }
+
+  if (useFallback) {
+    try {
+      const storedTarget = sessionStorage.getItem("portfolioBackTarget");
+      const storedLabel = sessionStorage.getItem("portfolioBackLabel");
+      if (storedTarget) {
+        target = storedTarget;
+        label = storedLabel || label;
+        useFallback = false;
+      }
+    } catch (error) {
+      // Keep fallback.
+    }
+  }
+
+  useHistoryBack = window.history.length > 1 && (sameOriginReferrer || isFileProtocol);
 
   if (useFallback) {
     target = "index.html#featured-project";
@@ -38,15 +55,30 @@
     }
   });
 
-  if (useHistoryBack && refUrl) {
+  if (useHistoryBack) {
     backLinks.forEach(link => {
       link.addEventListener("click", event => {
         if (event.defaultPrevented) return;
         if (event.button !== 0) return;
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
+        const currentHref = window.location.href;
         window.history.back();
+        window.setTimeout(() => {
+          if (window.location.href === currentHref) {
+            window.location.href = target;
+          }
+        }, 220);
       });
     });
+  }
+
+  if (!useFallback) {
+    try {
+      sessionStorage.removeItem("portfolioBackTarget");
+      sessionStorage.removeItem("portfolioBackLabel");
+    } catch (error) {
+      // No-op.
+    }
   }
 })();

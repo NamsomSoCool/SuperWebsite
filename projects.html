@@ -695,5 +695,23 @@
       });
     });
   </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const projectLinks = document.querySelectorAll(".project-card-link");
+      if (!projectLinks.length) return;
+
+      projectLinks.forEach(link => {
+        link.addEventListener("click", () => {
+          try {
+            sessionStorage.setItem("portfolioBackTarget", "projects.html");
+            sessionStorage.setItem("portfolioBackLabel", "Back to Projects");
+          } catch (error) {
+            // Ignore storage failures.
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
