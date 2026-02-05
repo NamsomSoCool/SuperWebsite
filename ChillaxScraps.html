@@ -125,9 +125,15 @@
     .hero {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
-      gap: 28px;
+      gap: 36px;
       align-items: center;
-      margin-bottom: 40px;
+      margin-bottom: 56px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      align-self: start;
     }
 
     .back-link,
@@ -175,37 +181,51 @@
       margin-bottom: 10px;
     }
 
+    .kicker-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background: #4a90e2;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-size: 0.85rem;
+    }
+
     .hero-title {
-      font-size: 64px;
-      line-height: 1.04;
-      margin-bottom: 12px;
+      font-size: 72px;
+      line-height: 1.02;
+      margin-bottom: 16px;
     }
 
     .hero-subtitle {
-      font-size: 1.05rem;
-      line-height: 1.6;
+      font-size: 1.1rem;
+      line-height: 1.7;
       color: #e7e7e7;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
 
     .badge-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 24px;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: transparent;
+      background: var(--panel-soft);
       color: #fff;
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 5px 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 6px 12px;
       border-radius: 999px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
     }
 
     .badge strong {
@@ -272,7 +292,7 @@
     }
 
     .section {
-      margin-bottom: 40px;
+      margin-bottom: 56px;
     }
 
     .section-title {
@@ -472,9 +492,9 @@
 
   <main>
     <section class="hero">
-      <div>
+      <div class="hero-content">
         <a class="back-link" href="projects.html"><span aria-hidden="true">&larr;</span><span class="label">Back to Projects</span></a>
-        <div class="kicker">Mod Project</div>
+        <div class="kicker"><span class="kicker-pill">Modding</span></div>
         <h1 class="hero-title">ChillaxSCRAPS</h1>
         <p class="hero-subtitle">
           A co-op Lethal Company mod that turns small scrap into big moments.

@@ -130,6 +130,12 @@
       margin-bottom: 56px;
     }
 
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      align-self: start;
+    }
+
     .back-link,
     .footer-back {
       display: inline-flex;
@@ -167,6 +173,24 @@
       color: var(--muted);
       font-size: 0.7rem;
       margin-bottom: 10px;
+    }
+
+    .kicker-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background: #4a90e2;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-size: 0.85rem;
+    }
+
+    .kicker-pill.featured {
+      background: var(--red);
     }
 
     .hero-title {
@@ -461,9 +485,9 @@
 
   <main>
     <section class="hero">
-      <div>
+      <div class="hero-content">
         <a class="back-link" href="projects.html"><span aria-hidden="true">&larr;</span><span class="label">Back to Projects</span></a>
-        <div class="kicker">Co-op Puzzle</div>
+        <div class="kicker"><span class="kicker-pill featured">Game Project</span></div>
         <h1 class="hero-title">Project Liminal</h1>
         <p class="hero-subtitle">
           A two-player co-op puzzle game set inside a liminal art gallery where each player sees a different
