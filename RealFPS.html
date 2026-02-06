@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REAL FPS (For Unreal) | Leon Joensen</title>
+  <link rel="icon" href="assets/chillaxbear.jpg" type="image/jpeg">
+
+  <style>
+    :root {
+      --red: #ff2b4f;
+      --black: #0f0f0f;
+      --panel: #2a2a2a;
+      --panel-soft: #333333;
+      --text: #f5f5f5;
+      --muted: #b7b7b7;
+      --shadow: 0 20px 60px rgba(0,0,0,0.5);
+      --radius: 16px;
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 32px;
+      --space-5: 48px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'FuturaCustom', 'FCMittraphap', Arial, Helvetica, sans-serif;
+      opacity: 1;
+      animation: none;
+      padding-top: 80px;
+    }
+
+    header {
+      height: 80px;
+      background: var(--red);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 60px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: transform .3s ease;
+    }
+
+    header.nav-hide {
+      transform: translateY(-100%);
+    }
+
+    .logo {
+      font-weight: 900;
+      font-size: 22px;
+      justify-self: start;
+    }
+
+    nav {
+      position: static;
+      transform: none;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      justify-self: center;
+      justify-content: center;
+      width: max-content;
+    }
+
+    nav a {
+      font-size: 22px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      transition: transform .2s ease, text-shadow .2s ease;
+    }
+
+    nav a:hover {
+      transform: scale(1.06);
+      text-shadow: 0 0 6px rgba(255,255,255,.7), 0 0 14px rgba(255,43,79,.8);
+    }
+
+    nav a.active,
+    nav a.active:hover {
+      color: #0F0F0F !important;
+      text-shadow: none;
+      border-bottom: 3px solid #0F0F0F;
+      padding-bottom: 4px;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      margin-left: 0;
+      justify-self: end;
+    }
+
+    .hamburger span {
+      width: 26px;
+      height: 3px;
+      background: white;
+      transition: transform .35s ease, opacity .25s ease;
+    }
+
+    .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px 120px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 36px;
+      align-items: center;
+      margin-bottom: 56px;
+    }
+
+    .hero-card {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      background: var(--panel);
+      border-radius: var(--radius);
+      border: 2px solid rgba(255,255,255,0.08);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      align-self: start;
+    }
+
+    .back-link,
+    .footer-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 0;
+      background: none;
+      border: none;
+      transition: transform .2s ease, opacity .2s ease, text-shadow .2s ease;
+    }
+
+    .back-link {
+      margin-bottom: 18px;
+    }
+
+    .back-link:hover,
+    .footer-back:hover {
+      transform: translateX(-3px);
+      text-shadow: 0 0 10px rgba(255,255,255,0.4);
+      opacity: 0.95;
+    }
+
+    .back-link .label,
+    .footer-back .label {
+      box-shadow: inset 0 -2px 0 var(--red);
+      padding-bottom: 2px;
+    }
+
+    .kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin-bottom: 10px;
+    }
+
+    .kicker-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background: #4a90e2;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-size: 0.85rem;
+    }
+
+    .kicker-pill.jam {
+      background: #FF28B5;
+    }
+
+    .hero-title {
+      font-size: 72px;
+      line-height: 1.02;
+      margin-bottom: 16px;
+    }
+
+    .nowrap {
+      white-space: nowrap;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #e7e7e7;
+      margin-bottom: 20px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--panel-soft);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+
+    .cta.itch {
+      background: #fa5c5c;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(255,43,79,0.35);
+    }
+
+    .cta.itch:hover {
+      box-shadow: 0 10px 24px rgba(250,92,92,0.35);
+    }
+
+    .hero-media {
+      position: relative;
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-media img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+      transform: scale(1);
+      transition: transform .35s ease;
+    }
+
+    .hero-media:hover img {
+      transform: scale(1.02);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--panel-soft);
+      color: #fff;
+      font-size: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .hero-note {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .section {
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .section-head {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 65ch;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .split-alt {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .step-card {
+      background: var(--panel);
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .step-num {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .step-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .step-card p {
+      color: #e6e6e6;
+      line-height: 1.6;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .gameplay-panel .list {
+      display: grid;
+      gap: 8px;
+      flex: 1;
+      grid-auto-rows: 1fr;
+    }
+
+    .gameplay-panel .list-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      font-size: clamp(0.9rem, 1.05vw, 1.02rem);
+      line-height: 1.5;
+    }
+
+    .gameplay-panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .controls-box {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(15,15,15,0.55);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .controls-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #ffd7ea;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .callout {
+      margin-top: 20px;
+    }
+
+    .panel p {
+      line-height: 1.7;
+      color: #e8e8e8;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .stat {
+      background: var(--panel-soft);
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .list-item {
+      background: var(--panel-soft);
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sound-panel {
+      background: linear-gradient(135deg, #2b1d28, #2a2a2a);
+      border-color: rgba(255,40,181,0.35);
+    }
+
+    .audio-title {
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: #0b0b0b;
+      color: #fff;
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: 0.02em;
+      box-shadow: 0 0 18px rgba(255,255,255,0.2);
+      text-transform: none;
+      justify-content: center;
+      text-decoration: underline;
+      text-underline-offset: 6px;
+    }
+
+    .audio-title span {
+      display: inline-block;
+      transform: translateY(-4px);
+    }
+
+    .audio-title-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+
+
+    .audio-player {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+      padding: 16px 18px;
+      border-radius: 28px;
+      background: #1b0f14;
+      border: 2px solid var(--red);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    }
+
+    .audio-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 4px;
+    }
+
+    .audio-btn {
+      border: 2px solid var(--red);
+      background: transparent;
+      color: var(--red);
+      cursor: pointer;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .audio-btn {
+      width: 54px;
+      height: 54px;
+      background: rgba(255,43,79,0.12);
+    }
+
+    .audio-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(255,43,79,0.35);
+    }
+
+    .audio-progress-row {
+      display: grid;
+      gap: 8px;
+    }
+
+    .audio-progress {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 999px;
+      appearance: none;
+      outline: none;
+    }
+
+    .audio-progress::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 2px solid rgba(255,255,255,0.2);
+      box-shadow: 0 0 0 4px rgba(255,43,79,0.2);
+      cursor: pointer;
+    }
+
+    .audio-progress::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 2px solid rgba(255,255,255,0.2);
+      box-shadow: 0 0 0 4px rgba(255,43,79,0.2);
+      cursor: pointer;
+    }
+
+    .audio-progress::-moz-range-track {
+      height: 6px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 999px;
+    }
+
+
+    .audio-icon {
+      font-size: 1.2rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .audio-track-title {
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      color: #ffd7ea;
+      flex: 1;
+    }
+
+
+    .audio-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .audio-volume {
+      width: 120px;
+      accent-color: var(--red);
+    }
+
+
+
+    .sound-quote {
+      margin-top: 16px;
+      padding-left: 14px;
+      border-left: 4px solid #FF28B5;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .comment-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: center;
+      background: #2f2f33;
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-top: 18px;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.35);
+      border: 2px solid rgba(255,255,255,0.08);
+    }
+
+    .comment-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.15);
+    }
+
+    .comment-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+    }
+
+    .comment-name {
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .comment-text {
+      color: #e6e6e6;
+      font-size: 1.05rem;
+      margin-top: 4px;
+    }
+
+    .comment-thread {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .comment-entry.reply {
+      margin-left: 56px;
+      border-radius: 16px;
+      background: #2a2a30;
+      position: relative;
+    }
+
+    .comment-entry.reply::before {
+      content: "";
+      position: absolute;
+      left: -22px;
+      top: 28px;
+      width: 18px;
+      height: 2px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .comment-entry.reply::after {
+      content: "";
+      position: absolute;
+      left: -22px;
+      top: 0;
+      width: 2px;
+      height: 28px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .comment-entry {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: center;
+      background: #2f2f33;
+      border-radius: 18px;
+      padding: 18px 20px;
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.35);
+    }
+
+    .comment-vote {
+      display: none;
+    }
+
+    .comment-avatar.small {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+    }
+
+    .comment-meta-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.05rem;
+      color: #fff;
+    }
+
+    .comment-role {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .comment-user {
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+
+    .comment-body {
+      display: grid;
+      gap: 6px;
+    }
+
+    .comment-message {
+      color: #eaeaea;
+      font-size: 1.05rem;
+    }
+
+    .comment-actions {
+      display: none;
+    }
+
+    .fact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .fact-card h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      background: var(--panel);
+      border-radius: var(--radius);
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-back-row {
+      margin-top: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .split-alt {
+        grid-template-columns: 1fr;
+      }
+
+      .step-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .fact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 0 24px; }
+
+      nav {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: var(--red);
+        flex-direction: column;
+        align-items: center;
+        display: none;
+        padding: 16px 0;
+        animation: menuSlide .35s ease forwards;
+        z-index: 5;
+        transform: none;
+      }
+
+      nav.active { display: flex; }
+      .hamburger {
+        display: flex;
+        position: absolute;
+        right: 24px;
+      }
+
+      .hero-title { font-size: 3rem; }
+      .step-grid { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: 1fr; }
+      main { padding: 40px 18px 90px; }
+    }
+
+    @keyframes menuSlide {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @font-face {
+      font-family: 'FuturaCustom';
+      src: url('fonts/Futura.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'FCMittraphap';
+      src: url('fonts/FCMittraphap.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">LEON JOENSEN</div>
+
+    <nav id="nav">
+      <a href="index.html">Home</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <a class="back-link" href="projects.html"><span aria-hidden="true">&larr;</span><span class="label">Back to Projects</span></a>
+        <div class="kicker"><span class="kicker-pill jam">Game Jam</span></div>
+        <h1 class="hero-title">REAL FPS <span class="nowrap">(For Unreal)</span></h1>
+        <p class="hero-subtitle">
+          A 3-day jam FPS where you play as the UE4 mannequin fighting UE5 mannequins.
+          Clear a level, then choose a graphics downgrade that trades visuals for performance.
+          It is an anti-roguelite: the game gets worse on purpose, and you pick the tradeoff.
+        </p>
+
+        <div class="badge-row">
+          <span class="badge"><strong>3-day</strong> jam</span>
+          <span class="badge"><strong>UE4 vs UE5</strong> duel</span>
+          <span class="badge"><strong>Original</strong> soundtrack</span>
+        </div>
+
+        <div class="cta-row">
+          <a class="cta itch" href="https://enduvy.itch.io/real-fpsfor-unreal" target="_blank">Try on Itch</a>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <div class="hero-media">
+          <img src="assets/realfps.png" alt="Real FPS key art">
+        </div>
+        <div class="hero-meta">
+          <span class="chip">Unreal</span>
+          <span class="chip">Windows</span>
+          <span class="chip">Sound Design</span>
+        </div>
+        <p class="hero-note">Progression is a sacrifice: downgrade visuals to chase performance.</p>
+      </aside>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">By the Numbers</h2>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="stat-label">Jam</div>
+          <div class="stat-value">3 Days</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Engine</div>
+          <div class="stat-value">Unreal</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Role</div>
+          <div class="stat-value">Sound Design / Music</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">Anti-Roguelite Loop</h2>
+        <p class="section-subtitle">
+          Progression by sacrifice: trade visuals for speed and decide which downgrade you can live with.
+        </p>
+      </div>
+      <div class="step-grid">
+        <div class="step-card">
+          <span class="step-num">Step 01</span>
+          <h3>Clear the arena</h3>
+          <p>Drop UE5 mannequins as the UE4 mannequin in short, readable rooms.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">Step 02</span>
+          <h3>Choose the downgrade</h3>
+          <p>Pick a graphics setting to reduce. The game gets worse on purpose.</p>
+        </div>
+      </div>
+      <div class="panel callout">
+        <p>
+          Real FPS is a fast prototype built around a simple loop: drop UE5 mannequins as the UE4 mannequin,
+          clear a level, then choose a graphics setting to reduce. Each downgrade trades visual fidelity
+          for speed, so progression is a constant tradeoff between looks and performance.
+        </p>
+      </div>
+    </section>
+
+    <section class="section split-alt">
+      <div class="panel gameplay-panel">
+        <h2 class="section-title">Gameplay Stack</h2>
+        <div class="list">
+          <div class="list-item">UE4 mannequin vs UE5 mannequins in compact, readable arenas.</div>
+          <div class="list-item">Post-level downgrade choice that trades visuals for performance.</div>
+          <div class="list-item">Anti-roguelite progression where the game degrades by design.</div>
+          <div class="list-item">Inverted aiming/shooting as a playful jam constraint.</div>
+        </div>
+        <div class="controls-box">
+          <div class="controls-title">Controls</div>
+          <div class="controls-grid">
+            <div><strong>R</strong> = Reload</div>
+            <div><strong>G</strong> = Drop weapon</div>
+            <div><strong>1 / 2</strong> = Swap weapon</div>
+            <div><strong>Ctrl</strong> = Crouch</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel sound-panel">
+        <h2 class="section-title">Soundtrack Spotlight</h2>
+        <p>
+          I spent most of my time learning FL Studio and music theory, creating a main-menu rap and an
+          in-game soundtrack that players described as a "Holy Banger."
+        </p>
+        <div class="audio-title-wrap">
+          <div class="audio-title">
+            <span>The "Holy Banger" in questioned</span>
+          </div>
+        </div>
+        <div class="audio-player" data-audio-player>
+          <div class="audio-buttons">
+            <button class="audio-btn" type="button" data-audio-toggle aria-label="Play or pause">
+              <span class="audio-icon" data-audio-icon>&#x25B6;</span>
+            </button>
+          </div>
+          <div class="audio-progress-row">
+            <input class="audio-progress" type="range" min="0" max="100" value="0" step="0.1" data-audio-progress>
+          </div>
+          <div class="audio-bottom-row">
+            <div class="audio-track-title">Real FPS Rap.wav</div>
+            <input class="audio-volume" type="range" min="0" max="1" value="0.8" step="0.01" data-audio-volume aria-label="Volume">
+          </div>
+          <audio src="assets/RealFPS_Rap.wav" preload="metadata" data-audio-source></audio>
+        </div>
+        <div class="comment-card" aria-label="Listener comment">
+          <img class="comment-avatar" src="assets/domas.avif" alt="Domas Prokofjovas avatar">
+          <div>
+            <div class="comment-meta">
+              <span class="comment-name">Domas Prokofjovas</span>
+            </div>
+            <div class="comment-text">holy banger rap &#x1F525;&#x1F525;&#x1F525;</div>
+          </div>
+        </div>
+
+        <div class="comment-thread" aria-label="Additional comments">
+          <div class="comment-entry">
+            <img class="comment-avatar small" src="assets/HarryHeath.jfif" alt="cozyharry avatar">
+            <div class="comment-body">
+              <div class="comment-meta-line">
+                <span class="comment-user">cozyharry</span>
+              </div>
+              <div class="comment-message">What was thattt Rap! AHAHA</div>
+            </div>
+          </div>
+
+          <div class="comment-entry reply">
+            <img class="comment-avatar small" src="assets/idk.jpg" alt="Namsom avatar">
+            <div class="comment-body">
+              <div class="comment-meta-line">
+                <span class="comment-user">Namsom (Me)</span>
+                <span class="comment-role">replied</span>
+              </div>
+              <div class="comment-message">That was me zawg.</div>
+            </div>
+          </div>
+
+          <div class="comment-entry">
+            <img class="comment-avatar small" src="assets/marktanakorn.jfif" alt="Mark Tanakorn avatar">
+            <div class="comment-body">
+              <div class="comment-meta-line">
+                <span class="comment-user">Mark Tanakorn</span>
+              </div>
+              <div class="comment-message">And they say Mozart is dead</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Gallery</h2>
+      <div class="gallery">
+        <img src="assets/realfps.png" alt="Real FPS screenshot 1">
+        <img src="assets/realfps.png" alt="Real FPS screenshot 2">
+      </div>
+    </section>
+
+    <section class="project-footer">
+      <div class="footer-note">Want the build or a breakdown of the anti-roguelite loop?</div>
+      <a class="cta" href="contact.html">Contact Me</a>
+    </section>
+    <div class="footer-back-row">
+      <a class="footer-back" href="projects.html"><span aria-hidden="true">&larr;</span><span class="label">Back to Projects</span></a>
+    </div>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('nav').classList.toggle('active');
+      document.getElementById('hamburger').classList.toggle('active');
+    }
+  </script>
+
+  <script>
+    const path = window.location.pathname;
+    const normalized = path.endsWith("/") ? path.slice(0, -1) : path;
+    const lastSegment = normalized.split("/").pop();
+    const currentPage = lastSegment && lastSegment.includes(".") ? lastSegment : "index.html";
+    document.querySelectorAll("#nav a").forEach(link => {
+      const isActive = link.getAttribute("href") === currentPage;
+      link.classList.toggle("active", isActive);
+      if (isActive) {
+        link.style.setProperty("color", "#0F0F0F", "important");
+        link.style.setProperty("border-bottom", "3px solid #0F0F0F", "important");
+        link.style.setProperty("padding-bottom", "4px", "important");
+        link.style.setProperty("text-shadow", "none", "important");
+      } else {
+        link.style.removeProperty("color");
+        link.style.removeProperty("border-bottom");
+        link.style.removeProperty("padding-bottom");
+        link.style.removeProperty("text-shadow");
+      }
+    });
+  </script>
+
+  <script src="assets/js/back-link.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const players = document.querySelectorAll("[data-audio-player]");
+      if (!players.length) return;
+
+      players.forEach(player => {
+        const audio = player.querySelector("[data-audio-source]");
+        const toggle = player.querySelector("[data-audio-toggle]");
+        const progress = player.querySelector("[data-audio-progress]");
+        const volume = player.querySelector("[data-audio-volume]");
+        if (!audio || !toggle || !progress) return;
+
+        const updateButton = () => {
+          const icon = player.querySelector("[data-audio-icon]");
+          if (icon) {
+            icon.textContent = audio.paused ? "▶" : "❚❚";
+          } else {
+            toggle.textContent = audio.paused ? "Play" : "Pause";
+          }
+        };
+
+        const updateTime = () => {
+          if (audio.duration) {
+            progress.value = ((audio.currentTime / audio.duration) * 100).toString();
+          }
+        };
+
+        toggle.addEventListener("click", () => {
+          if (audio.paused) {
+            audio.play().catch(() => {});
+          } else {
+            audio.pause();
+          }
+          updateButton();
+        });
+
+        progress.addEventListener("input", () => {
+          if (!audio.duration) return;
+          const value = Number(progress.value) / 100;
+          audio.currentTime = audio.duration * value;
+        });
+
+        if (volume) {
+          audio.volume = Number(volume.value);
+          volume.addEventListener("input", () => {
+            audio.volume = Number(volume.value);
+          });
+        }
+
+        audio.addEventListener("timeupdate", updateTime);
+        audio.addEventListener("play", updateButton);
+        audio.addEventListener("pause", updateButton);
+        audio.addEventListener("ended", () => {
+          audio.currentTime = 0;
+          updateTime();
+          updateButton();
+        });
+
+        updateButton();
+      });
+    });
+  </script>
+
+  <script>
+    (() => {
+      const header = document.querySelector("header");
+      const nav = document.getElementById("nav");
+      if (!header) return;
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener("scroll", () => {
+        const currentY = window.scrollY;
+        if (nav && nav.classList.contains("active")) {
+          header.classList.remove("nav-hide");
+          lastScrollY = currentY;
+          return;
+        }
+        if (currentY <= 0) {
+          header.classList.remove("nav-hide");
+          lastScrollY = currentY;
+          return;
+        }
+        if (currentY > lastScrollY && currentY > 120) {
+          header.classList.add("nav-hide");
+        } else {
+          header.classList.remove("nav-hide");
+        }
+        lastScrollY = currentY;
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>
