@@ -4,6 +4,39 @@ class SiteHeader extends HTMLElement {
     this.attachShadow({ mode: 'open' });
   }
 
+  // Detect the base path from <base href> so we work on both localhost and GitHub Pages.
+  // e.g. on GitHub Pages  <base href="/SuperWebsite/"> → basePath = "/SuperWebsite"
+  //      on localhost     no <base> tag               → basePath = ""
+  get basePath() {
+    if (this._basePath !== undefined) return this._basePath;
+    const base = document.querySelector('base');
+    if (base) {
+      // strip trailing slash, e.g. "/SuperWebsite/" → "/SuperWebsite"
+      this._basePath = base.getAttribute('href').replace(/\/$/, '');
+    } else {
+      this._basePath = '';
+    }
+    return this._basePath;
+  }
+
+  // Convert a logical route like "/projects" into the full path "/SuperWebsite/projects"
+  fullPath(route) {
+    if (!this.basePath) return route;
+    // route "/" → basePath + "/" i.e. "/SuperWebsite/"
+    if (route === '/') return this.basePath + '/';
+    return this.basePath + route;
+  }
+
+  // Strip the base prefix from a pathname to get the logical route
+  logicalPath(pathname) {
+    if (!this.basePath) return pathname;
+    if (pathname.startsWith(this.basePath)) {
+      const stripped = pathname.slice(this.basePath.length) || '/';
+      return stripped;
+    }
+    return pathname;
+  }
+
   connectedCallback() {
     this.render();
     this.setupActiveState(window.location.pathname);
@@ -153,10 +186,12 @@ class SiteHeader extends HTMLElement {
     links.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        let url = link.getAttribute('href');
+        const route = link.getAttribute('href'); // logical, e.g. "/projects"
+        const url = this.fullPath(route);        // full, e.g. "/SuperWebsite/projects"
 
         // Block reload if clicking the current page
-        if (url.replace(/\/$/, '') === window.location.pathname.replace(/\/$/, '')) return;
+        const currentLogical = this.logicalPath(window.location.pathname);
+        if (route.replace(/\/$/, '') === currentLogical.replace(/\/$/, '')) return;
 
         // Immediately close hamburger if mobile
         const nav = this.shadowRoot.getElementById('nav');
@@ -179,10 +214,12 @@ class SiteHeader extends HTMLElement {
     });
   }
 
-  setupActiveState(path) {
+  setupActiveState(pathname) {
     const links = this.shadowRoot.querySelectorAll('nav a');
     links.forEach(l => l.classList.remove('active'));
 
+    // Convert the full pathname to a logical route for comparison
+    const path = this.logicalPath(pathname);
     let activeSet = false;
 
     links.forEach(link => {
