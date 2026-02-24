@@ -40,6 +40,17 @@ main.page-transitioning {
   transform: translateY(8px);
 }
 
+#page-content {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#page-content.page-transitioning {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
 a {
   text-decoration: none;
   font-family: inherit;

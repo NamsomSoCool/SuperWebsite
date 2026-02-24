@@ -2,6 +2,7 @@ class SiteHeader extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+    this._pageCache = new Map(); // fullUrl -> Promise<{ doc: Document }>
   }
 
   // Detect the base path from <base href> so we work on both localhost and GitHub Pages.
@@ -39,10 +40,13 @@ class SiteHeader extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.ensureContentRoot();
+    this.resetPageLifecycle();
     this.setupActiveState(window.location.pathname);
     this.setupHamburger();
     this.setupScrollListener();
     this.setupSPA();
+    this.prefetchPrimaryRoutes();
   }
 
   render() {
@@ -166,9 +170,9 @@ class SiteHeader extends HTMLElement {
 
         <nav id="nav">
           <a href="/" data-link="/">Home</a>
-          <a href="/projects" data-link="/projects">Projects</a>
-          <a href="/about" data-link="/about">About</a>
-          <a href="/contact" data-link="/contact">Contact</a>
+          <a href="/projects/" data-link="/projects/">Projects</a>
+          <a href="/about/" data-link="/about/">About</a>
+          <a href="/contact/" data-link="/contact/">Contact</a>
         </nav>
 
         <div class="hamburger" id="hamburger">
@@ -184,14 +188,21 @@ class SiteHeader extends HTMLElement {
     const links = this.shadowRoot.querySelectorAll('nav a');
 
     links.forEach(link => {
+      const route = link.getAttribute('href'); // logical, e.g. "/projects/"
+      const url = this.fullPath(this.normalizeRoute(route)); // full, e.g. "/SuperWebsite/projects/"
+
+      // Warm the next document before click (hover/touch).
+      link.addEventListener('pointerenter', () => this.prefetchPage(url), { passive: true });
+      link.addEventListener('touchstart', () => this.prefetchPage(url), { passive: true });
+
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        const route = link.getAttribute('href'); // logical, e.g. "/projects"
-        const url = this.fullPath(route);        // full, e.g. "/SuperWebsite/projects"
+        const route = link.getAttribute('href'); // logical, e.g. "/projects/"
+        const url = this.fullPath(this.normalizeRoute(route)); // full, e.g. "/SuperWebsite/projects/"
 
         // Block reload if clicking the current page
-        const currentLogical = this.logicalPath(window.location.pathname);
-        if (route.replace(/\/$/, '') === currentLogical.replace(/\/$/, '')) return;
+        const currentLogical = this.normalizeRoute(this.logicalPath(window.location.pathname));
+        if (this.normalizeRoute(route) === currentLogical) return;
 
         // Immediately close hamburger if mobile
         const nav = this.shadowRoot.getElementById('nav');
@@ -219,51 +230,113 @@ class SiteHeader extends HTMLElement {
     links.forEach(l => l.classList.remove('active'));
 
     // Convert the full pathname to a logical route for comparison
-    const path = this.logicalPath(pathname);
+    const path = this.normalizeRoute(this.logicalPath(pathname));
     let activeSet = false;
 
     links.forEach(link => {
       const linkPath = link.getAttribute('data-link');
-      if (path === linkPath || path === linkPath + '/' || (linkPath === '/' && path === '/index.html')) {
+      if (path === this.normalizeRoute(linkPath) || (linkPath === '/' && (path === '/' || path === '/index.html'))) {
         link.classList.add('active');
         activeSet = true;
       }
     });
 
     if (!activeSet) {
-      if (path.startsWith('/projects/') || path.startsWith('/projects')) {
-        this.shadowRoot.querySelector('a[data-link="/projects"]').classList.add('active');
-      } else if (path.startsWith('/about/') || path.startsWith('/about')) {
-        this.shadowRoot.querySelector('a[data-link="/about"]').classList.add('active');
-      } else if (path.startsWith('/contact/') || path.startsWith('/contact')) {
-        this.shadowRoot.querySelector('a[data-link="/contact"]').classList.add('active');
+      if (path.startsWith('/projects/')) {
+        this.shadowRoot.querySelector('a[data-link="/projects/"]').classList.add('active');
+      } else if (path.startsWith('/about/')) {
+        this.shadowRoot.querySelector('a[data-link="/about/"]').classList.add('active');
+      } else if (path.startsWith('/contact/')) {
+        this.shadowRoot.querySelector('a[data-link="/contact/"]').classList.add('active');
       }
     }
   }
 
-  async loadPage(url, pushHistory = true) {
-    const mainEl = document.querySelector('main');
-    if (mainEl) {
-      mainEl.classList.add('page-transitioning');
+  normalizeRoute(route) {
+    if (!route) return '/';
+    if (route === '/index.html') return '/';
+    if (route === '/') return '/';
+    // Ensure leading slash + trailing slash for directory routes.
+    const withLeading = route.startsWith('/') ? route : `/${route}`;
+    return withLeading.endsWith('/') ? withLeading : `${withLeading}/`;
+  }
+
+  ensureContentRoot() {
+    let root = document.getElementById('page-content');
+    if (!root) {
+      root = document.createElement('div');
+      root.id = 'page-content';
+      document.body.appendChild(root);
+      const children = Array.from(document.body.children);
+      children.forEach(child => {
+        if (child === root) return;
+        if (child.tagName && child.tagName.toLowerCase() === 'site-header') return;
+        root.appendChild(child);
+      });
     }
+    this._contentRoot = root;
+  }
 
+  resetPageLifecycle() {
     try {
-      const response = await fetch(url);
+      if (window.__portfolioPageAbortController) {
+        window.__portfolioPageAbortController.abort();
+      }
+    } catch (_) {
+      // ignore
+    }
+    window.__portfolioPageAbortController = new AbortController();
+    window.__portfolioPageSignal = window.__portfolioPageAbortController.signal;
+  }
+
+  async prefetchPage(fullUrl) {
+    const key = this.stripHash(fullUrl);
+    if (this._pageCache.has(key)) return this._pageCache.get(key);
+
+    const promise = (async () => {
+      const response = await fetch(key, { credentials: 'same-origin' });
       const htmlText = await response.text();
-
-      // Allow CSS transition fade-out to complete smoothly
-      await new Promise(r => setTimeout(r, 120));
-
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlText, 'text/html');
+      return { doc };
+    })().catch((err) => {
+      this._pageCache.delete(key);
+      throw err;
+    });
 
-      // Clean out old body content except the overarching site-header
-      const bodyChildren = Array.from(document.body.children);
-      bodyChildren.forEach(child => {
-        if (child.tagName.toLowerCase() !== 'site-header') {
-          child.remove();
-        }
-      });
+    this._pageCache.set(key, promise);
+    return promise;
+  }
+
+  stripHash(url) {
+    return typeof url === 'string' ? url.split('#')[0] : url;
+  }
+
+  prefetchPrimaryRoutes() {
+    const routes = ['/', '/projects/', '/about/', '/contact/'];
+    const urls = routes.map(r => this.fullPath(this.normalizeRoute(r)));
+
+    const kick = () => {
+      urls.forEach(u => this.prefetchPage(u));
+    };
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(kick, { timeout: 2000 });
+    } else {
+      window.setTimeout(kick, 250);
+    }
+  }
+
+  async loadPage(url, pushHistory = true) {
+    this.ensureContentRoot();
+    this.resetPageLifecycle();
+    const root = this._contentRoot;
+    if (root) root.classList.add('page-transitioning');
+
+    try {
+      const fadePromise = new Promise(r => window.setTimeout(r, 120));
+      const { doc } = await this.prefetchPage(url);
+      await fadePromise;
 
       // Update Head Elements (Title and Inline Styles)
       document.title = doc.title;
@@ -279,47 +352,46 @@ class SiteHeader extends HTMLElement {
       });
 
       if (pushHistory) {
-        window.history.pushState({}, '', url);
+        window.history.pushState({}, '', this.stripHash(url));
       }
       window.scrollTo(0, 0);
 
-      // Rebuild the new page contents
-      const newChildren = Array.from(doc.body.children);
-      newChildren.forEach(child => {
-        if (child.tagName.toLowerCase() !== 'site-header') {
-          if (child.tagName.toLowerCase() === 'script') {
-            // Crux logic to skip re-triggering the navbar itself
-            if (child.src && child.src.includes('navbar.js')) return;
+      // Clear old content
+      if (root) root.replaceChildren();
 
-            // We must recreate inline scripts nodes from scratch to force them to execute identically
-            const newScript = document.createElement('script');
-            if (child.src) newScript.src = child.src;
-            if (child.textContent) newScript.textContent = child.textContent;
-            document.body.appendChild(newScript);
-          } else {
-            if (child.tagName.toLowerCase() === 'main') {
-              child.classList.add('page-transitioning');
-            }
-            // Cloning preserves the pure unmutated DOM nodes from our parser
-            document.body.appendChild(child.cloneNode(true));
-          }
-        }
+      // Rebuild the new page contents (DOM first, then scripts so they can query reliably)
+      const docChildren = Array.from(doc.body.children).filter(
+        (child) => child.tagName.toLowerCase() !== 'site-header'
+      );
+
+      const scripts = [];
+      const nodes = [];
+      docChildren.forEach((child) => {
+        if (child.tagName.toLowerCase() === 'script') scripts.push(child);
+        else nodes.push(child);
       });
 
-      // Native Dispatch event ensures any scripts clinging to DOMContentLoaded fire off naturally on our new content!
-      window.document.dispatchEvent(new Event("DOMContentLoaded", {
-        bubbles: true,
-        cancelable: true
-      }));
+      nodes.forEach((child) => root.appendChild(child.cloneNode(true)));
+
+      scripts.forEach((child) => {
+        // Skip re-triggering the navbar itself
+        if (child.src && child.src.includes('navbar.js')) return;
+
+        const newScript = document.createElement('script');
+        if (child.type) newScript.type = child.type;
+        if (child.src) newScript.src = child.src;
+        if (child.noModule) newScript.noModule = true;
+        if (child.textContent) newScript.textContent = child.textContent;
+        root.appendChild(newScript);
+      });
 
     } catch (error) {
       console.error('SPA Failed. Attempting Fallback HTML load:', error);
       window.location.href = url;
     } finally {
       // Guarantee our main frame removes the loading CSS hook, pulling smoothly into opacity 1.
-      setTimeout(() => {
-        const newMain = document.querySelector('main');
-        if (newMain) newMain.classList.remove('page-transitioning');
+      window.setTimeout(() => {
+        if (root) root.classList.remove('page-transitioning');
       }, 50);
     }
   }

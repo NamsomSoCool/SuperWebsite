@@ -1059,11 +1059,25 @@
 
     <site-header></site-header>
 
+    <script>
+        // Runs a callback once the page DOM is ready.
+        // On first load: waits for DOMContentLoaded.
+        // On SPA navigation: runs immediately because scripts are injected after DOM.
+        window.__portfolioRunOnReady = (fn) => {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', fn, { once: true });
+            } else {
+                fn();
+            }
+        };
+    </script>
+
 
 
     <script>
         // Counter animation on scroll & lightbox
-        document.addEventListener('DOMContentLoaded', () => {
+        window.__portfolioRunOnReady(() => {
+            const signal = window.__portfolioPageSignal;
             const counters = document.querySelectorAll(".stat-counter");
             if (counters.length) {
                 const animateCounter = (counter) => {
@@ -1118,6 +1132,7 @@
                         }
                     });
                 }, { threshold: 0.2, rootMargin: "0px 0px 20% 0px" });
+                if (signal) signal.addEventListener('abort', () => observer.disconnect(), { once: true });
 
                 counters.forEach(counter => observer.observe(counter));
             }
@@ -1131,19 +1146,21 @@
                     lightbox.className = 'lightbox';
                     lightbox.id = 'lightbox';
                     lightbox.innerHTML = '<img id="lightbox-img" alt="preview">';
-                    document.body.appendChild(lightbox);
+                    const root = document.getElementById('page-content') || document.body;
+                    root.appendChild(lightbox);
 
-                    lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
+                    lightbox.addEventListener('click', () => lightbox.classList.remove('active'), signal ? { signal } : undefined);
                     document.addEventListener('keydown', (e) => {
                         if (e.key === 'Escape') lightbox.classList.remove('active');
-                    });
+                    }, signal ? { signal } : undefined);
+                    if (signal) signal.addEventListener('abort', () => lightbox.remove(), { once: true });
                 }
 
                 galleryImgs.forEach(img => {
                     img.addEventListener('click', () => {
                         document.getElementById('lightbox-img').src = img.src;
                         lightbox.classList.add('active');
-                    });
+                    }, signal ? { signal } : undefined);
                 });
             }
 
@@ -1166,6 +1183,7 @@
                         }
                     });
                 }, { threshold: 0.2, rootMargin: "0px 0px 20% 0px" });
+                if (signal) signal.addEventListener('abort', () => tagObserver.disconnect(), { once: true });
 
                 titles.forEach(title => {
                     const firstTag = title.querySelector('.tag, .tag-modding, .tag-featured, .tag-side');
@@ -1191,6 +1209,7 @@
                         }
                     });
                 }, { threshold: 0.2, rootMargin: "0px 0px 20% 0px" });
+                if (signal) signal.addEventListener('abort', () => metaObserver.disconnect(), { once: true });
 
                 metaRows.forEach(row => {
                     const firstBadge = row.querySelector('.rating-badge, .downloads-badge, .placeholder-badge, .placeholder-badge-green');
@@ -1215,6 +1234,7 @@
                         }
                     });
                 }, { threshold: 0.15, rootMargin: "0px 0px 20% 0px" });
+                if (signal) signal.addEventListener('abort', () => contentObserver.disconnect(), { once: true });
 
                 featuredCards.forEach(card => contentObserver.observe(card));
             }
@@ -1226,6 +1246,7 @@
 
     <script>
         (() => {
+            const signal = window.__portfolioPageSignal;
             const liminalVideo = document.getElementById("project-liminal-video");
             if (!liminalVideo) return;
 
@@ -1259,15 +1280,22 @@
                 }
             };
 
-            liminalVideo.addEventListener("play", ensureAudio);
-            liminalVideo.addEventListener("click", ensureAudio);
-            liminalVideo.addEventListener("pointerdown", ensureAudio);
-            liminalVideo.addEventListener("touchstart", ensureAudio, { passive: true });
+            liminalVideo.addEventListener("play", ensureAudio, signal ? { signal } : undefined);
+            liminalVideo.addEventListener("click", ensureAudio, signal ? { signal } : undefined);
+            liminalVideo.addEventListener("pointerdown", ensureAudio, signal ? { signal } : undefined);
+            liminalVideo.addEventListener("touchstart", ensureAudio, signal ? { passive: true, signal } : { passive: true });
+            if (signal) {
+                signal.addEventListener('abort', () => {
+                    try { audioContext && audioContext.close && audioContext.close(); } catch (_) { }
+                    audioContext = null;
+                }, { once: true });
+            }
         })();
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        window.__portfolioRunOnReady(() => {
+            const signal = window.__portfolioPageSignal;
             const featuredTitle = document.querySelector(".featured-title");
             if (!featuredTitle) return;
             const wrap = featuredTitle.closest(".featured-title-wrap");
@@ -1282,6 +1310,7 @@
                     observer.unobserve(entry.target);
                 });
             }, { threshold: 0.2, rootMargin: "0px 0px 20% 0px" });
+            if (signal) signal.addEventListener('abort', () => observer.disconnect(), { once: true });
 
             observer.observe(featuredTitle);
         });
@@ -1289,7 +1318,8 @@
 
     <script>
         // Featured Work click — sweep animation + smooth scroll
-        document.addEventListener('DOMContentLoaded', () => {
+        window.__portfolioRunOnReady(() => {
+            const signal = window.__portfolioPageSignal;
             const link = document.getElementById('featured-scroll-link');
             const title = link && link.querySelector('.featured-title');
             const target = document.getElementById('featured-project');
@@ -1310,8 +1340,8 @@
 
                 title.addEventListener('animationend', () => {
                     title.classList.remove('sweeping');
-                }, { once: true });
-            });
+                }, { once: true, ...(signal ? { signal } : {}) });
+            }, signal ? { signal } : undefined);
         });
     </script>
 
@@ -1351,6 +1381,7 @@
 
     <script>
         (() => {
+            const signal = window.__portfolioPageSignal;
             const heroImg = document.querySelector(".hero-image");
             const heroAudio = document.getElementById("hero-click-audio");
             if (heroImg) {
@@ -1369,8 +1400,8 @@
                     heroImg.classList.add('jumping');
                     heroImg.addEventListener('animationend', () => {
                         heroImg.classList.remove('jumping');
-                    }, { once: true });
-                });
+                    }, { once: true, ...(signal ? { signal } : {}) });
+                }, signal ? { signal } : undefined);
             }
         })();
     </script>
@@ -1543,6 +1574,7 @@
 
     <script>
         (() => {
+            const signal = window.__portfolioPageSignal;
             const featuredSection = document.getElementById("featured-project");
             if (!featuredSection) return;
             const projectLinks = featuredSection.querySelectorAll('a[href$=".html"]');
@@ -1556,7 +1588,7 @@
                     } catch (error) {
                         // Ignore storage failures.
                     }
-                });
+                }, signal ? { signal } : undefined);
             });
         })();
     </script>

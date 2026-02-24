@@ -384,6 +384,7 @@
 
   <script>
     (() => {
+      const signal = window.__portfolioPageSignal;
       const copyButtons = document.querySelectorAll('.copy-btn');
 
       copyButtons.forEach(btn => {
@@ -425,7 +426,7 @@
           } catch (err) {
             console.error('Failed to copy text: ', err);
           }
-        });
+        }, signal ? { signal } : undefined);
       });
 
       // LinkedIn Toast
@@ -456,7 +457,7 @@
           setTimeout(() => {
             if (container.parentNode) container.parentNode.removeChild(container);
           }, 1800);
-        });
+        }, signal ? { signal } : undefined);
       }
     })();
   </script>
