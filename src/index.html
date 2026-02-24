@@ -970,7 +970,7 @@
 
     <script>
         // Counter animation on scroll & lightbox
-        (() => {
+        document.addEventListener('DOMContentLoaded', () => {
             const counters = document.querySelectorAll(".stat-counter");
             if (counters.length) {
                 const animateCounter = (counter) => {
@@ -1124,7 +1124,7 @@
             }
 
             // Hover-play removed: videos now play only via user controls.
-        })();
+        });
     </script>
 
 
@@ -1171,7 +1171,7 @@
     </script>
 
     <script>
-        (() => {
+        document.addEventListener('DOMContentLoaded', () => {
             const featuredTitle = document.querySelector(".featured-title");
             if (!featuredTitle) return;
             const wrap = featuredTitle.closest(".featured-title-wrap");
@@ -1188,7 +1188,7 @@
             }, { threshold: 0.2, rootMargin: "0px 0px 20% 0px" });
 
             observer.observe(featuredTitle);
-        })();
+        });
     </script>
 
     <section class="hero">
