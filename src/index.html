@@ -289,6 +289,7 @@
         /* Featured title click sweep */
         .featured-title {
             overflow: hidden;
+            position: relative;
         }
 
         .featured-title::after {
@@ -1334,11 +1335,12 @@
             </div>
         </div>
         <div class="featured-title-wrap">
-            <a class="featured-scroll-link" href="#featured-project" id="featured-scroll-link">
+            <div class="featured-scroll-link" id="featured-scroll-link" role="button" tabindex="0"
+                style="cursor:pointer">
                 <h2 class="featured-title">
                     Featured Work <span class="featured-badge">FEATURED</span>
                 </h2>
-            </a>
+            </div>
         </div>
         <a class="featured-scroll" href="#featured-project" aria-label="Scroll to Featured Work">↓</a>
     </section>
