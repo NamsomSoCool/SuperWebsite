@@ -3,10 +3,10 @@
 
 <head>
     <base href="/SuperWebsite/">
-  <link rel="prefetch" href="/SuperWebsite/projects/">
-  <link rel="prefetch" href="/SuperWebsite/about/">
-  <link rel="prefetch" href="/SuperWebsite/contact/">
-  <link rel="preload" href="/SuperWebsite/assets/fonts/Futura.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="prefetch" href="/SuperWebsite/projects/">
+    <link rel="prefetch" href="/SuperWebsite/about/">
+    <link rel="prefetch" href="/SuperWebsite/contact/">
+    <link rel="preload" href="/SuperWebsite/assets/fonts/Futura.woff2" as="font" type="font/woff2" crossorigin>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leon Joensen | Portfolio</title>
@@ -77,11 +77,38 @@
 
         .hero-image {
             width: 980px;
-            transition: transform .35s ease;
+            transition: transform .35s cubic-bezier(.2, .8, .2, 1);
+            cursor: pointer;
         }
 
-        .hero-image-wrapper:hover .hero-image {
+        .hero-image:hover {
             transform: scale(1.035);
+        }
+
+        @keyframes heroJump {
+            0% {
+                transform: scale(1);
+            }
+
+            30% {
+                transform: scale(1.045) translateY(-8px) rotate(var(--jump-rot, -1.5deg));
+            }
+
+            60% {
+                transform: scale(0.97) translateY(3px) rotate(calc(var(--jump-rot, -1.5deg) * -0.5));
+            }
+
+            80% {
+                transform: scale(1.015) translateY(-2px);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .hero-image.jumping {
+            animation: heroJump 0.55s cubic-bezier(.2, .8, .2, 1) both;
         }
 
         /* ICONS */
@@ -283,8 +310,6 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            opacity: 0;
-            transform: translateY(14px) scale(0.98);
         }
 
         .project-title {
@@ -633,7 +658,7 @@
             --glow-rgb: 88, 101, 242;
         }
 
-        /* Featured content reveal */
+        /* Featured content reveal - inner elements animate on scroll, cards always visible */
         .featured-project .project-title,
         .featured-project .impact-stat,
         .featured-project p,
@@ -658,8 +683,9 @@
             animation-delay: var(--content-delay, 0s);
         }
 
+        /* card itself: always visible, subtle scroll-in pop */
         .featured-project.content-animate {
-            animation: tagPop 0.7s cubic-bezier(.2, .8, .2, 1) both;
+            animation: tagPop 0.5s cubic-bezier(.2, .8, .2, 1) both;
         }
 
         .lightbox {
@@ -1230,12 +1256,25 @@
 
     <script>
         (() => {
-            const heroBanner = document.querySelector(".hero-image-wrapper");
+            const heroImg = document.querySelector(".hero-image");
             const heroAudio = document.getElementById("hero-click-audio");
-            if (heroBanner && heroAudio) {
-                heroBanner.addEventListener("click", () => {
-                    heroAudio.currentTime = 0;
-                    heroAudio.play().catch(() => { });
+            if (heroImg) {
+                heroImg.addEventListener("click", () => {
+                    // Play sound
+                    if (heroAudio) {
+                        heroAudio.currentTime = 0;
+                        heroAudio.play().catch(() => { });
+                    }
+                    // Random small tilt each click
+                    const rot = (Math.random() * 5 - 2.5).toFixed(2) + 'deg';
+                    heroImg.style.setProperty('--jump-rot', rot);
+                    // Re-trigger animation
+                    heroImg.classList.remove('jumping');
+                    void heroImg.offsetWidth;
+                    heroImg.classList.add('jumping');
+                    heroImg.addEventListener('animationend', () => {
+                        heroImg.classList.remove('jumping');
+                    }, { once: true });
                 });
             }
         })();
