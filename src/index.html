@@ -72,7 +72,6 @@
             opacity: 0;
             will-change: opacity, transform;
             animation: heroReveal .9s cubic-bezier(.2, .8, .2, 1) .2s forwards;
-            cursor: pointer;
         }
 
         .hero-image {
@@ -284,6 +283,69 @@
             border-radius: 4px;
             position: relative;
             top: 4px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        /* Featured title click sweep */
+        .featured-title {
+            overflow: hidden;
+        }
+
+        .featured-title::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 43, 79, 0.55) 48%,
+                    rgba(255, 255, 255, 0.18) 50%,
+                    rgba(255, 43, 79, 0.55) 52%,
+                    transparent 100%);
+            transform: translateX(-110%);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .featured-title.sweeping::after {
+            animation: titleSweep 0.55s cubic-bezier(.4, 0, .2, 1) forwards;
+        }
+
+        .featured-title.sweeping .featured-badge {
+            animation: badgePop 0.4s cubic-bezier(.2, .8, .2, 1) 0.15s both;
+        }
+
+        @keyframes titleSweep {
+            0% {
+                transform: translateX(-110%);
+                opacity: 1;
+            }
+
+            70% {
+                transform: translateX(10%);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(110%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes badgePop {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 43, 79, 0.8);
+            }
+
+            40% {
+                transform: scale(1.18);
+                box-shadow: 0 0 0 8px rgba(255, 43, 79, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: none;
+            }
         }
 
         .all-featured-projects {
@@ -1059,27 +1121,30 @@
                 counters.forEach(counter => observer.observe(counter));
             }
 
-            // Lightbox behavior
-            let lightbox = document.getElementById('lightbox');
-            if (!lightbox) {
-                lightbox = document.createElement('div');
-                lightbox.className = 'lightbox';
-                lightbox.id = 'lightbox';
-                lightbox.innerHTML = '<img id="lightbox-img" alt="preview">';
-                document.body.appendChild(lightbox);
+            // Lightbox behavior — only on pages that have gallery images
+            const galleryImgs = document.querySelectorAll('.gallery img');
+            if (galleryImgs.length) {
+                let lightbox = document.getElementById('lightbox');
+                if (!lightbox) {
+                    lightbox = document.createElement('div');
+                    lightbox.className = 'lightbox';
+                    lightbox.id = 'lightbox';
+                    lightbox.innerHTML = '<img id="lightbox-img" alt="preview">';
+                    document.body.appendChild(lightbox);
 
-                lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') lightbox.classList.remove('active');
+                    lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape') lightbox.classList.remove('active');
+                    });
+                }
+
+                galleryImgs.forEach(img => {
+                    img.addEventListener('click', () => {
+                        document.getElementById('lightbox-img').src = img.src;
+                        lightbox.classList.add('active');
+                    });
                 });
             }
-
-            document.querySelectorAll('.gallery img').forEach(img => {
-                img.addEventListener('click', (e) => {
-                    document.getElementById('lightbox-img').src = img.src;
-                    lightbox.classList.add('active');
-                });
-            });
 
             // Tag animation on first view
             const titles = document.querySelectorAll('.project-title');
@@ -1221,6 +1286,34 @@
         });
     </script>
 
+    <script>
+        // Featured Work click — sweep animation + smooth scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const link = document.getElementById('featured-scroll-link');
+            const title = link && link.querySelector('.featured-title');
+            const target = document.getElementById('featured-project');
+            if (!link || !title || !target) return;
+
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Trigger sweep
+                title.classList.remove('sweeping');
+                void title.offsetWidth;
+                title.classList.add('sweeping');
+
+                // Smooth scroll after sweep starts
+                setTimeout(() => {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 280);
+
+                title.addEventListener('animationend', () => {
+                    title.classList.remove('sweeping');
+                }, { once: true });
+            });
+        });
+    </script>
+
     <section class="hero">
         <div class="hero-canvas">
             <div class="hero-image-wrapper">
@@ -1241,7 +1334,7 @@
             </div>
         </div>
         <div class="featured-title-wrap">
-            <a class="featured-scroll-link" href="#featured-project">
+            <a class="featured-scroll-link" href="#featured-project" id="featured-scroll-link">
                 <h2 class="featured-title">
                     Featured Work <span class="featured-badge">FEATURED</span>
                 </h2>
