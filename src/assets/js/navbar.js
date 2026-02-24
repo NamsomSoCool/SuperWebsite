@@ -252,7 +252,7 @@ class SiteHeader extends HTMLElement {
       const htmlText = await response.text();
 
       // Allow CSS transition fade-out to complete smoothly
-      await new Promise(r => setTimeout(r, 250));
+      await new Promise(r => setTimeout(r, 120));
 
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlText, 'text/html');

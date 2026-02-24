@@ -37,7 +37,7 @@ main {
 
 main.page-transitioning {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(8px);
 }
 
 a {
@@ -54,23 +54,26 @@ button {
 /* Base Fonts Configured globally to avoid 11x duplication */
 @font-face {
   font-family: 'FuturaCustom';
-  src: url('../fonts/Futura.ttf') format('truetype');
+  src: url('../fonts/Futura.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'FCMittraphap';
-  src: url('../fonts/FCMittraphap.otf') format('opentype');
+  src: url('../fonts/FCMittraphap.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Futur';
-  src: url('../fonts/futur.ttf') format('truetype');
+  src: url('../fonts/futur.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 /* Global scrollbar styling for polish */
