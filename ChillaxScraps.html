@@ -119,15 +119,15 @@
     main {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 60px 24px 120px;
+      padding: 44px 24px 84px;
     }
 
     .hero {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
-      gap: 36px;
+      gap: 26px;
       align-items: center;
-      margin-bottom: 56px;
+      margin-bottom: 40px;
     }
 
     .hero-content {
@@ -157,7 +157,7 @@
     }
 
     .back-link {
-      margin-bottom: 18px;
+      margin-bottom: 12px;
     }
 
     .footer-back {
@@ -178,7 +178,7 @@
       letter-spacing: 0.4em;
       color: var(--muted);
       font-size: 0.7rem;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .kicker-pill {
@@ -198,14 +198,14 @@
     .hero-title {
       font-size: 72px;
       line-height: 1.02;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .hero-subtitle {
       font-size: 1.1rem;
       line-height: 1.7;
       color: #e7e7e7;
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
 
 
@@ -213,7 +213,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
 
     .badge {
@@ -235,7 +235,7 @@
     .cta-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
 
     .cta {
@@ -292,25 +292,26 @@
     }
 
     .section {
-      margin-bottom: 56px;
+      margin-bottom: 38px;
     }
 
     .section-title {
       font-size: 28px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .split {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 28px;
+      gap: 20px;
+      align-items: start;
     }
 
     .panel {
       background: var(--panel);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: var(--radius);
-      padding: 20px;
+      padding: 16px;
       box-shadow: var(--shadow);
     }
 
@@ -319,63 +320,101 @@
       color: #e8e8e8;
     }
 
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .stat {
-      background: transparent;
-      border-radius: 12px;
-      padding: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      margin-bottom: 10px;
-    }
-
-    .stat-value {
-      font-size: 1.8rem;
-      font-weight: 800;
-    }
-
-    .numbers-section .section-title {
-      font-size: 32px;
-      margin-bottom: 16px;
-    }
-
-    .numbers-section .stat-grid {
-      gap: 18px;
-    }
-
-    .numbers-section .stat {
-      background: var(--panel-soft);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 18px;
-    }
-
     .gallery {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
     }
 
+    .gallery figure {
+      margin: 0;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #1c1c1c;
+      box-shadow: var(--shadow);
+    }
+
     .gallery img {
       width: 100%;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
+      border-radius: 0;
+      box-shadow: none;
       transition: transform .25s ease, box-shadow .25s ease;
+      display: block;
     }
 
     .gallery img:hover {
       transform: scale(1.02);
       box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+
+    .gallery figcaption {
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .video-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .featured-video {
+      display: block;
+      width: 100%;
+      max-width: 980px;
+      border-radius: 14px;
+      background: black;
+      box-shadow: var(--shadow);
+    }
+
+    .media-panel {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .media-panel img,
+    .media-panel video {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+      background: #000;
+      box-shadow: var(--shadow);
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .media-grid img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .media-grid img:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 14px 32px rgba(0,0,0,0.55);
+    }
+
+    .media-caption {
+      margin-top: 10px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .phase-block {
+      margin-top: 14px;
     }
 
     .list {
@@ -394,7 +433,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 20px;
+      padding: 14px 16px;
       background: var(--panel);
       border-radius: var(--radius);
       border: 1px solid rgba(255,255,255,0.08);
@@ -418,7 +457,7 @@
     }
 
     .footer-back-row {
-      margin-top: 16px;
+      margin-top: 10px;
     }
 
     @media (max-width: 1024px) {
@@ -428,10 +467,6 @@
 
       .split {
         grid-template-columns: 1fr;
-      }
-
-      .stat-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -462,8 +497,8 @@
 
       .hero-title { font-size: 3rem; }
       .gallery { grid-template-columns: 1fr; }
-      .stat-grid { grid-template-columns: 1fr; }
-      main { padding: 40px 18px 90px; }
+      .media-grid { grid-template-columns: 1fr; }
+      main { padding: 28px 16px 70px; }
     }
 
     @keyframes menuSlide {
@@ -512,13 +547,13 @@
         <div class="kicker"><span class="kicker-pill">Modding</span></div>
         <h1 class="hero-title">ChillaxSCRAPS</h1>
         <p class="hero-subtitle">
-          A co-op Lethal Company mod that turns small scrap into big moments.
-          Built for useful tools, laughs, and shareable chaos.
+          A custom modpack for Lethal Company that started as a Discord friend-group experiment and grew into one of our most successful community projects.
         </p>
 
         <div class="badge-row">
-          <span class="badge"><strong>1 Million+</strong> downloads</span>
-          <span class="badge"><strong>Unity</strong> &bull; Modding tools</span>
+          <span class="badge"><strong>1m+</strong> downloads</span>
+          <span class="badge"><strong>2-person</strong> team</span>
+          <span class="badge"><strong>Unity</strong> modding</span>
         </div>
 
         <div class="cta-row">
@@ -527,54 +562,149 @@
       </div>
 
       <div class="hero-media">
-        <img src="assets/chillax1.png" alt="ChillaxSCRAPS hero art">
+        <img src="assets/chillax1.png" alt="ChillaxSCRAPS gameplay hero image">
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel">
+        <h2 class="section-title">Project Overview</h2>
+        <p>
+          One of the most successful projects my friend and I have developed is a custom modpack for the hit indie game <strong>Lethal Company</strong>.
+          We originally built it to improve sessions with our personal Discord friend group, then packaged the work into public modules:
+          <strong>Chillax Scraps</strong>, <strong>Chillax Suits</strong>, <strong>Chillax FM</strong>, and <strong>Chillax IMG</strong>.
+        </p>
+        <p style="margin-top: 12px;">
+          What started as a weekend side project quickly evolved into a viral community hit, with our flagship module,
+          <strong>Chillax Scraps</strong>, reaching over <strong>1m downloads</strong>.
+        </p>
+        <img loading="lazy" src="assets/chillaxscraps/ch1.png" alt="Thunderstore page showing ChillaxSCRAPS module launch" style="margin-top: 14px; width: 100%; border-radius: 12px; display: block; box-shadow: var(--shadow);">
       </div>
     </section>
 
     <section class="section split">
       <div class="panel">
-        <h2 class="section-title">Overview</h2>
-        <p>
-          We started with simple scrap and no perks, built fast with community tools. After testing,
-          we redesigned items to be both useful and funny, with clear reactions and memorable payoffs.
-        </p>
+        <h2 class="section-title">My Role & Tech Stack</h2>
+        <div class="list">
+          <div class="list-item"><strong>Role:</strong> Mod Developer & Designer (Co-created in a two-person team)</div>
+          <div class="list-item"><strong>Tools & Frameworks:</strong> Unity, Sketchfab (3D models), BepInEx, HookGenPatcher, LethalLib, LethalThings</div>
+          <div class="list-item"><strong>Contributions:</strong> Game design, item balancing, UI implementation, bug fixing, and community updates.</div>
+        </div>
       </div>
 
-      <div class="panel">
-        <h2 class="section-title">Signature Items</h2>
-        <div class="list">
-          <div class="list-item">Boink: launch backward for movement tech and instant comedy.</div>
-          <div class="list-item">Death Note: custom UI to target players or enemies.</div>
-          <div class="list-item">Uno Reverse Card: RNG swap with a player or enemy.</div>
-        </div>
+      <div class="media-panel">
+        <h2 class="section-title">Team Workflow</h2>
+        <img loading="lazy" src="assets/chillaxscraps/ch2.png" alt="ChillaxSCRAPS co-op playtest screenshot with custom scrap item">
+        <p class="media-caption">
+          Two-person iteration loop: build, test in live sessions, gather feedback, then ship focused updates to the community.
+        </p>
       </div>
     </section>
 
-    <section class="section numbers-section">
-      <h2 class="section-title">By the Numbers</h2>
-      <div class="stat-grid">
-        <div class="stat">
-          <div class="stat-label">Downloads</div>
-          <div class="stat-value">1 Million+</div>
+    <section class="section">
+      <h2 class="section-title">The Development Process</h2>
+
+      <div class="phase-block split">
+        <div class="panel">
+          <h3 style="margin-bottom:12px; font-size:1.2rem;">Phase 1: Humble Beginnings & Technical Hurdles</h3>
+          <p>
+            We kept scope intentionally small at first: add static scrap items with no special perks.
+            We used community tooling such as <strong>Evaisa-HookGenPatcher</strong> and <strong>Evaisa-LethalLib</strong> to hook into game code.
+          </p>
+          <p style="margin-top:12px;">
+            <strong>Challenge:</strong> early item rotation and size-scaling issues appeared when objects were held by players or dropped on the floor.
+            <br>
+            <strong>Solution:</strong> we debugged and fixed those transform issues so items behaved consistently in all states.
+          </p>
         </div>
-        <div class="stat">
-          <div class="stat-label">Collab</div>
-          <div class="stat-value">2 devs</div>
+
+        <div class="media-panel">
+          <img loading="lazy" src="assets/chillaxscraps/ch3.png" alt="Phase 1 static item implementation in ChillaxSCRAPS">
+          <p class="media-caption">
+            Early implementation focused on stable transforms and readable item presentation in player hands and world space.
+          </p>
         </div>
-        <div class="stat">
-          <div class="stat-label">Focus</div>
-          <div class="stat-value">Funny + useful</div>
+      </div>
+
+      <div class="phase-block split">
+        <div class="panel">
+          <h3 style="margin-bottom:12px; font-size:1.2rem;">Phase 2: Iterating for "Fun"</h3>
+          <p>
+            Once stable, static items felt too flat, so we pivoted toward interaction-based perks that mixed utility with comedy.
+          </p>
+          <p style="margin-top:12px;">
+            <strong>The Boink:</strong> a physics item that launches the player backward, useful for skilled movement and funny for unsuspecting teammates.
+            <br>
+            <strong>Interactive Decor:</strong> items like <strong>Cup Noodle</strong> (health restore) and <strong>Freddy Fazbear</strong> (constant distracting noise).
+          </p>
+        </div>
+
+        <div class="media-panel">
+          <video id="boink-playtest-video" controls playsinline preload="metadata" poster="assets/chillaxscraps/ch4.png">
+            <source src="assets/chillaxscraps/boinkplaytest.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="media-caption">
+            Boink playtest footage: a single item can function as movement tech for experts and pure chaos for everyone else.
+          </p>
+        </div>
+      </div>
+
+      <div class="phase-block split">
+        <div class="panel">
+          <h3 style="margin-bottom:12px; font-size:1.2rem;">Phase 3: Pushing Boundaries (Advanced Mechanics)</h3>
+          <p style="margin-bottom:12px;">
+            To push the mod further, I conceptualized items that required custom UI and deeper gameplay logic.
+          </p>
+          <div class="list">
+            <div class="list-item"><strong>The Death Note:</strong> Imported a book model via Sketchfab and built a custom Unity UI. Writing a player's username instantly eliminates them.</div>
+            <div class="list-item"><strong>Balancing Update:</strong> Expanded functionality so it could also kill enemy monsters, then balanced it by forcing the item to break after a single use.</div>
+            <div class="list-item"><strong>Uno Reverse Card:</strong> RNG-based strategic swap with a random teammate or enemy, creating high-risk, high-reward escapes.</div>
+          </div>
+        </div>
+
+        <div class="media-panel">
+          <img loading="lazy" src="assets/chillaxscraps/ch6.png" alt="Death Note custom UI in ChillaxSCRAPS showing player target list">
+          <p class="media-caption">
+            Death Note custom UI implementation used for player and enemy targeting, then balanced with one-time use behavior.
+          </p>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section-title">Gallery</h2>
-      <div class="gallery">
-        <img src="assets/chillax1.png" alt="ChillaxSCRAPS screenshot 1">
-        <img src="assets/chillax2.png" alt="ChillaxSCRAPS screenshot 2">
+      <h2 class="section-title" style="text-align: center;">Creator Recognition</h2>
+        <p style="text-align: center; max-width: 70ch; margin: 0 auto 18px; color: var(--muted); line-height: 1.6;">
+            The highlight of this project was seeing major creators play and share our work. It validated our design direction and proved that chaotic meme ideas can still become polished, replayable mechanics when balanced around real player behavior.
+        </p>
+      <div class="gallery" style="max-width: 980px; margin: 0 auto 20px;">
+        <figure>
+          <img loading="lazy" src="assets/chillaxscraps/ch7.png" alt="CaRtOoNz feature video thumbnail highlighting ChillaxSCRAPS Death Note gameplay">
+          <figcaption>CaRtOoNz coverage during launch momentum, helping amplify early community visibility.</figcaption>
+        </figure>
+        <figure>
+          <img loading="lazy" src="assets/chillaxscraps/ch8.png" alt="H2ODelirious feature video thumbnail highlighting ChillaxSCRAPS gameplay moments">
+          <figcaption>H2ODelirious feature that pushed the mod to a broader audience across creator circles.</figcaption>
+        </figure>
+      </div>
+      <div class="video-wrap">
+        <video class="featured-video" controls playsinline preload="metadata" poster="assets/chillaxposter.png">
+          <source src="assets/Chillax_Video.webm" type="video/webm">
+          Your browser does not support the video tag.
+        </video>
       </div>
     </section>
+
+    <section class="section">
+      <h2 class="section-title">Key Takeaways</h2>
+      <div class="panel">
+        <p>
+          This project was a major learning experience in rapid iteration, player-centric design, and debugging inside third-party frameworks.
+          Most importantly, it showed me how to turn "meme" concepts into functional game systems that players genuinely enjoy.
+        </p>
+      </div>
+    </section>
+
 
     <section class="project-footer">
       <div class="footer-actions">
@@ -620,6 +750,18 @@
 
   <script>
     (() => {
+      const boinkVideo = document.getElementById("boink-playtest-video");
+      if (!boinkVideo) return;
+      const setBoinkVolume = () => {
+        boinkVideo.volume = 0.2;
+      };
+      setBoinkVolume();
+      boinkVideo.addEventListener("loadedmetadata", setBoinkVolume, { once: true });
+    })();
+  </script>
+
+  <script>
+    (() => {
       const header = document.querySelector("header");
       const nav = document.getElementById("nav");
       if (!header) return;
@@ -648,4 +790,3 @@
   </script>
 </body>
 </html>
-

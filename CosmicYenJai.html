@@ -330,16 +330,58 @@
       gap: 16px;
     }
 
+    .gallery.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .gallery.bullet-row {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+
+    .gallery figure {
+      margin: 0;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--panel-soft);
+      box-shadow: var(--shadow);
+    }
+
     .gallery img {
       width: 100%;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
+      border-radius: 0;
+      box-shadow: none;
       transition: transform .25s ease, box-shadow .25s ease;
+      display: block;
     }
 
     .gallery img:hover {
       transform: scale(1.02);
       box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+
+    .gallery figcaption {
+      padding: 10px 12px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .gallery-group {
+      margin-top: 28px;
+    }
+
+    .gallery-subtitle {
+      font-size: 1.24rem;
+      margin-bottom: 10px;
+    }
+
+    .gallery-caption {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.65;
     }
 
     .list {
@@ -403,6 +445,7 @@
       .stat-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
     }
 
     @media (max-width: 768px) {
@@ -432,6 +475,8 @@
 
       .hero-title { font-size: 3rem; }
       .gallery { grid-template-columns: 1fr; }
+      .gallery.three { grid-template-columns: 1fr; }
+      .gallery.bullet-row { grid-template-columns: repeat(5, minmax(0, 1fr)); }
       .stat-grid { grid-template-columns: 1fr; }
       main { padding: 40px 18px 90px; }
     }
@@ -482,18 +527,18 @@
         <div class="kicker"><span class="kicker-pill side">Side Project</span></div>
         <h1 class="hero-title">Cosmic YenJai</h1>
         <p class="hero-subtitle">
-          A fast-paced bullet-hell set in deep space where you play as the Cosmic Clown.
-          Dodge dense patterns, blast through swarms, and chase stylish survival runs.
+          Cosmic YenJai is a bullet hell game developed in Unity during my first-ever Unity course at Futuregames.
+          The assignment was to concept and build a complete game from scratch in just three weeks.
         </p>
 
         <div class="badge-row">
-          <span class="badge"><strong>Bullet-hell</strong> action</span>
-          <span class="badge"><strong>Arcade</strong> pacing</span>
-          <span class="badge"><strong>Stylized</strong> VFX</span>
+          <span class="badge"><strong>Unity</strong> course project</span>
+          <span class="badge"><strong>3-week</strong> deadline</span>
+          <span class="badge"><strong>Bullet hell</strong> prototype</span>
         </div>
 
         <div class="cta-row">
-          <a class="cta" href="contact.html">Contact Me</a>
+          <a class="cta" href="https://cdn.discordapp.com/attachments/699618113993572412/1296485358011158549/Cosmic_Yen-Jai.zip?ex=699e6354&is=699d11d4&hm=d0241a20fc332769ee4c111afec38639a5a70bdd44dbfec4be2f05f723aee59d&" target="_blank">Play Cosmic Yen-Jai</a>
         </div>
       </div>
 
@@ -504,63 +549,134 @@
 
     <section class="section split">
       <div class="panel">
-        <h2 class="section-title">Overview</h2>
+        <h2 class="section-title">Project Overview</h2>
         <p>
-          Cosmic YenJai is a bullet-hell prototype focused on readable chaos. The goal is to create
-          a rhythm where players dance through patterns, use bursts of power, and keep momentum while
-          the screen fills with high-contrast energy.
+          Cosmic YenJai started as a course assignment and quickly became my first deep dive into designing a full bullet hell loop.
+          The core challenge was shipping a playable game under heavy time pressure while still making the combat feel expressive.
+        </p>
+        <p style="margin-top: 12px;">
+          My focus was to build a game that looked charming and readable while still delivering fast, dense projectile patterns that demanded precision.
         </p>
       </div>
 
       <div class="panel">
-        <h2 class="section-title">Key Features</h2>
-        <div class="list">
-          <div class="list-item">Pattern-dense waves that reward micro-dodges and confident movement.</div>
-          <div class="list-item">Risk-reward pickups that push aggressive play in tight moments.</div>
-          <div class="list-item">A cosmic clown aesthetic with bold color passes and punchy impact FX.</div>
+        <h2 class="section-title">Inspiration & Visual Direction</h2>
+        <p>
+          During development, I was heavily invested in the Touhou series, which pushed me toward implementing a bullet hell structure.
+          At first I assumed the core mechanics would be straightforward, but balancing readability, pacing, and fairness became the real challenge.
+        </p>
+        <p style="margin-top: 12px;">
+          For art direction, I drew strong inspiration from <strong>Princess Remedy in a World of Hurt</strong>.
+          I wanted a simple but highly appealing style that was possible to execute within three weeks.
+        </p>
+        <img loading="lazy" src="assets/yenjai/capsule_616x353-1806722761.jpg" alt="Princess Remedy reference capsule art" style="margin-top: 14px; width: 100%; border-radius: 12px; box-shadow: var(--shadow); display: block;">
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Development Challenges & Post-Mortem</h2>
+      <div class="split">
+        <div class="panel">
+          <h3 style="margin-bottom:12px; font-size:1.2rem;">Difficulty Balancing</h3>
+          <p>
+            A major takeaway from this project was difficulty tuning. After watching players, I realized the game ended up far too hard.
+          </p>
+          <p style="margin-top:12px;">
+            <strong>The Player Experience:</strong> the difficulty curve was so steep that many players struggled to even reach phase two.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin-bottom:12px; font-size:1.2rem;">Proving the Concept</h3>
+          <p>
+            Even with the steep difficulty, I wanted to prove the mechanics were still mathematically fair.
+            To demonstrate that the game was beatable, I completed a no-hit run myself.
+          </p>
+          <video class="featured-video" controls playsinline preload="metadata" poster="assets/Ttitle_Screen_concept.png" style="margin-top: 14px; max-width: 100%;">
+            <source src="assets/Ez.webm" type="video/webm">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section-title">By the Numbers</h2>
-      <div class="stat-grid">
-        <div class="stat">
-          <div class="stat-label">Status</div>
-          <div class="stat-value">Prototype</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Engine</div>
-          <div class="stat-value">Unity</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Role</div>
-          <div class="stat-value">Design/Art</div>
-        </div>
-      </div>
-    </section>
+      <h2 class="section-title">Art & Development Gallery</h2>
 
-    <section class="section">
-      <h2 class="section-title">Gallery</h2>
-      <div class="gallery">
-        <img src="assets/yenjai.jpg" alt="Cosmic YenJai artwork 1">
-        <img src="assets/image.png" alt="Cosmic YenJai artwork 2">
+      <div class="gallery-group">
+        <h3 class="gallery-subtitle">1. Early Concepts & Wireframing</h3>
+        <div class="gallery three">
+          <figure>
+            <img loading="lazy" src="assets/yenjai/ui new.jpg" alt="Hand-drawn paper prototype of Cosmic YenJai user interface and gameplay space">
+            <figcaption>Paper layout exploring HUD placement and control readability.</figcaption>
+          </figure>
+          <figure>
+            <img loading="lazy" src="assets/yenjai/ui.png" alt="Wireframe sketch of boss positioning and bullet density for Cosmic YenJai">
+            <figcaption>Early boss/player framing with bullet density planning.</figcaption>
+          </figure>
+          <figure>
+            <img loading="lazy" src="assets/yenjai/Cosmic YenJai concept.jpg" alt="Digital concept sheet for Cosmic YenJai character and icon direction">
+            <figcaption>Digital concept pass for character, icons, and palette.</figcaption>
+          </figure>
+        </div>
+        <p class="gallery-caption">
+          <strong>Early Ideation:</strong> hand-drawn paper prototypes and digital sketches helped map UI layout, player controls, boss placement, and the overall bullet hell density.
+        </p>
       </div>
-    </section>
 
-    <section class="section">
-      <h2 class="section-title">Gameplay Clip</h2>
-      <div class="video-wrap">
-        <video class="featured-video" controls playsinline preload="metadata" poster="assets/Ttitle_Screen_concept.png">
-          <source src="assets/Ez.webm" type="video/webm">
-          Your browser does not support the video tag.
-        </video>
+      <div class="gallery-group">
+        <h3 class="gallery-subtitle">2. Character Sprites & Animation</h3>
+        <div class="gallery">
+          <figure>
+            <img loading="lazy" src="assets/yenjai/jester.png" alt="First jester boss sprite concept for Cosmic YenJai">
+            <figcaption>Boss iteration A.</figcaption>
+          </figure>
+          <figure>
+            <img loading="lazy" src="assets/yenjai/jester 2.png" alt="Second jester boss sprite concept for Cosmic YenJai">
+            <figcaption>Boss iteration B.</figcaption>
+          </figure>
+          <figure>
+            <img loading="lazy" src="assets/yenjai/jester 3.png" alt="Third jester boss sprite concept for Cosmic YenJai">
+            <figcaption>Boss iteration C.</figcaption>
+          </figure>
+          <figure>
+            <img loading="lazy" src="assets/yenjai/Cosmic YenJai top.jpg" alt="Player character concept and front-facing sprite direction">
+            <figcaption>Cosmic clown.</figcaption>
+          </figure>
+        </div>
+        <p class="gallery-caption">
+          <strong>Sprite Development:</strong> original pixel art for the protagonist and main boss with bold, contrasting colors to keep silhouettes readable against dense bullet patterns.
+        </p>
+      </div>
+
+      <div class="gallery-group">
+        <h3 class="gallery-subtitle">3. Bullet & Projectile Assets</h3>
+        <div class="gallery bullet-row">
+          <figure>
+            <img loading="lazy" src="assets/yenjai/Star1.gif" alt="Star bullet sprite for Cosmic YenJai">
+          </figure>
+          <figure>
+            <img loading="lazy" src="assets/yenjai/Scythe1.gif" alt="Scythe bullet sprite for Cosmic YenJai">
+          </figure>
+          <figure>
+            <img loading="lazy" src="assets/yenjai/Moon1.gif" alt="Moon bullet sprite for Cosmic YenJai">
+          </figure>
+          <figure>
+            <img loading="lazy" src="assets/yenjai/Blue1.gif" alt="Blue orb bullet sprite for Cosmic YenJai">
+          </figure>
+          <figure>
+            <img loading="lazy" src="assets/yenjai/Heart1.gif" alt="Heart icon projectile sprite for Cosmic YenJai">
+          </figure>
+        </div>
+        <p class="gallery-caption">
+          <strong>Projectile Set:</strong> custom bullet sprites created to support readable pattern variety and clear hit-state feedback during dense encounters.
+        </p>
       </div>
     </section>
 
     <section class="project-footer">
-      <div class="footer-note">Want a build or a deeper breakdown of the encounter design?</div>
-      <a class="cta" href="contact.html">Contact Me</a>
+      <div class="footer-note">Want a playable build or a deeper design post-mortem?</div>
+      <a class="cta" href="https://cdn.discordapp.com/attachments/699618113993572412/1296485358011158549/Cosmic_Yen-Jai.zip?ex=699e6354&is=699d11d4&hm=d0241a20fc332769ee4c111afec38639a5a70bdd44dbfec4be2f05f723aee59d&" target="_blank">Play Cosmic Yen-Jai</a>
     </section>
     <div class="footer-back-row">
       <a class="footer-back" href="projects.html"><span aria-hidden="true">&larr;</span><span class="label">Back to Projects</span></a>
