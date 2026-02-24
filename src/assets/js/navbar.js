@@ -5,18 +5,34 @@ class SiteHeader extends HTMLElement {
     this._pageCache = new Map(); // fullUrl -> Promise<{ doc: Document }>
   }
 
-  // Detect the base path from <base href> so we work on both localhost and GitHub Pages.
-  // e.g. on GitHub Pages  <base href="/SuperWebsite/"> → basePath = "/SuperWebsite"
-  //      on localhost     no <base> tag               → basePath = ""
+  // Calculate the relative path from the current page to the project root.
+  // We do this by looking at how navbar.js itself was loaded!
+  get pathToRoot() {
+    if (this._pathToRoot !== undefined) return this._pathToRoot;
+    const scripts = document.getElementsByTagName('script');
+    let navbarScript = null;
+    for (let s of scripts) {
+      if (s.src.includes('navbar.js')) {
+        navbarScript = s;
+        break;
+      }
+    }
+    if (navbarScript) {
+      const src = navbarScript.getAttribute('src') || '';
+      const matches = src.match(/\.\.\//g);
+      this._pathToRoot = matches ? matches.join('') : '';
+    } else {
+      this._pathToRoot = '';
+    }
+    return this._pathToRoot;
+  }
+
+  // Detect the base path dynamically from the URL.
   get basePath() {
     if (this._basePath !== undefined) return this._basePath;
-    const base = document.querySelector('base');
-    if (base) {
-      // strip trailing slash, e.g. "/SuperWebsite/" → "/SuperWebsite"
-      this._basePath = base.getAttribute('href').replace(/\/$/, '');
-    } else {
-      this._basePath = '';
-    }
+    const pathname = window.location.pathname;
+    const PROD_ROOT = '/SuperWebsite';
+    this._basePath = pathname.includes(PROD_ROOT) ? PROD_ROOT : '';
     return this._basePath;
   }
 
@@ -169,10 +185,10 @@ class SiteHeader extends HTMLElement {
         <div class="logo">LEON JOENSEN</div>
 
         <nav id="nav">
-          <a href="/" data-link="/">Home</a>
-          <a href="/projects/" data-link="/projects/">Projects</a>
-          <a href="/about/" data-link="/about/">About</a>
-          <a href="/contact/" data-link="/contact/">Contact</a>
+          <a href="${this.pathToRoot}index.html" data-link="/">Home</a>
+          <a href="${this.pathToRoot}projects/index.html" data-link="/projects/">Projects</a>
+          <a href="${this.pathToRoot}about/index.html" data-link="/about/">About</a>
+          <a href="${this.pathToRoot}contact/index.html" data-link="/contact/">Contact</a>
         </nav>
 
         <div class="hamburger" id="hamburger">
@@ -197,8 +213,12 @@ class SiteHeader extends HTMLElement {
 
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        const route = link.getAttribute('href'); // logical, e.g. "/projects/"
-        const url = this.fullPath(this.normalizeRoute(route)); // full, e.g. "/SuperWebsite/projects/"
+        const route = link.getAttribute('data-link');
+        const url = this.fullPath(this.normalizeRoute(route));
+        const targetUrl = link.getAttribute('href');
+
+        // For local file:// access, we must push the relative file path to stay in context.
+        const historyUrl = (window.location.protocol === 'file:') ? targetUrl : url;
 
         // Block reload if clicking the current page
         const currentLogical = this.normalizeRoute(this.logicalPath(window.location.pathname));
@@ -211,10 +231,10 @@ class SiteHeader extends HTMLElement {
         hamburger.classList.remove('active');
 
         // Shift the active CSS classes immediately so the animation triggers
-        this.setupActiveState(url);
+        this.setupActiveState(historyUrl);
 
         // Begin fetching the next page silently
-        this.loadPage(url, true);
+        this.loadPage(targetUrl, historyUrl, true);
       });
     });
 
@@ -289,12 +309,12 @@ class SiteHeader extends HTMLElement {
     window.__portfolioPageSignal = window.__portfolioPageAbortController.signal;
   }
 
-  async prefetchPage(fullUrl) {
-    const key = this.stripHash(fullUrl);
+  async _prefetchPage(fetchUrl, logicalUrl) {
+    const key = logicalUrl;
     if (this._pageCache.has(key)) return this._pageCache.get(key);
 
     const promise = (async () => {
-      const response = await fetch(key, { credentials: 'same-origin' });
+      const response = await fetch(fetchUrl);
       const htmlText = await response.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlText, 'text/html');
@@ -313,11 +333,12 @@ class SiteHeader extends HTMLElement {
   }
 
   prefetchPrimaryRoutes() {
-    const routes = ['/', '/projects/', '/about/', '/contact/'];
-    const urls = routes.map(r => this.fullPath(this.normalizeRoute(r)));
-
+    const links = this.shadowRoot.querySelectorAll('nav a');
     const kick = () => {
-      urls.forEach(u => this.prefetchPage(u));
+      links.forEach(link => {
+        const url = this.fullPath(this.normalizeRoute(link.getAttribute('data-link')));
+        this._prefetchPage(link.getAttribute('href'), url);
+      });
     };
 
     if ('requestIdleCallback' in window) {
@@ -327,7 +348,7 @@ class SiteHeader extends HTMLElement {
     }
   }
 
-  async loadPage(url, pushHistory = true) {
+  async loadPage(fetchUrl, historyUrl, pushHistory = true) {
     this.ensureContentRoot();
     this.resetPageLifecycle();
     const root = this._contentRoot;
@@ -335,7 +356,7 @@ class SiteHeader extends HTMLElement {
 
     try {
       const fadePromise = new Promise(r => window.setTimeout(r, 120));
-      const { doc } = await this.prefetchPage(url);
+      const { doc } = await this._prefetchPage(fetchUrl, historyUrl);
       await fadePromise;
 
       // Update Head Elements (Title and Inline Styles)
@@ -387,7 +408,7 @@ class SiteHeader extends HTMLElement {
 
     } catch (error) {
       console.error('SPA Failed. Attempting Fallback HTML load:', error);
-      window.location.href = url;
+      window.location.href = fetchUrl;
     } finally {
       // Guarantee our main frame removes the loading CSS hook, pulling smoothly into opacity 1.
       window.setTimeout(() => {
