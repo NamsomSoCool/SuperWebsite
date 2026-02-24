@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <base href="/SuperWebsite/">
+    <base href="/SuperWebsite/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leon Joensen | Portfolio</title>
@@ -966,7 +966,7 @@
 
     <site-header></site-header>
 
-    
+
 
     <script>
         // Counter animation on scroll & lightbox
@@ -1035,13 +1035,13 @@
                 lightbox = document.createElement('div');
                 lightbox.className = 'lightbox';
                 lightbox.id = 'lightbox';
-            lightbox.innerHTML = '<img id="lightbox-img" alt="preview">';
-            document.body.appendChild(lightbox);
+                lightbox.innerHTML = '<img id="lightbox-img" alt="preview">';
+                document.body.appendChild(lightbox);
 
-            lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') lightbox.classList.remove('active');
-            });
+                lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') lightbox.classList.remove('active');
+                });
             }
 
             document.querySelectorAll('.gallery img').forEach(img => {
@@ -1127,23 +1127,6 @@
         })();
     </script>
 
-    <audio id="hero-click-audio" preload="auto">
-        <source src="assets/audio/Roland 169 Ahh Sound Effect High Quality.mp3" type="audio/mpeg">
-    </audio>
-
-    <script>
-        (() => {
-            const heroBanner = document.querySelector(".hero-image-wrapper");
-            const heroAudio = document.getElementById("hero-click-audio");
-
-            if (heroBanner && heroAudio) {
-                heroBanner.addEventListener("click", () => {
-                    heroAudio.currentTime = 0;
-                    heroAudio.play().catch(() => { });
-                });
-            }
-        })();
-    </script>
 
     <script>
         (() => {
@@ -1236,11 +1219,29 @@
         </div>
         <a class="featured-scroll" href="#featured-project" aria-label="Scroll to Featured Work">↓</a>
     </section>
+
+    <audio id="hero-click-audio" preload="auto">
+        <source src="assets/audio/Roland 169 Ahh Sound Effect High Quality.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        (() => {
+            const heroBanner = document.querySelector(".hero-image-wrapper");
+            const heroAudio = document.getElementById("hero-click-audio");
+            if (heroBanner && heroAudio) {
+                heroBanner.addEventListener("click", () => {
+                    heroAudio.currentTime = 0;
+                    heroAudio.play().catch(() => { });
+                });
+            }
+        })();
+    </script>
+
     <section class="all-featured-projects" id="featured-project">
 
         <div class="project-card featured-project">
             <img class="project-icon" src="assets/images/logos/unity.png" alt="Unity">
-            <h3 class="project-title"><a href="projects/chillaxscraps"><span
+            <h3 class="project-title"><a href="/SuperWebsite/projects/chillaxscraps/"><span
                         class="title-text">ChillaxSCRAPS</span></a> <span class="tag tag-modding">Modding</span></h3>
             <div class="impact-stat">1 Million+ Downloads</div>
 
@@ -1270,7 +1271,7 @@
 
                 <div class="video-wrap">
                     <video class="featured-video" controls playsinline preload="metadata"
-                        poster="assets/images/chillaxposter.png">
+                        poster="/SuperWebsite/assets/images/chillaxposter.png">
                         <source src="assets/videos/Chillax_Video.webm" type="video/webm">
                         Your browser does not support the video tag.
                     </video>
@@ -1285,7 +1286,7 @@
 
         <div class="project-card featured-project">
             <img class="project-icon" src="assets/images/logos/unreal.png" alt="Unreal Engine">
-            <h3 class="project-title"><a href="projects/projectliminal"><span class="title-text">Project
+            <h3 class="project-title"><a href="/SuperWebsite/projects/projectliminal/"><span class="title-text">Project
                         Liminal</span></a> <span class="tag tag-featured">Game Project</span></h3>
             <div class="impact-stat">FutureGames Project</div>
             <p>
@@ -1314,7 +1315,7 @@
 
                 <div class="video-wrap">
                     <video class="featured-video" id="project-liminal-video" controls playsinline preload="metadata"
-                        poster="assets/images/project linamalposter.png">
+                        poster="/SuperWebsite/assets/images/project linamalposter.png">
                         <source src="assets/videos/Trailer1.webm" type="video/webm">
                         Your browser does not support the video tag.
                     </video>
@@ -1328,8 +1329,9 @@
 
         <div class="project-card featured-project">
             <img class="project-icon" src="assets/images/logos/unity.png" alt="Unity">
-            <h3 class="project-title"><a href="projects/chillaxyumyum"><span class="title-text">Chillax <span
-                            class="nowrap">Yum-Yum</span></span></a> <span class="tag tag-side">Side Project</span></h3>
+            <h3 class="project-title"><a href="/SuperWebsite/projects/chillaxyumyum/"><span class="title-text">Chillax
+                        <span class="nowrap">Yum-Yum</span></span></a> <span class="tag tag-side">Side Project</span>
+            </h3>
             <div class="impact-stat">Upcoming Game</div>
 
             <p>
@@ -1363,7 +1365,8 @@
 
         <div class="project-card featured-project">
             <img class="project-icon" src="assets/images/logos/unity.png" alt="Unity">
-            <h3 class="project-title"><a href="projects/cosmicyenjai"><span class="title-text">Cosmic YenJai</span></a>
+            <h3 class="project-title"><a href="/SuperWebsite/projects/cosmicyenjai/"><span class="title-text">Cosmic
+                        YenJai</span></a>
                 <span class="tag tag-side">Side Project</span>
             </h3>
             <div class="impact-stat">Expanded Ideas</div>
@@ -1386,14 +1389,14 @@
 
                 <div class="video-wrap">
                     <video class="featured-video video-16x9" controls playsinline preload="metadata"
-                        poster="assets/images/Ttitle_Screen_concept.png">
+                        poster="/SuperWebsite/assets/images/Ttitle_Screen_concept.png">
                         <source src="assets/videos/Ez.webm" type="video/webm">
                         Your browser does not support the video tag.
                     </video>
                 </div>
 
                 <p>
-                    <a class="project-link" href="projects/cosmicyenjai">View Project -></a>
+                    <a class="project-link" href="/SuperWebsite/projects/cosmicyenjai/">View Project -></a>
                 </p>
             </div>
         </div>

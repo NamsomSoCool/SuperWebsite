@@ -51,7 +51,7 @@ button {
   font-family: inherit;
 }
 
-/* Base Fonts Configured globally to avoid 11x duplication */
+/* Base fonts configured globally to avoid duplication */
 @font-face {
   font-family: 'FuturaCustom';
   src: url('../fonts/Futura.woff2') format('woff2');
