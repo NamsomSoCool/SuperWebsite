@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leon Joensen | Contact</title>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="icon" href="/assets/images/chillaxbear.jpg" type="image/jpeg">
+
+  <style>
+    body {
+      background:
+        radial-gradient(1200px 800px at 10% -10%, rgba(255, 43, 79, 0.18), transparent 50%),
+        radial-gradient(900px 700px at 90% 10%, rgba(255, 255, 255, 0.06), transparent 55%),
+        var(--black);
+      color: var(--text);
+
+      padding-top: 80px;
+      min-height: 100vh;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    .contact-hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 40px;
+      padding: 32px;
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0)),
+        var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(420px 260px at 12% 10%, rgba(255, 43, 79, 0.18), transparent 60%);
+    }
+
+    .contact-photo {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 20px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-photo img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 16px;
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+    }
+
+    .kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-title {
+      font-size: 64px;
+      line-height: 1.05;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: #e7e7e7;
+      margin-bottom: 20px;
+      max-width: 560px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+
+    .cta.ghost {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(255, 43, 79, 0.35);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+      margin-top: auto;
+      align-self: flex-start;
+    }
+
+    a.pill:hover,
+    button.pill:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(255, 43, 79, 0.25);
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 43, 79, 0.5);
+    }
+
+    button.pill {
+      font-family: inherit;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .toast-container {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .toast-pill {
+      background: #2a2a2a;
+      border: 1px solid #3a3a3a;
+      border-radius: 999px;
+      padding: 6px 14px;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      animation: toastFloatUp 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      white-space: nowrap;
+    }
+
+    .toast-pill svg {
+      color: #4ade80;
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @keyframes toastFloatUp {
+      0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+      }
+
+      15% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      80% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.95);
+      }
+    }
+
+    .pill svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+
+    .contact-card {
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      min-height: 150px;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 43, 79, 0.4);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+    }
+
+    .contact-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.7rem;
+      margin-bottom: 10px;
+    }
+
+    .contact-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .contact-card p {
+      color: #d8d8d8;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .contact-link {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      border-bottom: 2px solid var(--red);
+      padding-bottom: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @media (max-width: 1024px) {
+      .contact-hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+
+      main {
+        padding: 50px 18px 90px;
+      }
+
+      .contact-hero {
+        padding: 24px;
+      }
+
+      .page-title {
+        font-size: 3rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+  <script src="/assets/js/navbar.js" defer></script>
+</head>
+
+<body>
+  <site-header></site-header>
+
+  <main>
+    <section class="contact-hero">
+      <div>
+        <div class="kicker">Say Hello</div>
+        <h1 class="page-title">Let's build something fun.</h1>
+        <p class="subtitle">
+          I am open to collaborations, modding work, and game projects. If your idea fits,
+          send a message and I will get back to you.
+        </p>
+        <div class="cta-row">
+          <a class="cta" href="mailto:Leonjoensen2@gmail.com">Email Me</a>
+          <a class="cta ghost" href="/projects">View Projects</a>
+        </div>
+      </div>
+      <div class="contact-photo">
+        <img src="/assets/images/measf.webp" alt="Leon Joensen">
+      </div>
+    </section>
+
+    <section class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-label">Email</div>
+        <h4>Fastest reply</h4>
+        <p>Best for work inquiries, collabs, or feedback.</p>
+        <button class="pill copy-btn" data-copy="Leonjoensen2@gmail.com">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v.511l8 5.333 8-5.333V6H4zm0 2.511V18h16V8.511l-8 5.333-8-5.333z" />
+          </svg>
+          Copy Email
+        </button>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-label">Discord</div>
+        <h4>Quick questions</h4>
+        <p>Drop a short note or a link to your idea.</p>
+        <button class="pill copy-btn" data-copy="Namsom">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
+          </svg>
+          Copy Discord ID
+        </button>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-label">LinkedIn</div>
+        <h4>Professional profile</h4>
+        <p>Connect or send a message.</p>
+        <a class="pill" href="https://www.linkedin.com/in/leon-joensen-672900326/" target="_blank"
+          rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+          </svg>
+          Leon Joensen
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const copyButtons = document.querySelectorAll('.copy-btn');
+
+      copyButtons.forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const textToCopy = btn.getAttribute('data-copy');
+          try {
+            await navigator.clipboard.writeText(textToCopy);
+
+            // Check if container already exists to clear out old ones
+            let container = btn.parentNode.querySelector('.toast-container');
+            if (container) {
+              container.remove();
+            }
+
+            container = document.createElement('div');
+            container.className = 'toast-container';
+
+            const toast = document.createElement('div');
+            toast.className = 'toast-pill';
+            toast.innerHTML = `
+              ${textToCopy}
+              <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            `;
+
+            container.appendChild(toast);
+
+            // Append right beside the button (inside the relative contact-card)
+            btn.parentNode.appendChild(container);
+
+            // Clean up element after animation finishes
+            setTimeout(() => {
+              if (container.parentNode) {
+                container.parentNode.removeChild(container);
+              }
+            }, 1800);
+
+          } catch (err) {
+            console.error('Failed to copy text: ', err);
+          }
+        });
+      });
+    })();
+    </script>
+</body>
+
+</html>

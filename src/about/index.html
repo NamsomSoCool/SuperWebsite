@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leon Joensen | About</title>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="icon" href="/assets/images/chillaxbear.jpg" type="image/jpeg">
+
+  <style>
+    body {
+      background: var(--black);
+      color: white;
+    }
+
+    main {
+      min-height: calc(100vh - 80px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 120px;
+    }
+
+    .hero-text {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    @media (max-width:768px) {
+
+      main {
+        padding-top: 80px;
+      }
+
+      .hero-text {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+  <script src="/assets/js/navbar.js" defer></script>
+</head>
+
+<body>
+  <site-header></site-header>
+
+  <main>
+    <div class="hero-text">Work in progress 💯💯</div>
+
+    <div class="easter-egg"
+      style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); opacity: 0.12; mix-blend-mode: screen; pointer-events: none; z-index: -1; width: 100%; max-width: 500px; display: flex; justify-content: center;">
+      <img src="/assets/images/kdot.png" alt=""
+        style="width: 100%; height: auto; filter: grayscale(100%) contrast(2.2) brightness(0.55); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%); mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);">
+    </div>
+  </main>
+
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+:root {
+  --red: #ff2b4f;
+  --black: #0f0f0f;
+  --panel: #2a2a2a;
+  --panel-soft: #333333;
+  --text: #f5f5f5;
+  --muted: #b7b7b7;
+  --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  --radius: 16px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --header-height: 80px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'FuturaCustom', 'FCMittraphap', Arial, Helvetica, sans-serif;
+  padding-top: var(--header-height);
+  min-height: 100vh;
+}
+
+main {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+main.page-transitioning {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+a {
+  text-decoration: none;
+  font-family: inherit;
+  color: inherit;
+}
+
+button {
+  border: none;
+  font-family: inherit;
+}
+
+/* Base Fonts Configured globally to avoid 11x duplication */
+@font-face {
+  font-family: 'FuturaCustom';
+  src: url('/assets/fonts/Futura.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FCMittraphap';
+  src: url('/assets/fonts/FCMittraphap.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Futur';
+  src: url('/assets/fonts/futur.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Global scrollbar styling for polish */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--red);
+}
