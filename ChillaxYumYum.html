@@ -16,11 +16,7 @@
       --muted: #b7b7b7;
       --shadow: 0 20px 60px rgba(0,0,0,0.5);
       --radius: 16px;
-      --space-1: 8px;
-      --space-2: 16px;
-      --space-3: 24px;
-      --space-4: 32px;
-      --space-5: 48px;
+      --line: rgba(255,255,255,0.08);
     }
 
     * {
@@ -32,10 +28,14 @@
     body {
       background: var(--black);
       color: var(--text);
-      font-family: 'FuturaCustom', 'FCMittraphap', Arial, Helvetica, sans-serif;
+      font-family: "FuturaCustom", "FCMittraphap", Arial, Helvetica, sans-serif;
       opacity: 1;
       animation: none;
       padding-top: 80px;
+    }
+
+    body.page-loaded {
+      opacity: 1;
     }
 
     header {
@@ -199,15 +199,15 @@
       margin-bottom: 16px;
     }
 
+    .hero-title span {
+      color: inherit;
+    }
+
     .hero-subtitle {
       font-size: 1.1rem;
       line-height: 1.7;
       color: #e7e7e7;
       margin-bottom: 20px;
-    }
-
-    .nowrap {
-      white-space: nowrap;
     }
 
     .badge-row {
@@ -248,17 +248,22 @@
       transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
     }
 
-    .cta.discord {
-      background: #5865f2;
-    }
-
     .cta:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 24px rgba(255,43,79,0.35);
     }
 
+    .cta.discord {
+      background: #5865f2;
+    }
+
     .cta.discord:hover {
       box-shadow: 0 10px 24px rgba(88,101,242,0.35);
+    }
+
+    .cta.ghost {
+      background: transparent;
+      border: 2px solid var(--red);
     }
 
     .hero-media {
@@ -270,10 +275,20 @@
       overflow: hidden;
     }
 
+    .hero-media::after {
+      content: none;
+    }
+
+    .hero-media video {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+
     .hero-media img {
       width: 100%;
-      border-radius: 12px;
       display: block;
+      border-radius: 12px;
       transform: scale(1);
       transition: transform .35s ease;
     }
@@ -291,32 +306,19 @@
       margin-bottom: 16px;
     }
 
-    .split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-    }
-
-    .panel {
-      background: var(--panel);
-      border: 2px solid rgba(255,255,255,0.08);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-
-    .panel p {
+    .section-intro {
       line-height: 1.7;
       color: #e8e8e8;
+      margin-bottom: 14px;
     }
 
-    .stat-grid {
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 18px;
     }
 
-    .stat {
+    .stat-card {
       background: var(--panel-soft);
       border-radius: 12px;
       padding: 18px;
@@ -332,39 +334,329 @@
     }
 
     .stat-value {
-      font-size: 1.8rem;
-      font-weight: 800;
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.4;
     }
 
-    .gallery {
+    .split {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
     }
 
-    .gallery img {
-      width: 100%;
-      border-radius: 12px;
+    .panel {
+      background: var(--panel);
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 24px;
       box-shadow: var(--shadow);
-      transition: transform .25s ease, box-shadow .25s ease;
     }
 
-    .gallery img:hover {
-      transform: scale(1.02);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    .panel h3 {
+      font-size: 1.45rem;
+      margin-bottom: 12px;
     }
 
-    .list {
+    .panel p {
+      line-height: 1.7;
+      color: #e8e8e8;
+    }
+
+    .panel p + p {
+      margin-top: 12px;
+    }
+
+    .bullet-list {
       display: grid;
       gap: 12px;
       margin-top: 10px;
+      padding-left: 20px;
+      line-height: 1.7;
+      color: #e8e8e8;
     }
 
-    .list-item {
+    .loop {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .loop-item {
       background: var(--panel-soft);
       border-radius: 12px;
-      padding: 14px 16px;
+      padding: 16px;
       border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .loop-number {
+      display: inline-flex;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      align-items: center;
+      justify-content: center;
+      background: var(--red);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .loop-item h3 {
+      font-size: 1.06rem;
+      margin-bottom: 8px;
+    }
+
+    .loop-item p {
+      line-height: 1.6;
+      color: #e8e8e8;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .process-card {
+      background: var(--panel-soft);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .process-card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 8px;
+    }
+
+    .process-card p {
+      line-height: 1.62;
+      color: #e8e8e8;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--panel-soft);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+    }
+
+    .paired-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .flow-content {
+      display: grid;
+      gap: 14px;
+    }
+
+    .media-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .media-card {
+      background: var(--panel);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .media-card img,
+    .media-card video {
+      width: 100%;
+      display: block;
+    }
+
+    .media-card video {
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .media-card img {
+      height: auto;
+      object-fit: contain;
+      background: #1a1a1a;
+    }
+
+    .media-card .label,
+    .media-card figcaption {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      padding: 10px 12px;
+    }
+
+    .media-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .media-mini-grid .media-card img {
+      height: auto;
+    }
+
+    .bike-showcase-card {
+      padding: 12px;
+    }
+
+    .bike-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .bike-showcase-grid img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 10px;
+      display: block;
+      background: #1a1a1a;
+    }
+
+    .process-block {
+      margin-bottom: 16px;
+    }
+
+    .process-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .process-block h3 {
+      font-size: 1.55rem;
+      margin-bottom: 10px;
+    }
+
+    .process-block p {
+      line-height: 1.7;
+      color: #e8e8e8;
+    }
+
+    .media-card.art img {
+      object-fit: contain;
+      background: #1a1a1a;
+      padding: 0;
+    }
+
+    .world-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .world-groups {
+      display: grid;
+      gap: 18px;
+    }
+
+    .world-group {
+      display: grid;
+      gap: 10px;
+    }
+
+    .world-group-title {
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+
+    .world-media {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .map-environment-media figure {
+      aspect-ratio: 1 / 1;
+    }
+
+    .world-media.map-environment-media img {
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .world-media figure {
+      background: var(--panel);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .world-media img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      background: #1a1a1a;
+      display: block;
+    }
+
+    .world-media figcaption {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      padding: 10px 12px;
+    }
+
+    .npc-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .npc-card {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .npc-card img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      background: #1a1a1a;
+    }
+
+    .npc-body {
+      padding: 12px;
+    }
+
+    .npc-body h3 {
+      font-size: 1rem;
+      margin-bottom: 7px;
+    }
+
+    .npc-body p {
+      line-height: 1.55;
+      color: #e8e8e8;
+      font-size: 0.91rem;
     }
 
     .project-footer {
@@ -380,13 +672,38 @@
       flex-wrap: wrap;
     }
 
+    .footer-title {
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+
     .footer-note {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
     }
 
     .footer-back-row {
       margin-top: 16px;
+    }
+
+    .reveal,
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    @media (max-width: 1120px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .loop,
+      .process-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
     }
 
     @media (max-width: 1024px) {
@@ -394,11 +711,13 @@
         grid-template-columns: 1fr;
       }
 
-      .split {
+      .split,
+      .world-layout,
+      .paired-layout {
         grid-template-columns: 1fr;
       }
 
-      .stat-grid {
+      .world-media {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
@@ -422,16 +741,32 @@
       }
 
       nav.active { display: flex; }
+
       .hamburger {
         display: flex;
         position: absolute;
         right: 24px;
       }
 
-      .hero-title { font-size: 3rem; }
-      .gallery { grid-template-columns: 1fr; }
-      .stat-grid { grid-template-columns: 1fr; }
       main { padding: 40px 18px 90px; }
+
+      .hero-title { font-size: 3rem; }
+
+      .stats-grid,
+      .loop,
+      .process-grid,
+      .media-mini-grid,
+      .bike-showcase-grid,
+      .world-media {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
     }
 
     @keyframes menuSlide {
@@ -440,15 +775,15 @@
     }
 
     @font-face {
-      font-family: 'FuturaCustom';
-      src: url('fonts/Futura.ttf') format('truetype');
+      font-family: "FuturaCustom";
+      src: url("fonts/futur.ttf") format("truetype");
       font-weight: normal;
       font-style: normal;
     }
 
     @font-face {
-      font-family: 'FCMittraphap';
-      src: url('fonts/FCMittraphap.otf') format('opentype');
+      font-family: "FCMittraphap";
+      src: url("fonts/FCMittraphap.otf") format("opentype");
       font-weight: normal;
       font-style: normal;
     }
@@ -478,95 +813,282 @@
       <div class="hero-content">
         <a class="back-link" href="projects.html"><span aria-hidden="true">&larr;</span><span class="label">Back to Projects</span></a>
         <div class="kicker"><span class="kicker-pill side">Side Project</span></div>
-        <h1 class="hero-title">Chillax <span class="nowrap">Yum-Yum</span></h1>
+        <h1 class="hero-title">Chillax <span>Yum-Yum</span></h1>
         <p class="hero-subtitle">
-          A cozy cooking game prototype that feels like hanging with friends in the kitchen — a little chaotic,
-          a lot of laughs, and surprisingly tasty when it all comes together.
+          Chillax Yum-Yum is an online co-op restaurant game where players cook, deliver, and survive chaotic town routes together.
+          The project builds on Thai-local culture references in Hua Hin and focuses on a funny but high-stakes loop: gather,
+          cook, deliver, and hit your daily rating quota before your boss shuts you down.
         </p>
 
         <div class="badge-row">
-          <span class="badge"><strong>Side</strong> project</span>
-          <span class="badge"><strong>In progress</strong></span>
-          <span class="badge"><strong>Unity</strong> prototype</span>
+          <span class="badge">Unity Prototype</span>
+          <span class="badge">In Progress</span>
+          <span class="badge">Co-op</span>
         </div>
 
         <div class="cta-row">
-          <a class="cta discord" href="https://discord.gg/pK4nZ29yQ5" target="_blank">Join the Discord</a>
+          <a class="cta discord" href="https://discord.gg/pK4nZ29yQ5" target="_blank" rel="noopener">Join Discord</a>
         </div>
       </div>
 
       <div class="hero-media">
-        <img src="assets/chillaxyumyum.jpg" alt="Chillax Yum-Yum key art">
+        <img src="assets/chillaxyumyum.jpg" alt="Chillax Yum-Yum key art" loading="eager">
+      </div>
+
+    </section>
+
+    <section class="section reveal">
+      <article class="panel">
+        <h2 class="section-title">Project Overview</h2>
+        <p>
+          Chillax Yum-Yum is an online co-op restaurant game where one player can stay in the kitchen while another handles outside
+          tasks like gathering ingredients and deliveries. The experience is built around funny chaos and communication under pressure.
+        </p>
+        <p>
+          Every day is evaluated by a rating quota. If the team misses quota, the day fails. If the team succeeds, difficulty scales
+          up with tougher timing and more demanding order flow.
+        </p>
+      </article>
+    </section>
+
+    <section class="section reveal">
+      <article class="media-card">
+        <video controls playsinline preload="metadata">
+          <source src="assets/Chillax%20YumYum/WglPfXlK29hdi3S6nby7NA.mp4" type="video/mp4">
+        </video>
+      </article>
+    </section>
+
+    <section class="section reveal">
+      <h2 class="section-title">My Role</h2>
+      <div class="paired-layout">
+        <article class="panel">
+          <p>I handled major cross-discipline ownership on this project:</p>
+          <ul class="bullet-list">
+            <li>Game and system design for the day loop, cooking flow, and progression pressure.</li>
+            <li>Level design and route planning to support gather-to-deliver decisions.</li>
+            <li>World building based on local Thailand references around Hua Hin atmosphere.</li>
+            <li>Art direction and 3D asset production for characters, shop identity, and vehicles.</li>
+          </ul>
+        </article>
       </div>
     </section>
 
-    <section class="section split">
-      <div class="panel">
-        <h2 class="section-title">Overview</h2>
-        <p>
-          Chillax <span class="nowrap">Yum-Yum</span> is a playful food game prototype built around timing, layering, and satisfying
-          feedback. It aims for that "friend kitchen" vibe — a little mess, shared reactions, and
-          big, goofy wins when the dish actually lands.
+    <section class="section reveal">
+      <article class="media-card bike-showcase-card">
+        <div class="bike-showcase-grid">
+          <img src="assets/Chillax%20YumYum/morsai.png" alt="Motorbike concept sketch" loading="lazy">
+          <img src="assets/Chillax%20YumYum/morsai%20model.png" alt="Low-poly motorbike 3D model" loading="lazy">
+        </div>
+        <div class="label">
+          motorbike sketch to 3d
+        </div>
+      </article>
+    </section>
+
+    <section class="section reveal" id="gameplay">
+      <h2 class="section-title">System / Core Mechanic</h2>
+      <div class="paired-layout">
+        <div class="flow-content">
+          <div class="loop">
+            <article class="loop-item">
+              <div class="loop-number">1</div>
+              <h3>Receive Orders</h3>
+              <p>Mr. Krapow sets the day target and order queue.</p>
+            </article>
+            <article class="loop-item">
+              <div class="loop-number">2</div>
+              <h3>Gather Ingredients</h3>
+              <p>Players split to source materials before the timer punishes delay.</p>
+            </article>
+            <article class="loop-item">
+              <div class="loop-number">3</div>
+              <h3>Cook</h3>
+              <p>Station timing and sequence execution determine final food quality.</p>
+            </article>
+            <article class="loop-item">
+              <div class="loop-number">4</div>
+              <h3>Deliver</h3>
+              <p>Players ride out and complete routes under hazards and penalties.</p>
+            </article>
+            <article class="loop-item">
+              <div class="loop-number">5</div>
+              <h3>Bank Ratings</h3>
+              <p>Completed deliveries add customer ratings toward the daily quota.</p>
+            </article>
+            <article class="loop-item">
+              <div class="loop-number">6</div>
+              <h3>End of Day</h3>
+              <p>Quota pass means progression; quota fail means day loss.</p>
+            </article>
+          </div>
+          <div class="chip-row">
+            <span class="chip">Gather -> Cook -> Deliver</span>
+            <span class="chip">Quality affects ratings</span>
+          </div>
+        </div>
+        <div class="media-stack">
+          <article class="media-card">
+            <video controls playsinline preload="metadata">
+              <source src="assets/Chillax%20YumYum/FX7Z_1ktobjp7xPwWB5mIg.mp4" type="video/mp4">
+            </video>
+          </article>
+          <div class="media-mini-grid">
+            <figure class="media-card">
+              <img src="assets/Chillax%20YumYum/cooking%20mode.png" alt="Core mechanic cooking gameplay view" loading="lazy">
+              <figcaption>Cooking mode view showing station timing and first-person interaction flow.</figcaption>
+            </figure>
+            <figure class="media-card">
+              <img src="assets/Chillax%20YumYum/inventory.png" alt="Hand and pocket inventory interface" loading="lazy">
+              <figcaption>Hand and pocket inventory UI for quick item swaps during active runs.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2 class="section-title">NPCs and How They Complement Gameplay</h2>
+      <p class="section-intro">
+        NPCs are designed as active gameplay systems. They influence progression, resource flow, and player behavior in each day cycle.
+      </p>
+      <div class="npc-grid">
+        <article class="npc-card">
+          <img src="assets/Chillax%20YumYum/MrKrapow.png" alt="Mr. Krapow concept art" loading="lazy">
+          <div class="npc-body">
+            <h3>Mr. Krapow</h3>
+            <p>Sets quota and order flow, defining success and failure conditions.</p>
+          </div>
+        </article>
+        <article class="npc-card">
+          <img src="assets/Chillax%20YumYum/porpla.png" alt="Porpla concept art" loading="lazy">
+          <div class="npc-body">
+            <h3>Porpla</h3>
+            <p>Converts materials, making route/resource decisions more strategic.</p>
+          </div>
+        </article>
+        <article class="npc-card">
+          <img src="assets/Chillax%20YumYum/Officer%20Huahin.png" alt="Officer Hua Hin concept art" loading="lazy">
+          <div class="npc-body">
+            <h3>Officer HuaHin</h3>
+            <p>Penalizes unsafe riding and reinforces helmet-system behavior.</p>
+          </div>
+        </article>
+        <article class="npc-card">
+          <img src="assets/Chillax%20YumYum/nantani.png" alt="Nang Tani concept art" loading="lazy">
+          <div class="npc-body">
+            <h3>Nang Tani</h3>
+            <p>Provides blessing-based variation that changes run outcomes.</p>
+          </div>
+        </article>
+        <article class="npc-card">
+          <img src="assets/Chillax%20YumYum/DJ.Octaballin_drawing.png" alt="DJ Octaballin concept art" loading="lazy">
+          <div class="npc-body">
+            <h3>DJ Octaballin</h3>
+            <p>Adds disruption events and mini-game pressure to break routine.</p>
+          </div>
+        </article>
+        <article class="npc-card">
+          <img src="assets/Chillax%20YumYum/player.png" alt="Player character concept sketch" loading="lazy">
+          <div class="npc-body">
+            <h3>Player Character</h3>
+            <p>Crazy ass player character</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2 class="section-title">Worldbuilding and Map Design</h2>
+      <p class="section-intro">
+        The world is built from real Hua Hin references, then simplified into a readable co-op map with clear landmarks and route identity.
+      </p>
+      <div class="world-layout">
+        <article class="panel">
+          <p>
+            Route planning is organized around delivery pressure, ingredient access, and recovery zones so players can make quick decisions in co-op.
+          </p>
+          <p>
+            I used hand-drawn layouts and graybox passes to tune travel distance, turn rhythm, and interaction spacing before final art.
+          </p>
+          <p>
+            The final pass keeps local atmosphere while avoiding visual noise that would hurt navigation during fast runs.
+          </p>
+        </article>
+        <div class="media-stack">
+          <div class="world-groups">
+            <div class="world-group">
+              <h3 class="world-group-title">Map and Environment</h3>
+              <div class="world-media map-environment-media">
+                <figure>
+                  <img src="assets/Chillax%20YumYum/MapExtended.png" alt="Annotated map extension draft" loading="lazy">
+                </figure>
+                <figure>
+                  <img src="assets/Chillax%20YumYum/map%20layout.png" alt="Hand-drawn map layout sketch" loading="lazy">
+                </figure>
+                <figure>
+                  <img src="assets/Chillax%20YumYum/maparea.png" alt="Real-world local reference area for the map" loading="lazy">
+                </figure>
+                <figure>
+                  <img src="assets/Chillax%20YumYum/mapgas%20station%20.png" alt="Street and gas station reference for environment landmarks" loading="lazy">
+                </figure>
+              </div>
+            </div>
+            <div class="world-group">
+              <h3 class="world-group-title">Shop and Interior</h3>
+              <div class="world-media">
+                <figure>
+                  <img src="assets/Chillax%20YumYum/fplan.png" alt="Kitchen floor planning sketch" loading="lazy">
+                </figure>
+                <figure>
+                  <img src="assets/Chillax%20YumYum/SHOP.png" alt="Shop front concept art with scooter" loading="lazy">
+                </figure>
+                <figure>
+                  <img src="assets/Chillax%20YumYum/shopmodel.png" alt="3D shop model with signage" loading="lazy">
+                </figure>
+                <figure>
+                  <img src="assets/Chillax%20YumYum/shopprototype.png" alt="Early graybox shop prototype layout" loading="lazy">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-footer reveal">
+      <div>
+        <h3 class="footer-title">Current Focus</h3>
+        <p class="footer-note">
+          Expanding day progression, refining NPC mini-game interruptions, and tightening kitchen-to-delivery pacing for stable co-op playtests.
         </p>
       </div>
-
-      <div class="panel">
-        <h2 class="section-title">Core Loop</h2>
-        <div class="list">
-          <div class="list-item">Prep ingredients by chopping, flipping, and seasoning.</div>
-          <div class="list-item">Assemble orders under time pressure with clean visual cues.</div>
-          <div class="list-item">Serve combos quickly to keep the kitchen streak alive.</div>
-        </div>
+      <div class="cta-row">
+        <a class="cta" href="contact.html">Contact Me</a>
+        <a class="cta discord" href="https://discord.gg/pK4nZ29yQ5" target="_blank" rel="noopener">Join the Discord</a>
       </div>
     </section>
 
-    <section class="section">
-      <h2 class="section-title">By the Numbers</h2>
-      <div class="stat-grid">
-        <div class="stat">
-          <div class="stat-label">Status</div>
-          <div class="stat-value">In Progress</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Focus</div>
-          <div class="stat-value">Timing</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Role</div>
-          <div class="stat-value">Designer</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title">Gallery</h2>
-      <div class="gallery">
-        <img src="assets/chillaxyumyum.jpg" alt="Chillax Yum-Yum screenshot 1">
-        <img src="assets/chillaxyumyum2.png" alt="Chillax Yum-Yum screenshot 2">
-      </div>
-    </section>
-
-    <section class="project-footer">
-      <div class="footer-note">Want updates, a playtest, or a taste-test build?</div>
-      <a class="cta" href="contact.html">Contact Me</a>
-    </section>
-    <div class="footer-back-row">
+    <div class="footer-back-row reveal">
       <a class="footer-back" href="projects.html"><span aria-hidden="true">&larr;</span><span class="label">Back to Projects</span></a>
     </div>
   </main>
 
   <script>
     function toggleMenu() {
-      document.getElementById('nav').classList.toggle('active');
-      document.getElementById('hamburger').classList.toggle('active');
+      document.getElementById("nav").classList.toggle("active");
+      document.getElementById("hamburger").classList.toggle("active");
     }
   </script>
 
   <script>
+    document.body.classList.add("page-loaded");
+
     const path = window.location.pathname;
     const normalized = path.endsWith("/") ? path.slice(0, -1) : path;
     const lastSegment = normalized.split("/").pop();
     const currentPage = lastSegment && lastSegment.includes(".") ? lastSegment : "index.html";
+
     document.querySelectorAll("#nav a").forEach(link => {
       const isActive = link.getAttribute("href") === currentPage;
       link.classList.toggle("active", isActive);
@@ -614,6 +1136,29 @@
       }, { passive: true });
     })();
   </script>
+
+  <script>
+    (() => {
+      const nodes = document.querySelectorAll(".reveal");
+      if (!nodes.length || !("IntersectionObserver" in window)) {
+        nodes.forEach(node => node.classList.add("in"));
+        return;
+      }
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: "0px 0px -20px 0px"
+      });
+
+      nodes.forEach(node => observer.observe(node));
+    })();
+  </script>
 </body>
 </html>
-

@@ -547,7 +547,7 @@
       </div>
     </section>
 
-    <section class="section split">
+    <section class="section">
       <div class="panel">
         <h2 class="section-title">Project Overview</h2>
         <p>
@@ -559,11 +559,15 @@
         </p>
       </div>
 
-      <div class="panel">
+      <div class="panel" style="margin-top: 28px;">
         <h2 class="section-title">Inspiration & Visual Direction</h2>
         <p>
           During development, I was heavily invested in the Touhou series, which pushed me toward implementing a bullet hell structure.
           At first I assumed the core mechanics would be straightforward, but balancing readability, pacing, and fairness became the real challenge.
+        </p>
+        <p style="margin-top: 12px;">
+          For player control, holding <strong>Shift</strong> reveals the hurtbox for precision dodging, similar to Touhou focus mode.
+          Unlike Touhou, I also added a dash to support fast repositioning and riskier recovery plays.
         </p>
         <p style="margin-top: 12px;">
           For art direction, I drew strong inspiration from <strong>Princess Remedy in a World of Hurt</strong>.
@@ -584,15 +588,16 @@
           <p style="margin-top:12px;">
             <strong>The Player Experience:</strong> the difficulty curve was so steep that many players struggled to even reach phase two.
           </p>
-        </div>
-
-        <div class="panel">
-          <h3 style="margin-bottom:12px; font-size:1.2rem;">Proving the Concept</h3>
+          <h3 style="margin:18px 0 12px; font-size:1.2rem;">Proving the Concept</h3>
           <p>
             Even with the steep difficulty, I wanted to prove the mechanics were still mathematically fair.
             To demonstrate that the game was beatable, I completed a no-hit run myself.
           </p>
-          <video class="featured-video" controls playsinline preload="metadata" poster="assets/Ttitle_Screen_concept.png" style="margin-top: 14px; max-width: 100%;">
+        </div>
+
+        <div class="panel">
+          <h3 style="margin-bottom:12px; font-size:1.2rem;">Doing the no hit run to prove a point</h3>
+          <video class="featured-video" controls playsinline preload="metadata" poster="assets/Ttitle_Screen_concept.png" style="margin: 14px auto 0; max-width: 100%; display: block;">
             <source src="assets/Ez.webm" type="video/webm">
             Your browser does not support the video tag.
           </video>
