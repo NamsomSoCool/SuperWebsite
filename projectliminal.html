@@ -293,6 +293,11 @@
       gap: 28px;
     }
 
+    .split-side-stack {
+      display: grid;
+      gap: 16px;
+    }
+
     .panel {
       background: var(--panel);
       border: 2px solid rgba(255,255,255,0.08);
@@ -338,8 +343,43 @@
       gap: 16px;
     }
 
+    .overview-gallery {
+      margin-top: 18px;
+    }
+
+    .layout-gallery {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .layout-gallery img {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .mood-media {
+      margin-top: 18px;
+    }
+
+    .mood-media img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
     .gallery img {
       width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
       border-radius: 12px;
       box-shadow: var(--shadow);
       transition: transform .25s ease, box-shadow .25s ease;
@@ -361,6 +401,326 @@
       border-radius: 12px;
       padding: 14px 16px;
       border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .role-room-note {
+      margin-top: 16px;
+      line-height: 1.7;
+      color: #e8e8e8;
+    }
+
+    .role-gallery {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .role-gallery img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .making-progression {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .making-step {
+      display: grid;
+      gap: 8px;
+    }
+
+    .making-step-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .making-step img {
+      width: 100%;
+      aspect-ratio: 2135 / 2713;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .making-progression-panel {
+      margin-top: 16px;
+    }
+
+    .later-results {
+      margin-top: 0;
+    }
+
+    .later-results-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #e8e8e8;
+      margin-bottom: 10px;
+    }
+
+    .later-results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .later-results-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .later-results-panel {
+      margin-top: 16px;
+    }
+
+    .team-polish-panel {
+      margin-top: 16px;
+    }
+
+    .team-polish-grid {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .team-polish-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .monster-design-panel {
+      margin-top: 0;
+    }
+
+    .monster-design-copy {
+      display: grid;
+      gap: 10px;
+      line-height: 1.7;
+      color: #e8e8e8;
+    }
+
+    .monster-stage {
+      margin-top: 14px;
+    }
+
+    .monster-stage img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .monster-stage-grid {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .monster-stage-grid img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      background: var(--panel-soft);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .painting-slider {
+      margin-top: 14px;
+      position: relative;
+    }
+
+    .painting-slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: var(--panel-soft);
+      color: #fff;
+      border-radius: 999px;
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform .15s ease, background .2s ease;
+    }
+
+    .painting-slider-arrow:hover {
+      transform: translateY(-50%) scale(1.05);
+      background: #3f3f3f;
+    }
+
+    .painting-slider-arrow.left {
+      left: 4px;
+    }
+
+    .painting-slider-arrow.right {
+      right: 4px;
+    }
+
+    .painting-slider-track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(320px, 44%);
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 42px;
+      padding-inline: 42px;
+      padding-bottom: 0;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .painting-slider-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .painting-slide {
+      scroll-snap-align: start;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--panel-soft);
+      box-shadow: var(--shadow);
+    }
+
+    .painting-slide img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+    }
+
+    .support-block {
+      margin-top: 14px;
+    }
+
+    .support-section-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .support-media-split,
+    .support-image-pair {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      align-items: start;
+    }
+
+    .support-media-split img,
+    .support-image-pair img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .support-video {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      background: black;
+      box-shadow: var(--shadow);
+    }
+
+    .support-team-photo {
+      margin-top: 12px;
+    }
+
+    .support-team-photo img {
+      width: 100%;
+      max-width: 760px;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .team-polish-slider .painting-slider-track {
+      grid-auto-columns: minmax(340px, 56%);
+    }
+
+    .team-polish-slider .painting-slide img {
+      aspect-ratio: 16 / 9;
+    }
+
+    .zoomable {
+      cursor: zoom-in;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 2100;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: min(94vw, 1440px);
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(26,26,26,0.9);
+      color: #fff;
+      border-radius: 999px;
+      width: 38px;
+      height: 38px;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
     }
 
     .video-wrap {
@@ -411,6 +771,19 @@
       .stat-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .painting-slider-track {
+        grid-auto-columns: minmax(300px, 56%);
+      }
+
+      .team-polish-slider .painting-slider-track {
+        grid-auto-columns: minmax(300px, 72%);
+      }
+
+      .support-media-split,
+      .support-image-pair {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 768px) {
@@ -440,6 +813,18 @@
 
       .hero-title { font-size: 3rem; }
       .gallery { grid-template-columns: 1fr; }
+      .layout-gallery { grid-template-columns: 1fr; }
+      .making-progression { grid-template-columns: 1fr; }
+      .later-results-grid { grid-template-columns: 1fr; }
+      .team-polish-grid { grid-template-columns: 1fr; }
+      .monster-stage-grid { grid-template-columns: 1fr; }
+      .painting-slider-track {
+        grid-auto-columns: minmax(82vw, 1fr);
+        scroll-padding-inline: 36px;
+        padding-inline: 36px;
+      }
+      .team-polish-slider .painting-slider-track { grid-auto-columns: minmax(82vw, 1fr); }
+      .support-team-photo img { max-width: 100%; }
       .stat-grid { grid-template-columns: 1fr; }
       main { padding: 40px 18px 90px; }
     }
@@ -490,90 +875,272 @@
         <div class="kicker"><span class="kicker-pill featured">Game Project</span></div>
         <h1 class="hero-title">Project Liminal</h1>
         <p class="hero-subtitle">
-          A two-player co-op puzzle game set inside a liminal art gallery where each player sees a different
-          reality. Only communication, observation, and teamwork reveal what has shifted before time runs out.
+          Project Liminal is a two-player co-op puzzle horror experience set in a surreal gallery where each player sees a different version of the same world. You can only progress by communicating what you see, spotting mismatched details, and reacting fast before the room shifts again.
         </p>
 
         <div class="badge-row">
-          <span class="badge"><strong>FutureGames</strong> showcase</span>
-          <span class="badge"><strong>4 weeks</strong> production</span>
-          <span class="badge"><strong>6 people</strong> team</span>
+          <span class="badge"><strong>2-Player</strong> co-op</span>
+          <span class="badge"><strong>Puzzle</strong> horror</span>
+          <span class="badge"><strong>Asymmetric</strong> perception</span>
         </div>
 
         <div class="cta-row">
-          <a class="cta itch" href="https://futuregames.itch.io/projectliminal" target="_blank">View on Itch</a>
+          <a class="cta itch" href="https://futuregames.itch.io/projectliminal" target="_blank" rel="noopener">View on Itch</a>
         </div>
       </div>
-
       <div class="hero-media">
-        <img src="assets/project linamal.png" alt="Project Liminal key art">
+        <img src="assets/project%20linamal.png" alt="Project Liminal hero banner">
       </div>
     </section>
 
     <section class="section split">
       <div class="panel">
-        <h2 class="section-title">Overview</h2>
+        <h2 class="section-title">Project Overview</h2>
         <p>
-          Project Liminal explores the tension of shared spaces with mismatched perception. Players are split
-          into parallel versions of the gallery, hunting for subtle changes that only their partner can see.
-          The experience is built to reward calm communication and fast pattern recognition.
+          Project Liminal is a co-op experience where two players compare different views of the same space.
+          Progress depends on communication and spotting what changed from each perspective.
         </p>
+        <div class="gallery overview-gallery">
+          <img src="assets/liminal/art/snow1.jpg" alt="Snowman standing paint reference">
+          <img src="assets/liminal/art/snow2.jpg" alt="Snowman melted paint reference">
+        </div>
       </div>
 
+      <div class="split-side-stack">
+        <div class="panel">
+          <h2 class="section-title">Game Trailer</h2>
+          <div class="video-wrap">
+            <video class="featured-video" controls playsinline preload="metadata">
+              <source src="assets/liminal/tutorial..mp4" type="video/mp4">
+              <source src="assets/liminal/credits.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+        <div class="panel">
+          <h2 class="section-title">My Role</h2>
+          <div class="list">
+            <div class="list-item">Level design</div>
+            <div class="list-item">Artist</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="panel">
-        <h2 class="section-title">My Role</h2>
-        <div class="list">
-          <div class="list-item">Level design focused on landmark silhouettes and readable player paths.</div>
-          <div class="list-item">Environment art pass for lighting contrast, mood, and focal points.</div>
-          <div class="list-item">Prop dressing to support the “what changed?” gameplay hook.</div>
+        <h2 class="section-title">Mood and Visual Direction</h2>
+        <p>
+          We aimed for a clean gallery mood that feels calm on the surface but slightly unsettling the longer you stay.
+          Bright white rooms, open sightlines, and minimal clutter make every shift in space feel more noticeable.
+          The reference board guided both the atmosphere and how room composition supports player communication.
+        </p>
+        <div class="mood-media">
+          <img src="assets/liminal/Screenshot%202026-02-25%20at%2008.25.33.png" alt="Level design inspiration board used to define Project Liminal's mood">
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section-title">By the Numbers</h2>
-      <div class="stat-grid">
-        <div class="stat">
-          <div class="stat-label">Duration</div>
-          <div class="stat-value">4 Weeks</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Team Size</div>
-          <div class="stat-value">6 People</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">Role</div>
-          <div class="stat-value">Level Designer</div>
+      <div class="panel">
+        <h2 class="section-title">Early Level Design Layout</h2>
+        <p>
+          Early blockout focused on the routes and room locations
+        </p>
+        <div class="layout-gallery">
+          <img src="assets/liminal/Screenshot%202026-02-25%20at%2008.26.02.png" alt="Early level layout sketch with route options">
+          <img src="assets/liminal/Screenshot%202026-02-25%20at%2008.26.30.png" alt="Annotated early room and route planning map">
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section-title">Gallery</h2>
-      <div class="gallery">
-        <img src="assets/project linamal.png" alt="Project Liminal screenshot 1">
-        <img src="assets/project linamal2.png" alt="Project Liminal screenshot 2">
+      <h2 class="section-title">The making of my level</h2>
+      <div class="panel">
+        <p class="role-room-note">
+          My role is to make a level for the middle top room, so I decided I wanted the room to look like this.
+        </p>
+        <div class="role-gallery">
+          <img src="assets/liminal/baaf384b5e7594f0094c8fc3857c3d5f.jpg" alt="Reference of small houses on rolling hills">
+          <img src="assets/liminal/c495a242b954e8bb09f5e5f9ff2d3682.jpg" alt="Reference of surreal hills with houses and dark figure">
+          <img src="assets/liminal/outdoorRef.jpg" alt="Reference of open field with horizon and monolith">
+        </div>
+      </div>
+      <div class="panel making-progression-panel">
+        <div class="making-progression">
+          <div class="making-step">
+            <div class="making-step-title">Early Sketch</div>
+            <img src="assets/liminal/HighresScreenshot00000.jpeg" alt="Early sketch showing the level route idea">
+          </div>
+          <div class="making-step">
+            <div class="making-step-title">Blockout</div>
+            <img src="assets/liminal/level%20early1.png" alt="Initial blockout of the top middle room">
+          </div>
+          <div class="making-step">
+            <div class="making-step-title">Merged to Other Level</div>
+            <img src="assets/liminal/level%20early2.png" alt="Top middle room merged with surrounding level spaces">
+          </div>
+        </div>
+      </div>
+      <div class="panel later-results-panel">
+        <div class="later-results">
+          <div class="later-results-title">Later I turned them into these</div>
+          <div class="later-results-grid">
+            <img src="assets/liminal/HighresScreenshot00000.png" alt="Later visual outcome from level iteration">
+            <img src="assets/liminal/HighresScreenshot00003.png" alt="Later visual outcome showing developed level mood">
+          </div>
+        </div>
+      </div>
+      <div class="panel team-polish-panel">
+        <p>
+          around the same time, the others has also finished ther level blockout so I decorate them into more polished looks
+        </p>
+        <div class="painting-slider team-polish-slider" data-media-slider>
+          <button class="painting-slider-arrow left" type="button" data-slide-prev aria-label="Previous polished screenshots">&lsaquo;</button>
+          <div class="painting-slider-track">
+            <div class="painting-slide"><img src="assets/liminal/HighresScreenshot00005.png" alt="Polished environment pass screenshot 1"></div>
+            <div class="painting-slide"><img src="assets/liminal/HighresScreenshot00002.png" alt="Polished environment pass screenshot 2"></div>
+            <div class="painting-slide"><img src="assets/liminal/HighresScreenshot00012.png" alt="Polished environment pass screenshot 3"></div>
+            <div class="painting-slide"><img src="assets/liminal/HighresScreenshot00014.png" alt="Polished environment pass screenshot 4"></div>
+            <div class="painting-slide"><img src="assets/liminal/HighresScreenshot00015.png" alt="Polished environment pass screenshot 5"></div>
+            <div class="painting-slide"><img src="assets/liminal/HighresScreenshot00034.png" alt="Polished environment pass screenshot 6"></div>
+            <div class="painting-slide"><img src="assets/liminal/HighresScreenshot00027.png" alt="Polished environment pass screenshot 7"></div>
+          </div>
+          <button class="painting-slider-arrow right" type="button" data-slide-next aria-label="Next polished screenshots">&rsaquo;</button>
+        </div>
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section-title">Trailer</h2>
-      <div class="video-wrap">
-        <video class="featured-video" controls playsinline preload="metadata">
-          <source src="assets/Trailer1.webm" type="video/webm">
-          Your browser does not support the video tag.
-        </video>
+      <h2 class="section-title">The making of the monster</h2>
+      <div class="panel monster-design-panel">
+        <div class="monster-design-copy">
+          <p>Its not really a horror game without an icon monster.</p>
+          <p>Ive gotten a task to came up with a monster design and model them.</p>
+          <p>I went with more of a mascot based monster like these.</p>
+        </div>
+        <div class="monster-stage">
+          <img src="assets/liminal/Screenshot%202026-02-25%20at%2008.24.10.png" alt="Mascot-based monster direction board">
+        </div>
+        <div class="monster-design-copy monster-stage">
+          <p>I later end up landing on this roseman design that the whole team really loved, so do I.</p>
+        </div>
+        <div class="monster-stage">
+          <img src="assets/liminal/real%20ig.jpg" alt="Roseman monster design">
+        </div>
+        <div class="monster-design-copy monster-stage">
+          <p>later made a quick 3d model and ship it to the team.</p>
+        </div>
+        <div class="monster-stage-grid">
+          <img src="assets/liminal/blackasf.png" alt="Quick roseman 3D model silhouette">
+          <img src="assets/liminal/model.png" alt="Quick roseman 3D model with color pass">
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel">
+        <h2 class="section-title">The making of paintings</h2>
+        <p>But my core task is to do painting so ive spent most of the time illustrating painting.</p>
+        <p>At first I've tried to fit the painting style to those painting you see at the art gallery but later shifted to what ever we can due to time constraint.</p>
+        <p>Here's some of the painting ive made.</p>
+        <div class="painting-slider" data-media-slider>
+          <button class="painting-slider-arrow left" type="button" data-slide-prev aria-label="Previous paintings">&lsaquo;</button>
+          <div class="painting-slider-track">
+            <div class="painting-slide"><img src="assets/liminal/art/21%201.jpg" alt="Painting from Project Liminal art folder 1"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/CJ1.jpg" alt="Painting from Project Liminal art folder 2"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/Donut2.jpg" alt="Painting from Project Liminal art folder 3"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/Heartless.jpg" alt="Painting from Project Liminal art folder 4"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/LonelyBaloon_2.jpg" alt="Painting from Project Liminal art folder 5"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/MrSpace_1.jpg" alt="Painting from Project Liminal art folder 6"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/Spoon_1.jpg" alt="Painting from Project Liminal art folder 7"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/Sunflower2.jpg" alt="Painting from Project Liminal art folder 8"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/cPortrait1.jpg" alt="Painting from Project Liminal art folder 9"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/chillax1.jpg" alt="Painting from Project Liminal art folder 10"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/cosmicburger1.jpg" alt="Painting from Project Liminal art folder 11"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/eyeofrah1.jpg" alt="Painting from Project Liminal art folder 12"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/fish1.jpg" alt="Painting from Project Liminal art folder 13"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/hugo1.jpg" alt="Painting from Project Liminal art folder 14"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/mark1.jpg" alt="Painting from Project Liminal art folder 15"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/nebula2.jpg" alt="Painting from Project Liminal art folder 16"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/oasis1.jpg" alt="Painting from Project Liminal art folder 17"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/phil1.jpg" alt="Painting from Project Liminal art folder 18"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/portal2.jpg" alt="Painting from Project Liminal art folder 19"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/rosevoid1.jpg" alt="Painting from Project Liminal art folder 20"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/snow1.jpg" alt="Painting from Project Liminal art folder 21"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/snow2.jpg" alt="Painting from Project Liminal art folder 22"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/sourgrape1.jpg" alt="Painting from Project Liminal art folder 23"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/triplebaka2.jpg" alt="Painting from Project Liminal art folder 24"></div>
+            <div class="painting-slide"><img src="assets/liminal/art/votedout1.jpg" alt="Painting from Project Liminal art folder 25"></div>
+          </div>
+          <button class="painting-slider-arrow right" type="button" data-slide-next aria-label="Next paintings">&rsaquo;</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Tutorial, Posters and Credits</h2>
+      <div class="support-section-stack">
+        <div class="panel">
+          <p>Then ive made a quick tutorial poster and a tutorial video at the lobby due to player had a hard time what to do</p>
+          <div class="support-media-split">
+            <img src="assets/liminal/Tutorial3.jpg" alt="Tutorial poster used in the lobby">
+            <video class="support-video" controls playsinline preload="metadata">
+              <source src="assets/liminal/tutorial..mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
+        <div class="panel">
+          <p>later make the game poster</p>
+          <div class="support-image-pair">
+            <img src="assets/liminal/pro.png" alt="Game poster concept">
+            <img src="assets/liminal/boster.jpg" alt="Final game poster variant">
+          </div>
+        </div>
+
+        <div class="panel">
+          <p>And i made this little credit scene with my own cover of fly me to the moon</p>
+          <div class="support-team-photo">
+            <video class="support-video" controls playsinline preload="metadata">
+              <source src="assets/liminal/credits.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">My Takeaway</h3>
+          <p>
+            This project taught me how much production quality depends on communication and fast iteration across the whole team.
+            My main growth was balancing art direction with practical scope, shipping assets that support gameplay clarity,
+            and adapting quickly when time constraints forced simpler but stronger decisions.
+          </p>
+          <p class="support-block">
+            Working with this team made the final result possible, and it pushed me to think more like both an artist and a designer at the same time.
+          </p>
+          <div class="support-team-photo">
+            <img src="assets/liminal/20251010_151315.jpg" alt="Project Liminal team photo">
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="project-footer">
-      <div class="footer-note">Want a breakdown of level layout, flow, or lighting decisions?</div>
+      <div class="footer-note">Want a playable build or a deeper breakdown of this project?</div>
       <a class="cta" href="contact.html">Contact Me</a>
     </section>
+
     <div class="footer-back-row">
       <a class="footer-back" href="projects.html"><span aria-hidden="true">&larr;</span><span class="label">Back to Projects</span></a>
     </div>
   </main>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" type="button" aria-label="Close image view">&times;</button>
+    <img src="" alt="">
+  </div>
 
   <script>
     function toggleMenu() {
@@ -632,6 +1199,67 @@
         }
         lastScrollY = currentY;
       }, { passive: true });
+    })();
+  </script>
+
+  <script>
+    (() => {
+      document.querySelectorAll("[data-media-slider]").forEach(slider => {
+        const track = slider.querySelector(".painting-slider-track");
+        const prev = slider.querySelector("[data-slide-prev]");
+        const next = slider.querySelector("[data-slide-next]");
+        if (!track || !prev || !next) return;
+
+        const step = () => Math.max(track.clientWidth * 0.85, 260);
+        prev.addEventListener("click", () => {
+          track.scrollBy({ left: -step(), behavior: "smooth" });
+        });
+        next.addEventListener("click", () => {
+          track.scrollBy({ left: step(), behavior: "smooth" });
+        });
+      });
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const lightbox = document.getElementById("lightbox");
+      if (!lightbox) return;
+      const lightboxImg = lightbox.querySelector("img");
+      const closeBtn = lightbox.querySelector(".lightbox-close");
+      if (!lightboxImg || !closeBtn) return;
+
+      const openLightbox = (src, altText) => {
+        lightboxImg.src = src;
+        lightboxImg.alt = altText || "Expanded image";
+        lightbox.classList.add("active");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      };
+
+      const closeLightbox = () => {
+        lightbox.classList.remove("active");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImg.src = "";
+        document.body.style.overflow = "";
+      };
+
+      document.querySelectorAll(".painting-slider .painting-slide img").forEach(img => {
+        img.classList.add("zoomable");
+        img.addEventListener("click", () => {
+          openLightbox(img.currentSrc || img.src, img.alt);
+        });
+      });
+
+      closeBtn.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", e => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape" && lightbox.classList.contains("active")) {
+          closeLightbox();
+        }
+      });
     })();
   </script>
 </body>
